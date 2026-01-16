@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Fre</title>
+    <link rel="icon" type="image/png" href="escaneo-de-codigo-qr.png">
+    <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="iconos_db.js"></script>
+    
+    <style>
+        :root {
+            --primary: #4a90e2; 
+            --primary-dark: #357abd;
+            --bg-body: #f4f7f6;
+            --text-main: #2d3436;
+            --text-light: #636e72;
+            --card-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            --border-radius: 16px;
+        }
+
+        * { box-sizing: border-box; outline: none; }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding-bottom: 40px;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.04);
+            padding: 15px 0;
+            margin-bottom: 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        /* --- LAYOUT --- */
+        .main-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            align-items: start;
+        }
+
+        .config-panel, .preview-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 40px;
+        }
+
+        /* --- GRID DE TIPOS --- */
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .type-option {
+            background: white;
+            border: 2px solid #edf2f7;
+            border-radius: 12px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .type-option:hover { 
+            border-color: var(--primary);
+            background: #f8fbff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .type-option.active {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.25);
+        }
+
+        .type-option i { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+
+        /* --- FORMULARIOS --- */
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 30px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-main);
+            border-bottom: 1px solid #edf2f7;
+            padding-bottom: 10px;
+        }
+        .step-title:first-child { margin-top: 0; }
+
+        .step-number {
+            background: var(--primary-dark); 
+            color: white; 
+            width: 26px; height: 26px;
+            border-radius: 8px; display: flex; align-items: center;
+            justify-content: center; font-size: 0.85rem; font-weight: bold;
+        }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.85rem; color: var(--text-main); }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #edf2f7;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            background: #fcfdfe;
+            transition: all 0.2s;
+            color: #2d3436;
+        }
+        input:focus, textarea:focus, select:focus { 
+            border-color: var(--primary); 
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+        }
+
+        /* --- ICONOS DINÁMICOS --- */
+        .icon-grid {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .icon-preset {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            border: 2px solid #edf2f7;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        .icon-preset svg, .icon-preset i {
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
+        }
+        .icon-preset:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .icon-preset.selected { border-color: var(--primary); background: #eef6ff; box-shadow: 0 0 0 2px rgba(74,144,226,0.2); }
+
+        /* --- UPLOAD ZONE --- */
+        .custom-file-upload {
+            border: 2px dashed #cbd5e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+            border-radius: 12px;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .custom-file-upload:hover {
+            border-color: var(--primary);
+            background: #f0f7ff;
+        }
+
+        .upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-light);
+        }
+
+        .upload-content i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        input[type="file"] { display: none; }
+
+        /* --- CONTROLES DISEÑO --- */
+        .design-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .color-input-wrapper {
+            display: flex;
+            align-items: center;
+            border: 2px solid #edf2f7;
+            border-radius: 10px;
+            padding: 5px;
+            background: white;
+        }
+        
+        input[type="color"] {
+            border: none;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            background: none;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        
+        .color-label {
+            margin-left: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* --- PREVIEW PANEL --- */
+        .preview-panel {
+            position: sticky;
+            top: 100px;
+            text-align: center;
+        }
+
+        .qr-canvas-container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            display: inline-block;
+        }
+
+        .download-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .download-btn:hover { 
+            background: var(--primary-dark);
+            transform: translateY(-2px); 
+            box-shadow: 0 15px 25px rgba(74, 144, 226, 0.4); 
+        }
+
+        @media (max-width: 900px) {
+            .main-wrapper { grid-template-columns: 1fr; }
+            .preview-panel { position: static; margin-top: 20px; }
+            .navbar-container { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="brand">
+                <div class="brand-icon"><i class="fa-solid fa-qrcode"></i></div>
+                <span>QR Free</span>
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text-light); font-weight: 500;">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Crea, personaliza y descarga
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        
+        <div class="config-panel">
+            
+            <div class="step-title"><span class="step-number">1</span> Selecciona el Tipo</div>
+            <div class="type-grid">
+                <div class="type-option active" onclick="setType('url')">
+                    <i class="fa-solid fa-link"></i> Link
+                </div>
+                <div class="type-option" onclick="setType('whatsapp')">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </div>
+                <div class="type-option" onclick="setType('wifi')">
+                    <i class="fa-solid fa-wifi"></i> Wi-Fi
+                </div>
+                
+                <div class="type-option" onclick="setType('code')">
+                    <i class="fa-solid fa-barcode"></i> Código
+                </div>
+                <div class="type-option" onclick="setType('image')">
+                    <i class="fa-solid fa-image"></i> Imagen
+                </div>
+                <div class="type-option" onclick="setType('vcard')">
+                    <i class="fa-solid fa-address-card"></i> VCard
+                </div>
+                <div class="type-option" onclick="setType('phone')">
+                    <i class="fa-solid fa-phone"></i> Llamar
+                </div>
+                <div class="type-option" onclick="setType('sms')">
+                    <i class="fa-solid fa-comment-sms"></i> SMS
+                </div>
+                <div class="type-option" onclick="setType('email')">
+                    <i class="fa-solid fa-envelope"></i> Email
+                </div>
+                <div class="type-option" onclick="setType('geo')">
+                    <i class="fa-solid fa-map-location-dot"></i> Mapa
+                </div>
+                <div class="type-option" onclick="setType('text')">
+                    <i class="fa-solid fa-align-left"></i> Texto
+                </div>
+            </div>
+
+            <div class="step-title"><span class="step-number">2</span> Contenido</div>
+            <div id="dynamic-inputs"></div>
+
+            <div class="design-section">
+                <div class="step-title"><span class="step-number">3</span> Diseño y Logo</div>
+                
+                <div class="design-controls">
+                    <div class="input-group">
+                        <label>Color QR</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" id="colorDots" value="#4a90e2">
+                            <span class="color-label">Puntos</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Color Fondo</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" id="colorBg" value="#ffffff">
+                            <span class="color-label">Fondo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Logo Central (Cambia de color automáticamente)</label>
+                    <div class="icon-grid" id="icon-container"></div>
+                    
+                    <label style="margin-top: 15px; display:block;">O sube tu imagen propia:</label>
+                    <label class="custom-file-upload">
+                        <input type="file" id="logoInput" accept="image/*">
+                        <div class="upload-content">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <span id="upload-text">Haz clic para subir tu logo</span>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="input-group">
+                    <label>Estilo de Puntos</label>
+                    <select id="dotType">
+                        <option value="rounded">Redondeado (Moderno)</option>
+                        <option value="dots">Puntos Dispersos</option>
+                        <option value="classy">Elegante</option>
+                        <option value="classy-rounded">Elegante Suave</option>
+                        <option value="square">Cuadrado (Clásico)</option>
+                        <option value="extra-rounded">Extra Redondo</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="preview-panel">
+            <h3 style="margin-top:0; color: var(--primary);">Resultado</h3>
+            <div class="qr-canvas-container" id="canvas"></div>
+            <p style="color: #95a5a6; font-size: 0.9rem; margin-bottom: 25px;">
+                <i class="fa-solid fa-eye"></i> Vista previa en tiempo real
+            </p>
+            <button class="download-btn" onclick="downloadQR()">
+                <i class="fa-solid fa-download"></i> Descargar PNG
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN INICIAL ---
+        let currentType = 'url';
+        let selectedIconName = null;
+        let customLogoFile = null;
+
+        // Instancia Principal
+        let qrCode = new QRCodeStyling({
+            width: 300,
+            height: 300,
+            type: "svg",
+            data: "https://google.com",
+            image: "",
+            dotsOptions: { color: "#4a90e2", type: "rounded" },
+            backgroundOptions: { color: "#ffffff" },
+            imageOptions: { margin: 8 }
+        });
+
+        // --- CARGA DE ICONOS ---
+        function renderIcons() {
+            const container = document.getElementById('icon-container');
+            container.innerHTML = ""; 
+
+            const noLogoDiv = document.createElement('div');
+            noLogoDiv.className = 'icon-preset';
+            noLogoDiv.title = 'Sin Logo';
+            noLogoDiv.innerHTML = '<i class="fa-solid fa-ban" style="color:#bdc3c7;"></i>';
+            noLogoDiv.onclick = () => selectIcon('none', noLogoDiv);
+            container.appendChild(noLogoDiv);
+
+            if(window.IconDB) {
+                for (const [name, path] of Object.entries(window.IconDB)) {
+                    const div = document.createElement('div');
+                    div.className = 'icon-preset';
+                    div.title = name.charAt(0).toUpperCase() + name.slice(1);
+                    div.innerHTML = `
+                        <svg viewBox="0 0 512 512" style="width:24px; height:24px; fill:#555;">
+                            <path d="${path}"/>
+                        </svg>
+                    `;
+                    div.onclick = () => selectIcon(name, div);
+                    container.appendChild(div);
+                }
+            }
+        }
+
+        // --- GENERADOR SVG ---
+        function generateColoredSvg(iconName, color) {
+            if (!window.IconDB || !window.IconDB[iconName]) return "";
+            const path = window.IconDB[iconName];
+            const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="${color}"><path d="${path}"/></svg>`;
+            return "data:image/svg+xml;base64," + btoa(svgString);
+        }
+
+        // --- UPDATE QR ---
+        function updateQR() {
+            let data = "";
+            const val = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
+
+            try {
+                switch(currentType) {
+                    case 'url': data = val('inp-url') || "https://qr-pro.com"; break;
+                    case 'whatsapp': 
+                        const wP = val('inp-wa-phone'), wM = val('inp-wa-msg');
+                        data = wP ? `https://wa.me/${wP}?text=${encodeURIComponent(wM)}` : "https://whatsapp.com"; break;
+                    case 'wifi':
+                        const ssid = val('inp-wifi-ssid'), pass = val('inp-wifi-pass'), enc = val('inp-wifi-type');
+                        data = ssid ? `WIFI:T:${enc};S:${ssid};P:${pass};;` : "WIFI:T:WPA;S:Red_Demo;P:1234;;"; break;
+                    
+                    // --- AQUÍ ESTÁ EL CAMBIO SOLICITADO ---
+                    case 'code': 
+                        // Ahora es un input simple para números/letras
+                        data = val('inp-code') || "COD-1234"; 
+                        break;
+                    case 'image': 
+                        data = val('inp-image') || "https://ejemplo.com/tu-foto.jpg"; 
+                        break;
+                    // -------------------------------------
+
+                    case 'phone': data = val('inp-phone') ? `tel:${val('inp-phone')}` : "tel:123456789"; break;
+                    case 'sms': data = `smsto:${val('inp-sms-phone')}:${val('inp-sms-msg')}`; break;
+                    case 'email': data = `mailto:${val('inp-email')}?subject=${encodeURIComponent(val('inp-email-sub'))}`; break;
+                    case 'text': data = val('inp-text') || "Texto"; break;
+                    case 'vcard':
+                         const n = val('inp-v-last') + ";" + val('inp-v-first');
+                         data = `BEGIN:VCARD\nVERSION:3.0\nN:${n}\nFN:${val('inp-v-first')} ${val('inp-v-last')}\nORG:${val('inp-v-org')}\nTEL;TYPE=CELL:${val('inp-v-phone')}\nEMAIL:${val('inp-v-email')}\nEND:VCARD`;
+                         break;
+                    case 'geo': data = `geo:${val('inp-geo-lat')},${val('inp-geo-lon')}`; break;
+                }
+            } catch (e) { }
+
+            const colorDots = document.getElementById('colorDots').value;
+            const colorBg = document.getElementById('colorBg').value;
+            const dotType = document.getElementById('dotType').value;
+
+            let finalImage = "";
+            if (customLogoFile) {
+                finalImage = customLogoFile; 
+            } else if (selectedIconName) {
+                finalImage = generateColoredSvg(selectedIconName, colorDots);
+            }
+
+            qrCode.update({
+                data: data,
+                dotsOptions: { color: colorDots, type: dotType },
+                backgroundOptions: { color: colorBg },
+                image: finalImage
+            });
+        }
+
+        // --- MANEJO DE SELECCIÓN ---
+        function selectIcon(name, element) {
+            document.querySelectorAll('.icon-preset').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+
+            if (name === 'none') {
+                selectedIconName = null;
+            } else {
+                selectedIconName = name;
+            }
+            customLogoFile = null; 
+            document.getElementById('logoInput').value = ""; 
+            document.getElementById('upload-text').textContent = "Haz clic para subir tu logo";
+            
+            updateQR();
+        }
+
+        // --- MANEJO DE ARCHIVO PROPIO ---
+        document.getElementById('logoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('upload-text').textContent = "Cargado: " + file.name;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    customLogoFile = reader.result;
+                    selectedIconName = null;
+                    document.querySelectorAll('.icon-preset').forEach(el => el.classList.remove('selected'));
+                    updateQR();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // --- TEMPLATES ---
+        const forms = {
+            url: `<div class="input-group"><label>Sitio Web (URL)</label><input type="url" id="inp-url" placeholder="https://miempresa.com" oninput="updateQR()"></div>`,
+            
+            // FORMULARIO CÓDIGO (SIMPLE)
+            code: `<div class="input-group"><label>Código Alfanumérico</label><input type="text" id="inp-code" placeholder="Ej: DESC-2024, ID-9988, A1B2C3" oninput="updateQR()"></div>`,
+            
+            image: `<div class="input-group"><label>URL de la Imagen</label><input type="url" id="inp-image" placeholder="https://tusitio.com/foto.jpg" oninput="updateQR()"></div><p style="font-size: 0.85rem; color: #636e72; background: #eef2f7; padding: 10px; border-radius: 8px;"><i class="fa-solid fa-circle-info"></i> <b>Nota:</b> Pega aquí el enlace directo a tu imagen.</p>`,
+            
+            whatsapp: `<div class="input-group"><label>Número (con código país)</label><input type="number" id="inp-wa-phone" placeholder="Ej: 51999888777" oninput="updateQR()"></div><div class="input-group"><label>Mensaje Opcional</label><input type="text" id="inp-wa-msg" placeholder="Hola, info por favor" oninput="updateQR()"></div>`,
+            wifi: `<div class="input-group"><label>Nombre Red (SSID)</label><input type="text" id="inp-wifi-ssid" placeholder="WiFi_Name" oninput="updateQR()"></div><div class="input-group"><label>Contraseña</label><input type="text" id="inp-wifi-pass" placeholder="clave123" oninput="updateQR()"></div><div class="input-group"><label>Tipo Seguridad</label><select id="inp-wifi-type" onchange="updateQR()"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">Sin Clave</option></select></div>`,
+            phone: `<div class="input-group"><label>Número de Teléfono</label><input type="tel" id="inp-phone" placeholder="+51 900 000 000" oninput="updateQR()"></div>`,
+            sms: `<div class="input-group"><label>Número Destino</label><input type="tel" id="inp-sms-phone" placeholder="+51..." oninput="updateQR()"></div><div class="input-group"><label>Mensaje</label><textarea id="inp-sms-msg" rows="2" placeholder="Escribe tu mensaje..." oninput="updateQR()"></textarea></div>`,
+            email: `<div class="input-group"><label>Email Destino</label><input type="email" id="inp-email" placeholder="correo@ejemplo.com" oninput="updateQR()"></div><div class="input-group"><label>Asunto</label><input type="text" id="inp-email-sub" placeholder="Consulta" oninput="updateQR()"></div>`,
+            text: `<div class="input-group"><label>Contenido de Texto</label><textarea id="inp-text" rows="4" placeholder="Escribe cualquier texto aquí..." oninput="updateQR()"></textarea></div>`,
+            geo: `<div class="input-group" style="display:flex; gap:10px;"><div style="flex:1"><label>Latitud</label><input type="text" id="inp-geo-lat" placeholder="-12.00" oninput="updateQR()"></div><div style="flex:1"><label>Longitud</label><input type="text" id="inp-geo-lon" placeholder="-77.00" oninput="updateQR()"></div></div>`,
+            vcard: `<div class="input-group" style="display:flex; gap:10px;"><div style="flex:1"><label>Nombre</label><input type="text" id="inp-v-first" oninput="updateQR()"></div><div style="flex:1"><label>Apellido</label><input type="text" id="inp-v-last" oninput="updateQR()"></div></div><div class="input-group"><label>Celular</label><input type="tel" id="inp-v-phone" oninput="updateQR()"></div><div class="input-group"><label>Email</label><input type="email" id="inp-v-email" oninput="updateQR()"></div><div class="input-group"><label>Empresa</label><input type="text" id="inp-v-org" oninput="updateQR()"></div>`
+        };
+
+        function setType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-option').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('dynamic-inputs').innerHTML = forms[type];
+            updateQR();
+        }
+
+        // Listeners
+        document.getElementById('colorDots').addEventListener('input', updateQR);
+        document.getElementById('colorBg').addEventListener('input', updateQR);
+        document.getElementById('dotType').addEventListener('change', updateQR);
+
+        function downloadQR() {
+            qrCode.download({ name: "mi-qr-pro", extension: "png" });
+        }
+
+        // Init
+        document.getElementById('dynamic-inputs').innerHTML = forms['url'];
+        renderIcons(); 
+        qrCode.append(document.getElementById('canvas'));
+
+    </script>
+</body>
+</html>
