@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Generador de QR de WiFi Gratis | Comparte tu clave sin escribirla | QR Free</title>
+    <meta name="description" content="Crea un código QR de WiFi gratis: tus clientes o invitados se conectan escaneándolo con la cámara, sin escribir la contraseña. Ideal para restaurantes, hoteles y oficinas.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qrfre.com/qr-wifi">
+
+    <meta property="og:title" content="Generador de QR de WiFi Gratis | Comparte tu clave sin escribirla | QR Free">
+    <meta property="og:description" content="Crea un código QR de WiFi gratis: tus clientes o invitados se conectan escaneándolo con la cámara, sin escribir la contraseña. Ideal para restaurantes, hoteles y oficinas.">
+    <meta property="og:image" content="https://qrfre.com/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://qrfre.com/qr-wifi">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QR Free">
+    <meta property="og:locale" content="es_PE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://qrfre.com/img/og-image.png">
+
+    <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
+    <meta name="theme-color" content="#0f172a">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <meta name="google-adsense-account" content="ca-pub-6481587162431047">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6481587162431047" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Generador de QR de WiFi",
+      "url": "https://qrfre.com/qr-wifi",
+      "description": "Crea un código QR de WiFi gratis: tus clientes o invitados se conectan escaneándolo con la cámara, sin escribir la contraseña. Ideal para restaurantes, hoteles y oficinas.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Cualquiera (navegador web)",
+      "inLanguage": "es",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PEN"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "QR Free",
+        "url": "https://qrfre.com/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Funciona en iPhone y Android?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Desde iOS 11 y Android 10 la cámara reconoce los QR de WiFi y ofrece conectarse directamente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué pasa si cambio la contraseña del WiFi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Debe generar e imprimir un QR nuevo, porque la clave va guardada dentro del código."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi red tiene caracteres como ; o : en la clave, ¿funciona?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. El generador escapa automáticamente los caracteres especiales para que el celular lea la clave correctamente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Es seguro?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cualquier persona que escanee el QR podrá conectarse, igual que si le dictara la clave. Para clientes, use de preferencia una red de invitados separada de la red de su negocio."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://qrfre.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "QR de WiFi",
+          "item": "https://qrfre.com/qr-wifi"
+        }
+      ]
+    }
+    </script>
+    <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+    <script src="/iconos_db.js"></script>
+</head>
+<body data-qr-type="wifi">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <nav class="navbar" aria-label="Principal">
+        <div class="navbar-container">
+            <a class="brand" href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Free</a>
+            <div class="nav-links">
+                <a href="/" class="active" aria-current="page"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
+                <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
+                <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
+                <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
+                <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-wrapper" id="contenido">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> <span aria-hidden="true">›</span> <span aria-current="page">QR de WiFi</span></nav>
+        <div class="page-header">
+            <h1>Generador de QR de WiFi</h1>
+            <p>Sus clientes apuntan la cámara y se conectan. Sin dictar ni escribir la contraseña.</p>
+        </div>
+        <div class="workspace-grid">
+
+            <section class="panel" aria-label="Configuración del código QR">
+
+                <h2 class="panel-title"><i class="fa-solid fa-database" aria-hidden="true"></i> 1. Datos del Código</h2>
+
+                <div class="form-group">
+                    <div class="type-grid" role="group" aria-label="Tipo de contenido">
+                        <button type="button" class="type-btn active" aria-pressed="true" data-type="url" onclick="setType('url', this)"><i class="fa-solid fa-link" aria-hidden="true"></i> URL</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="whatsapp" onclick="setType('whatsapp', this)"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="wifi" onclick="setType('wifi', this)"><i class="fa-solid fa-wifi" aria-hidden="true"></i> WiFi</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="vcard" onclick="setType('vcard', this)"><i class="fa-regular fa-address-card" aria-hidden="true"></i> VCard</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="email" onclick="setType('email', this)"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Email</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="phone" onclick="setType('phone', this)"><i class="fa-solid fa-phone" aria-hidden="true"></i> Teléfono</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="sms" onclick="setType('sms', this)"><i class="fa-solid fa-comment-sms" aria-hidden="true"></i> SMS</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="text" onclick="setType('text', this)"><i class="fa-solid fa-font" aria-hidden="true"></i> Texto</button>
+                        <button type="button" class="type-btn" aria-pressed="false" data-type="geo" onclick="setType('geo', this)"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Mapa</button>
+                    </div>
+                </div>
+                <div id="dynamic-inputs"></div>
+
+                <h2 class="panel-title spaced"><i class="fa-solid fa-paintbrush" aria-hidden="true"></i> 2. Personalización Visual</h2>
+
+                <div class="grid-2">
+                    <div class="subpanel">
+                        <h3 class="subpanel-title">Cuerpo (Datos)</h3>
+                        <div class="form-group">
+                            <label for="qr-dots-type">Forma Puntos</label>
+                            <select id="qr-dots-type" onchange="updateDesign()">
+                                <option value="square">Cuadrado</option>
+                                <option value="rounded">Redondo</option>
+                                <option value="dots">Puntos</option>
+                                <option value="classy">Classy</option>
+                                <option value="classy-rounded">Classy Smooth</option>
+                                <option value="extra-rounded">Extra Redondo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="colorDots">Color Puntos</label>
+                            <div class="color-field">
+                                <input type="color" id="colorDots" value="#0f172a" oninput="updateDesign()">
+                                <span>Principal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subpanel">
+                        <h3 class="subpanel-title">Esquinas (Ojos)</h3>
+                        <div class="form-group">
+                            <label for="qr-corner-type">Forma Esquinas</label>
+                            <select id="qr-corner-type" onchange="updateDesign()">
+                                <option value="square">Cuadrado</option>
+                                <option value="extra-rounded">Redondeado</option>
+                                <option value="dot">Círculo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="colorCorners">Color Esquinas</label>
+                            <div class="color-field">
+                                <input type="color" id="colorCorners" value="#0f172a" oninput="updateDesign()">
+                                <span>Ojos</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <h3 class="section-title">3. Fondo y Branding</h3>
+                    <div class="grid-1-2">
+                        <div class="form-group">
+                            <label for="colorBg">Color Fondo</label>
+                            <input type="color" id="colorBg" value="#ffffff" oninput="updateDesign()">
+                        </div>
+
+                        <div class="form-group">
+                            <span class="field-label">Logotipo Central</span>
+                            <div class="logo-upload-container">
+                                <button type="button" class="upload-placeholder" id="logoUploadPlaceholder" onclick="document.getElementById('logoInput').click()">
+                                    <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                                    <span>Subir Logo</span>
+                                </button>
+                                <div class="logo-preview-wrapper" id="logoPreviewArea" hidden>
+                                    <img alt="Vista previa del logo" class="logo-preview-img" id="imgPreview">
+                                    <button type="button" class="btn btn-danger" onclick="removeLogo(event)" aria-label="Quitar logo">X</button>
+                                </div>
+                                <input type="file" id="logoInput" accept="image/*" hidden onchange="handleLogoUpload(this)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="field-label">O elija un ícono (toma el color de los puntos)</span>
+                        <div class="icon-grid" id="icon-presets"></div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="panel preview-container" aria-label="Vista previa">
+                <h2>Vista Previa</h2>
+
+                <div id="canvas"></div>
+
+                <div class="preview-actions">
+                    <div class="form-group">
+                        <label for="dl-format">Formato de Descarga</label>
+                        <select id="dl-format">
+                            <option value="png">PNG (Imagen)</option>
+                            <option value="svg">SVG (Vectorial)</option>
+                            <option value="jpeg">JPEG</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="downloadQR()">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i> Descargar QR
+                    </button>
+                </div>
+            </section>
+        </div>
+
+
+        <section class="content-section">
+            <h2>Cómo crear su código QR</h2>
+            <ol class="how-to">
+                <li><strong>Escriba el nombre de la red (SSID).</strong> Debe ser exactamente igual, respetando mayúsculas y espacios.</li>
+                <li><strong>Escriba la contraseña y el tipo de seguridad.</strong> La mayoría de routers usan WPA/WPA2. Si la red no tiene clave elija «Abierta».</li>
+                <li><strong>Personalice y descargue.</strong> Agregue el ícono de WiFi o su logo y descargue en PNG o SVG.</li>
+                <li><strong>Imprímalo y colóquelo a la vista.</strong> En la mesa, recepción o sala de espera. Funciona con la cámara de Android y iPhone.</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2>Preguntas frecuentes</h2>
+            <details class="faq-item">
+                <summary>¿Funciona en iPhone y Android?</summary>
+                <p>Sí. Desde iOS 11 y Android 10 la cámara reconoce los QR de WiFi y ofrece conectarse directamente.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Qué pasa si cambio la contraseña del WiFi?</summary>
+                <p>Debe generar e imprimir un QR nuevo, porque la clave va guardada dentro del código.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Mi red tiene caracteres como ; o : en la clave, ¿funciona?</summary>
+                <p>Sí. El generador escapa automáticamente los caracteres especiales para que el celular lea la clave correctamente.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Es seguro?</summary>
+                <p>Cualquier persona que escanee el QR podrá conectarse, igual que si le dictara la clave. Para clientes, use de preferencia una red de invitados separada de la red de su negocio.</p>
+            </details>
+        </section>
+
+        <section class="content-section">
+            <h2>Otras herramientas gratuitas</h2>
+            <div class="related-grid">
+            <a class="related-card" href="/qr-whatsapp"><i class="fa-solid fa-comment-dots" aria-hidden="true"></i><span><strong>QR de WhatsApp</strong>Abra un chat con mensaje prellenado.</span></a>
+            <a class="related-card" href="/qr-vcard"><i class="fa-solid fa-address-card" aria-hidden="true"></i><span><strong>QR de contacto (vCard)</strong>Su tarjeta de presentación digital.</span></a>
+            <a class="related-card" href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i><span><strong>QR masivo desde Excel</strong>Cientos de QR en un ZIP.</span></a>
+            <a class="related-card" href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i><span><strong>Plantillas Excel gratis</strong>Docentes, negocios y eventos.</span></a>
+            </div>
+        </section>
+
+        <section class="support-banner">
+            <div>
+                <h2><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> ¿Le ahorramos tiempo?</h2>
+                <p>QR Free es gratis y sin registro. Si le fue útil, puede apoyar con un Yape desde S/ 1 para mantener el sitio y crear más plantillas.</p>
+            </div>
+            <a class="btn btn-support" href="/apoyar">Apoyar con Yape</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h2>Herramientas</h2>
+                <ul>
+                    <li><a href="/">Generador de QR</a></li>
+                    <li><a href="/qr-wifi">QR de WiFi</a></li>
+                    <li><a href="/qr-whatsapp">QR de WhatsApp</a></li>
+                    <li><a href="/qr-vcard">QR de tarjeta de contacto</a></li>
+                    <li><a href="/bulk">QR masivo desde Excel</a></li>
+                    <li><a href="/barcode">Código de barras</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Plantillas Excel</h2>
+                <ul>
+                    <li><a href="/plantillas/registro-docente">Registro docente</a></li>
+                    <li><a href="/plantillas/inventario-codigo-barras">Inventario con código de barras</a></li>
+                    <li><a href="/plantillas/control-ventas-caja">Control de ventas y caja</a></li>
+                    <li><a href="/plantillas/lista-invitados-qr">Lista de invitados con QR</a></li>
+                    <li><a href="/plantillas/">Ver todas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>QR Free</h2>
+                <ul>
+                    <li><a href="/apoyar">Apoyar el proyecto</a></li>
+                    <li><a href="/acerca">Acerca de</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                    <li><a href="/privacidad">Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer-copy">© 2026 QR Free · Herramientas gratuitas hechas en Perú · Todo se procesa en su navegador: no guardamos sus datos.</p>
+    </footer>
+
+    <script src="/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => initSingleQR('wifi'));
+    </script>
+</body>
+</html>

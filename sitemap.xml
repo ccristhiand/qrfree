@@ -2,17 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://qrfre.com/</loc>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-11-10</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://qrfre.com/bulk.html</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://qrfre.com/qr-wifi</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/qr-whatsapp</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/qr-vcard</loc>
+    <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://qrfre.com/barcode.html</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://qrfre.com/bulk</loc>
+    <lastmod>2026-11-10</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/barcode</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/plantillas/</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/plantillas/registro-docente</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/plantillas/inventario-codigo-barras</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/plantillas/control-ventas-caja</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/plantillas/lista-invitados-qr</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/apoyar</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/acerca</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/contacto</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://qrfre.com/privacidad</loc>
+    <lastmod>2026-11-10</lastmod>
+    <priority>0.2</priority>
   </url>
 </urlset>

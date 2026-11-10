@@ -1,0 +1,55 @@
+<div class="workspace-grid">
+    <section class="panel">
+        <h2 class="panel-title"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Parámetros</h2>
+
+        <div class="form-group">
+            <label for="barcode-format">Formato Estándar</label>
+            <select id="barcode-format" onchange="generateBarcode()">
+                <option value="CODE128">Code 128 (Logística General)</option>
+                <option value="EAN13">EAN-13 (Retail/Productos)</option>
+                <option value="UPC">UPC (Retail USA)</option>
+                <option value="CODE39">Code 39 (Industria/Automotriz)</option>
+                <option value="ITF14">ITF-14 (Cajas de embalaje)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="barcode-value">Valor / Código</label>
+            <input type="text" id="barcode-value" placeholder="Ej: 123456789" value="CODE-128-TEST" oninput="generateBarcode()">
+            <small class="hint">EAN-13: 12 o 13 dígitos · UPC: 11 o 12 dígitos · ITF-14: 13 o 14 dígitos.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="bar-color">Color de Barras</label>
+            <input type="color" id="bar-color" value="#000000" oninput="generateBarcode()">
+        </div>
+
+        <div class="form-group">
+            <label for="show-text">Mostrar Texto Debajo</label>
+            <select id="show-text" onchange="generateBarcode()">
+                <option value="true">Sí</option>
+                <option value="false">No</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="panel preview-container">
+        <h2><i class="fa-solid fa-print" aria-hidden="true"></i> Resultado</h2>
+        <div class="barcode-box">
+            <svg id="barcode" role="img" aria-label="Código de barras generado"></svg>
+            <p id="barcode-error" class="error-text" role="alert" hidden></p>
+        </div>
+        <div class="preview-actions">
+            <div class="form-group">
+                <label for="barcode-dl-format">Formato de Descarga</label>
+                <select id="barcode-dl-format">
+                    <option value="svg">SVG (Vectorial)</option>
+                    <option value="png">PNG (Alta resolución)</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-download-barcode" onclick="downloadBarcode()">
+                <i class="fa-solid fa-file-export" aria-hidden="true"></i> Descargar
+            </button>
+        </div>
+    </section>
+</div>

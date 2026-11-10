@@ -88,7 +88,7 @@ const formTemplates = {
     geo: `<div class="grid-2"><div class="form-group"><label for="inp-geo-lat">Latitud</label><input type="text" id="inp-geo-lat" inputmode="decimal" placeholder="-12.0464" oninput="updateSingleQR()"></div><div class="form-group"><label for="inp-geo-lon">Longitud</label><input type="text" id="inp-geo-lon" inputmode="decimal" placeholder="-77.0428" oninput="updateSingleQR()"></div></div>`
 };
 
-function initSingleQR() {
+function initSingleQR(defaultType) {
     qrCode = new QRCodeStyling({
         width: 300, height: 300, type: "canvas", data: DEFAULT_QR_DATA,
         dotsOptions: { color: "#0f172a", type: "square" },
@@ -98,9 +98,11 @@ function initSingleQR() {
         imageOptions: { crossOrigin: "anonymous", margin: 10 }
     });
 
-    document.getElementById("dynamic-inputs").innerHTML = formTemplates.url;
     qrCode.append(document.getElementById("canvas"));
     renderIconPresets();
+
+    const type = formTemplates[defaultType] ? defaultType : "url";
+    setType(type, document.querySelector(`.type-btn[data-type="${type}"]`));
 }
 
 function setType(type, btn) {
@@ -290,6 +292,7 @@ function downloadQR() {
     }
     const ext = document.getElementById("dl-format").value;
     qrCode.download({ name: "qr-free", extension: ext });
+    afterDownload();
 }
 
 /* =========================================
@@ -559,6 +562,7 @@ async function processBulkData() {
             const content = await zip.generateAsync({ type: "blob" });
             saveAs(content, `Lote_${mode.toUpperCase()}.zip`);
             pText.innerText = "¡Completado!";
+            afterDownload();
         }
         showBulkReport(ok, empty, errors);
     } finally {
@@ -660,4 +664,64 @@ async function downloadBarcode() {
         const blob = await new Promise(r => canvas.toBlob(r, "image/png"));
         triggerDownload(blob, `${base}.png`);
     }
+    afterDownload();
 }
+
+/* =========================================
+   4. APOYO / DONACIONES (Yape)
+   Se muestra una vez por sesión después de una descarga.
+   ========================================= */
+const SUPPORT = {
+    yapeQr: "/img/yape-qr.png",
+    delayMs: 1500
+};
+
+function storageGet(key) {
+    try { return sessionStorage.getItem(key); } catch (e) { return null; }
+}
+function storageSet(key, val) {
+    try { sessionStorage.setItem(key, val); } catch (e) { /* modo privado */ }
+}
+
+function afterDownload() {
+    if (storageGet("qrfree-support-shown")) return;
+    storageSet("qrfree-support-shown", "1");
+    setTimeout(showSupport, SUPPORT.delayMs);
+}
+
+function showSupport() {
+    if (document.getElementById("support-modal")) return;
+    const lastFocus = document.activeElement;
+    const modal = document.createElement("div");
+    modal.id = "support-modal";
+    modal.className = "modal-backdrop";
+    modal.innerHTML = `
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="support-title">
+            <button type="button" class="modal-close" aria-label="Cerrar">&times;</button>
+            <h2 id="support-title">¡Listo! Su descarga ya empezó 🎉</h2>
+            <p>QR Free es gratis y sin registro. Si le ahorramos tiempo, puede apoyarnos con un <strong>Yape desde S/ 1</strong>.</p>
+            <img src="${SUPPORT.yapeQr}" alt="Código QR de Yape para apoyar a QR Free" class="modal-yape" width="220" height="311">
+            <div class="modal-actions">
+                <a class="btn btn-support" href="/apoyar">Cómo apoyar</a>
+                <button type="button" class="btn btn-secondary" data-close>Ahora no</button>
+            </div>
+        </div>`;
+    const close = () => {
+        modal.remove();
+        document.removeEventListener("keydown", onKey);
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal || e.target.closest(".modal-close") || e.target.closest("[data-close]")) close();
+    });
+    document.addEventListener("keydown", onKey);
+    document.body.appendChild(modal);
+    modal.querySelector(".modal-close").focus();
+}
+
+// Enlaces de descarga de plantillas: <a data-support>
+document.addEventListener("click", (e) => {
+    const link = e.target.closest("a[data-support]");
+    if (link) afterDownload();
+});
