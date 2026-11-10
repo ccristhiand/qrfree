@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /simple/
+
+Sitemap: https://qrfre.com/sitemap.xml
