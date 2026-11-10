@@ -27,7 +27,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/styles.css">
 
@@ -109,268 +109,237 @@
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="/iconos_db.js"></script>
 </head>
 <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <nav class="navbar" aria-label="Principal">
-        <div class="navbar-container">
-            <a class="brand" href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Free</a>
-            <div class="nav-links">
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> QR Free</a>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
                 <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
                 <a href="/bulk" class="active" aria-current="page"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
                 <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
                 <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
                 <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
-            </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <main class="main-wrapper" id="contenido">
         <div class="page-header">
             <h1>Generación Masiva de QR y Códigos de Barras</h1>
             <p>Suba un Excel y obtenga cientos de códigos QR o de barras en un ZIP, cada uno con su nombre.</p>
+            <div class="badges"><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sin registro</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Hasta 500 filas por lote</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> El archivo no se sube a internet</span></div>
         </div>
-        <div class="tabs" role="tablist">
-            <button type="button" class="tab-btn active" role="tab" aria-selected="true" onclick="switchTab('qr', this)"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> Lote QRs</button>
-            <button type="button" class="tab-btn" role="tab" aria-selected="false" onclick="switchTab('barcode', this)"><i class="fa-solid fa-barcode" aria-hidden="true"></i> Lote Barcodes</button>
-        </div>
-
-        <div class="tutorial-wrapper">
-            <div class="tutorial-header">
-                <div>
-                    <h2><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> Guía de Uso Rápido</h2>
-                    <p>Siga estos pasos para evitar errores en la generación.</p>
-                </div>
-                <button type="button" class="btn btn-excel" onclick="downloadExcelTemplate()">
-                    <i class="fa-solid fa-file-excel" aria-hidden="true"></i> Descargar Plantilla Excel
-                </button>
-            </div>
-            <div class="tutorial-content">
-                <div>
-                    <ol class="step-list">
-                        <li class="step-item">
-                            <h3>Prepare su Excel (.xlsx) o CSV</h3>
-                            <p>Necesita una columna con la información (URL, texto o código) y, opcionalmente, otra con el nombre de cada archivo.</p>
-                        </li>
-                        <li class="step-item">
-                            <h3>Configure el Diseño</h3>
-                            <p>Use las opciones de abajo para definir colores, formas, formato y tamaño de salida.</p>
-                        </li>
-                        <li class="step-item">
-                            <h3>Mapeo de Columnas</h3>
-                            <p>Al subir el archivo, seleccione qué columna corresponde a los Datos y cuál al Nombre.</p>
-                        </li>
-                    </ol>
-                    <div class="info-box">
-                        <strong><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Nota Técnica:</strong>
-                        La primera fila se toma como encabezado. Los nombres repetidos se numeran automáticamente (_2, _3...)
-                        y las filas con valores inválidos se listan en <em>ERRORES.txt</em> dentro del ZIP.
+        <div class="bulk-steps">
+            <section class="card" aria-labelledby="h-file">
+                <div class="card-head">
+                    <span class="step-num">1</span>
+                    <div>
+                        <h2 id="h-file">Suba su Excel o CSV</h2>
+                        <p>Una fila por código. La primera fila son los encabezados.</p>
                     </div>
                 </div>
 
-                <div>
-                    <p class="fake-excel-label">Estructura recomendada:</p>
-                    <div class="fake-excel">
-                        <div class="excel-row excel-letters">
-                            <div class="excel-cell">A</div>
-                            <div class="excel-cell">B</div>
+                <div class="dropzone dropzone-excel" id="drop-zone" role="button" tabindex="0" aria-describedby="drop-help">
+                    <i class="fa-solid fa-file-excel" aria-hidden="true"></i>
+                    <strong>Arrastre su archivo aquí o haga clic para elegirlo</strong>
+                    <small id="drop-help">.xlsx, .xls o .csv · Recomendado: hasta 500 filas · No se sube a internet</small>
+                </div>
+                <input type="file" id="excel-input" accept=".xlsx,.xls,.csv" hidden>
+
+                <div id="bulk-controls" hidden>
+                    <div class="file-chip">
+                        <i class="fa-solid fa-file-excel" aria-hidden="true"></i>
+                        <div><strong id="file-name"></strong><span id="record-count"></span></div>
+                        <button type="button" class="btn btn-secondary btn-sm" id="btn-change-file">Cambiar</button>
+                    </div>
+                    <div class="grid-2" style="margin-top:16px">
+                        <div class="field">
+                            <label for="col-data">Columna con el contenido</label>
+                            <select id="col-data"></select>
                         </div>
-                        <div class="excel-row excel-head">
-                            <div class="excel-cell">Contenido_QR</div>
-                            <div class="excel-cell">Nombre_Archivo</div>
-                        </div>
-                        <div class="excel-row">
-                            <div class="excel-cell highlight">https://miweb.com/prod1</div>
-                            <div class="excel-cell">producto_001</div>
-                        </div>
-                        <div class="excel-row">
-                            <div class="excel-cell highlight">WIFI:T:WPA;S:MiRed;P:123;;</div>
-                            <div class="excel-cell">wifi_oficina</div>
+                        <div class="field">
+                            <label for="col-name">Columna para el nombre del archivo</label>
+                            <select id="col-name"></select>
                         </div>
                     </div>
+                    <span class="field-label">Vista previa de las primeras filas</span>
+                    <div class="table-wrap">
+                        <table class="data-preview">
+                            <thead><tr><th>Fila</th><th>Contenido</th><th>Archivo</th></tr></thead>
+                            <tbody id="data-preview-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <details class="help" id="bulk-help">
+                    <summary><i class="fa-solid fa-circle-question" aria-hidden="true"></i> ¿Cómo debe ser mi Excel?</summary>
+                    <div class="help-body">
+                        <ol>
+                            <li>Una columna con el contenido: enlace, texto o número del código.</li>
+                            <li>Opcional: otra columna con el nombre de cada archivo.</li>
+                            <li>Los nombres repetidos se numeran solos (_2, _3) y las filas inválidas se listan en <em>ERRORES.txt</em>.</li>
+                        </ol>
+                        <div class="fake-excel" aria-label="Ejemplo de Excel">
+                            <div class="excel-row excel-head"><div class="excel-cell">Contenido</div><div class="excel-cell">Nombre</div></div>
+                            <div class="excel-row"><div class="excel-cell">https://miweb.com/prod1</div><div class="excel-cell">producto_001</div></div>
+                            <div class="excel-row"><div class="excel-cell">7751234567892</div><div class="excel-cell">arroz_1kg</div></div>
+                        </div>
+                        <div><button type="button" class="btn btn-excel btn-sm" id="btn-template"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Descargar Excel de ejemplo</button></div>
+                    </div>
+                </details>
+            </section>
+
+            <section class="card" aria-labelledby="h-type">
+                <div class="card-head">
+                    <span class="step-num">2</span>
+                    <h2 id="h-type">Elija el tipo y el diseño</h2>
+                </div>
+                <div class="field">
+                    <div class="segmented segmented-lg" role="radiogroup" aria-label="Tipo de código">
+                        <label><input type="radio" name="bulk-mode" value="qr" checked><span><i class="fa-solid fa-qrcode" aria-hidden="true"></i> Códigos QR</span></label>
+                        <label><input type="radio" name="bulk-mode" value="barcode"><span><i class="fa-solid fa-barcode" aria-hidden="true"></i> Códigos de barras</span></label>
+                    </div>
+                </div>
+
+                <div class="design-layout">
+                    <div>
+                        <div id="mode-qr">
+        <div class="tabs-ui" role="tablist" aria-label="Opciones de diseño">
+            <button type="button" class="tab-ui" role="tab" id="bulk-tab-style" aria-selected="true" aria-controls="bulk-panel-style"><i class="fa-solid fa-palette" aria-hidden="true"></i> Estilo y color</button>
+            <button type="button" class="tab-ui" role="tab" id="bulk-tab-logo" aria-selected="false" aria-controls="bulk-panel-logo" tabindex="-1"><i class="fa-solid fa-image" aria-hidden="true"></i> Logo</button>
+        </div>
+        <div class="tab-panel" id="bulk-panel-style" role="tabpanel" aria-labelledby="bulk-tab-style">
+            <span class="field-label">Estilos rápidos</span>
+            <div class="presets" id="bulk-presets"></div>
+            <div class="grid-2">
+                <div class="field">
+                    <label for="bulk-dots">Forma de los puntos</label>
+                    <select id="bulk-dots">
+                    <option value="square">Cuadrados</option>
+                    <option value="rounded">Redondeados</option>
+                    <option value="dots">Puntos</option>
+                    <option value="classy">Elegante</option>
+                    <option value="classy-rounded">Elegante suave</option>
+                    <option value="extra-rounded">Muy redondeados</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="bulk-corners">Forma de las esquinas</label>
+                    <select id="bulk-corners">
+                    <option value="square">Cuadradas</option>
+                    <option value="extra-rounded">Redondeadas</option>
+                    <option value="dot">Circulares</option>
+                    </select>
                 </div>
             </div>
+            <div class="grid-3 keep">
+            <div class="field">
+                <label for="bulk-color">Puntos</label>
+                <div class="color-input"><input type="color" id="bulk-color" value="#0f172a"><output for="bulk-color">#0F172A</output></div>
+            </div>
+            <div class="field">
+                <label for="bulk-corner-color">Esquinas</label>
+                <div class="color-input"><input type="color" id="bulk-corner-color" value="#0f172a"><output for="bulk-corner-color">#0F172A</output></div>
+            </div>
+            <div class="field">
+                <label for="bulk-bg">Fondo</label>
+                <div class="color-input"><input type="color" id="bulk-bg" value="#ffffff"><output for="bulk-bg">#FFFFFF</output></div>
+            </div>
+            </div>
         </div>
-
-        <div class="bulk-layout">
-            <div id="tab-qr" class="tab-content active" role="tabpanel">
-                <div class="bulk-qr-grid">
-
-                    <section class="panel">
-                        <h2 class="panel-title"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Diseño del Lote</h2>
-
-                        <div class="grid-2">
-                            <div class="subpanel">
-                                <h3 class="subpanel-title">1. Cuerpo (Datos)</h3>
-                                <div class="form-group">
-                                    <label for="bulk-qr-dots">Forma Puntos</label>
-                                    <select id="bulk-qr-dots" onchange="updateBulkPreview()">
-                                        <option value="square">Cuadrado</option>
-                                        <option value="rounded">Redondo</option>
-                                        <option value="dots">Puntos</option>
-                                        <option value="classy">Classy</option>
-                                        <option value="classy-rounded">Classy Smooth</option>
-                                        <option value="extra-rounded">Extra Redondo</option>
-                                    </select>
+        <div class="tab-panel" id="bulk-panel-logo" role="tabpanel" aria-labelledby="bulk-tab-logo" hidden>
+            <div class="dropzone dropzone-sm" id="bulk-logo-drop" role="button" tabindex="0">
+                <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                <strong>Suba su logo o arrástrelo aquí</strong>
+                <small>PNG, JPG o SVG · Se procesa en su equipo</small>
+            </div>
+            <div class="file-chip" id="bulk-logo-chip" hidden>
+                <img id="bulk-logo-img" alt="Logo cargado">
+                <div><strong id="bulk-logo-name">logo</strong><span>Logo personalizado</span></div>
+                <button type="button" class="btn btn-secondary btn-sm" id="bulk-logo-remove">Quitar</button>
+            </div>
+            <input type="file" id="bulk-logo-input" accept="image/*" hidden>
+            <span class="field-label" style="margin-top:16px">O elija un ícono <span class="hint">(toma el color de los puntos)</span></span>
+            <div class="icon-grid" id="bulk-icons"></div>
+            <div class="field">
+                <label for="bulk-logo-size">Tamaño del logo</label>
+                <input type="range" id="bulk-logo-size" min="0.2" max="0.5" step="0.05" value="0.35">
+            </div>
+        </div>
+                        </div>
+                        <div id="mode-barcode" hidden>
+                            <div class="field">
+                                <label for="bulk-bar-format">Formato</label>
+                                <select id="bulk-bar-format">
+                                    <option value="CODE128">Code 128 · Uso general y logística</option>
+                                    <option value="EAN13">EAN-13 · Productos de venta al público</option>
+                                    <option value="UPC">UPC-A · Productos para EE. UU.</option>
+                                    <option value="CODE39">Code 39 · Industria</option>
+                                    <option value="ITF14">ITF-14 · Cajas de embalaje</option>
+                                </select>
+                            </div>
+                            <div class="grid-2">
+                                <div class="field">
+                                    <label for="bulk-bar-color">Color de las barras</label>
+                                    <div class="color-input"><input type="color" id="bulk-bar-color" value="#000000"><output for="bulk-bar-color">#000000</output></div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="bulk-qr-color">Color Puntos</label>
-                                    <div class="color-field">
-                                        <input type="color" id="bulk-qr-color" value="#0f172a" oninput="updateBulkPreview()">
-                                        <span>Principal</span>
+                                <div class="field">
+                                    <span class="field-label" id="lbl-bulk-text">Texto debajo</span>
+                                    <div class="segmented" role="radiogroup" aria-labelledby="lbl-bulk-text">
+                                        <label><input type="radio" name="bulk-bar-text" value="true" checked><span>Mostrar</span></label>
+                                        <label><input type="radio" name="bulk-bar-text" value="false"><span>Ocultar</span></label>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="subpanel">
-                                <h3 class="subpanel-title">2. Esquinas (Ojos)</h3>
-                                <div class="form-group">
-                                    <label for="bulk-qr-corners">Forma Esquinas</label>
-                                    <select id="bulk-qr-corners" onchange="updateBulkPreview()">
-                                        <option value="square">Cuadrado (Clásico)</option>
-                                        <option value="extra-rounded">Redondeado (Moderno)</option>
-                                        <option value="dot">Círculo</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="bulk-qr-corners-color">Color Esquinas</label>
-                                    <div class="color-field">
-                                        <input type="color" id="bulk-qr-corners-color" value="#0f172a" oninput="updateBulkPreview()">
-                                        <span>Ojos</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-20">
-                            <h3 class="section-title">3. Branding</h3>
-                            <div class="grid-1-2">
-                                <div class="form-group">
-                                    <label for="bulk-qr-bg">Color Fondo</label>
-                                    <input type="color" id="bulk-qr-bg" value="#ffffff" oninput="updateBulkPreview()">
-                                </div>
-                                <div class="form-group">
-                                    <span class="field-label">Logo Central (Opcional)</span>
-                                    <div class="logo-upload-container">
-                                        <button type="button" class="upload-placeholder" id="bulkUploadPlaceholder" onclick="document.getElementById('bulkLogoInput').click()">
-                                            <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
-                                            <span>Subir Logo</span>
-                                        </button>
-                                        <div class="logo-preview-wrapper" id="bulkLogoPreviewArea" hidden>
-                                            <img alt="Vista previa del logo" class="logo-preview-img" id="bulkImgPreview">
-                                            <button type="button" class="btn btn-danger" onclick="removeBulkLogo(event)" aria-label="Quitar logo">X</button>
-                                        </div>
-                                        <input type="file" id="bulkLogoInput" accept="image/*" hidden onchange="handleBulkLogoUpload(this)">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="panel bulk-preview-panel">
-                        <h2 class="panel-title centered"><i class="fa-solid fa-eye" aria-hidden="true"></i> Vista Previa Lote</h2>
-                        <div id="bulk-canvas-preview"></div>
-                        <div class="notice">
-                            <i class="fa-solid fa-info-circle" aria-hidden="true"></i> Todos los QRs del Excel heredarán este diseño.
-                        </div>
-                    </section>
-                </div>
-            </div>
-
-            <div id="tab-barcode" class="tab-content" role="tabpanel">
-                <section class="panel">
-                    <h2 class="panel-title"><i class="fa-solid fa-barcode" aria-hidden="true"></i> Configuración del Lote Barcode</h2>
-                    <div class="grid-auto">
-                        <div class="form-group">
-                            <label for="bulk-bar-format">Formato Industrial</label>
-                            <select id="bulk-bar-format">
-                                <option value="CODE128">Code 128 (Universal)</option>
-                                <option value="EAN13">EAN-13 (Retail)</option>
-                                <option value="UPC">UPC (USA)</option>
-                                <option value="CODE39">Code 39 (Industria)</option>
-                                <option value="ITF14">ITF-14 (Cajas)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="bulk-bar-text">Etiqueta de Texto</label>
-                            <select id="bulk-bar-text">
-                                <option value="true">Mostrar Código</option>
-                                <option value="false">Solo Barras</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="bulk-bar-color">Color Barras</label>
-                            <input type="color" id="bulk-bar-color" value="#000000">
+                            <p class="status" id="bar-validity" hidden></p>
                         </div>
                     </div>
-                </section>
-            </div>
-
-            <section class="panel subpanel--success">
-                <h2 class="panel-title"><i class="fa-solid fa-file-export" aria-hidden="true"></i> Configuración de Salida</h2>
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label for="bulk-export-format">Formato de Archivo</label>
-                        <select id="bulk-export-format">
-                            <option value="png">PNG (Imagen)</option>
-                            <option value="jpeg">JPEG (Ligero)</option>
-                            <option value="svg">SVG (Vectorial)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="bulk-export-size">Tamaño / Resolución</label>
-                        <select id="bulk-export-size">
-                            <option value="500">500 x 500 px (Web)</option>
-                            <option value="1000" selected>1000 x 1000 px (Alta)</option>
-                            <option value="2000">2000 x 2000 px (Impresión)</option>
-                            <option value="4000">4000 x 4000 px (Gigante, lento)</option>
-                        </select>
-                        <small class="hint">En códigos de barras define la escala de las barras.</small>
+                    <div class="mini-preview">
+                        <div class="qr-stage" data-state="ready">
+                            <div id="bulk-canvas-preview" class="qr-holder"></div>
+                            <svg id="bulk-bar-preview" hidden></svg>
+                        </div>
+                        <p id="bulk-preview-caption">Vista previa con un ejemplo</p>
                     </div>
                 </div>
             </section>
 
-            <section class="panel">
-                <h2 class="panel-title"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Carga de Archivo</h2>
-
-                <div class="upload-area" id="drop-zone" role="button" tabindex="0" onclick="document.getElementById('excel-input').click()">
-                    <i class="fa-solid fa-file-excel fa-3x" aria-hidden="true"></i>
-                    <h3>Haga clic o arrastre aquí su Excel (.xlsx, .xls, .csv)</h3>
-                    <p>Recomendado: máximo 500 registros por lote.</p>
-                    <input type="file" id="excel-input" accept=".xlsx, .xls, .csv" hidden>
+            <section class="card" aria-labelledby="h-generate">
+                <div class="card-head">
+                    <span class="step-num">3</span>
+                    <h2 id="h-generate">Genere y descargue el ZIP</h2>
                 </div>
-
-                <div id="bulk-controls" class="mt-20" hidden>
-                    <div class="record-box">
-                        <i class="fa-solid fa-check-circle" aria-hidden="true"></i>
-                        <span id="record-count">0 registros listos</span>
-                        <button type="button" class="btn-link" onclick="resetBulkFile()">Cambiar archivo</button>
-                    </div>
-
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label for="col-data">1. Columna de DATOS</label>
-                            <select id="col-data"></select>
-                            <small class="hint">La columna con la URL o código.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="col-name">2. Columna NOMBRE (Opcional)</label>
-                            <select id="col-name"></select>
-                            <small class="hint">Para nombrar los archivos.</small>
+                <div class="grid-2">
+                    <div class="field">
+                        <span class="field-label" id="lbl-bulk-format">Formato de cada archivo</span>
+                        <div class="segmented" role="radiogroup" aria-labelledby="lbl-bulk-format">
+                            <label><input type="radio" name="bulk-format" value="png" checked><span>PNG</span></label>
+                            <label><input type="radio" name="bulk-format" value="svg"><span>SVG</span></label>
+                            <label><input type="radio" name="bulk-format" value="jpeg"><span>JPG</span></label>
                         </div>
                     </div>
-
-                    <div id="progress-container" hidden>
-                        <div class="progress-track"><div id="progress-fill"></div></div>
-                        <p id="progress-text" aria-live="polite">Iniciando...</p>
+                    <div class="field">
+                        <label for="bulk-export-size">Tamaño</label>
+                        <select id="bulk-export-size">
+                            <option value="500">500 px · Web</option>
+                            <option value="1000" selected>1000 px · Recomendado</option>
+                            <option value="2000">2000 px · Impresión grande</option>
+                            <option value="4000">4000 px · Gigante (lento)</option>
+                        </select>
                     </div>
-
-                    <button type="button" class="btn btn-primary" id="btn-process" onclick="processBulkData()">
-                        <i class="fa-solid fa-cogs" aria-hidden="true"></i> Procesar Lote y Generar ZIP
-                    </button>
-
-                    <div id="bulk-report" class="report-box" aria-live="polite" hidden></div>
                 </div>
+                <div class="progress" id="progress-container" hidden>
+                    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+                    <p class="progress-text" id="progress-text" aria-live="polite">Iniciando...</p>
+                </div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-process" disabled>
+                    <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> <span>Primero suba un archivo</span>
+                </button>
+                <div class="report" id="bulk-report" aria-live="polite" hidden style="margin-top:16px"></div>
             </section>
         </div>
 

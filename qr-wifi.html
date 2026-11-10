@@ -27,7 +27,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/styles.css">
 
@@ -119,144 +119,169 @@
     <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <script src="/iconos_db.js"></script>
 </head>
-<body data-qr-type="wifi">
+<body class="has-mobile-bar">
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <nav class="navbar" aria-label="Principal">
-        <div class="navbar-container">
-            <a class="brand" href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> QR Free</a>
-            <div class="nav-links">
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> QR Free</a>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
                 <a href="/" class="active" aria-current="page"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
                 <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
                 <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
                 <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
                 <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
-            </div>
+            </nav>
         </div>
-    </nav>
+    </header>
 
     <main class="main-wrapper" id="contenido">
         <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> <span aria-hidden="true">›</span> <span aria-current="page">QR de WiFi</span></nav>
         <div class="page-header">
             <h1>Generador de QR de WiFi</h1>
             <p>Sus clientes apuntan la cámara y se conectan. Sin dictar ni escribir la contraseña.</p>
+            <div class="badges"><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sin registro</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> No caduca</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sus datos no salen de su equipo</span></div>
         </div>
-        <div class="workspace-grid">
-
-            <section class="panel" aria-label="Configuración del código QR">
-
-                <h2 class="panel-title"><i class="fa-solid fa-database" aria-hidden="true"></i> 1. Datos del Código</h2>
-
-                <div class="form-group">
-                    <div class="type-grid" role="group" aria-label="Tipo de contenido">
-                        <button type="button" class="type-btn active" aria-pressed="true" data-type="url" onclick="setType('url', this)"><i class="fa-solid fa-link" aria-hidden="true"></i> URL</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="whatsapp" onclick="setType('whatsapp', this)"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="wifi" onclick="setType('wifi', this)"><i class="fa-solid fa-wifi" aria-hidden="true"></i> WiFi</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="vcard" onclick="setType('vcard', this)"><i class="fa-regular fa-address-card" aria-hidden="true"></i> VCard</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="email" onclick="setType('email', this)"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Email</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="phone" onclick="setType('phone', this)"><i class="fa-solid fa-phone" aria-hidden="true"></i> Teléfono</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="sms" onclick="setType('sms', this)"><i class="fa-solid fa-comment-sms" aria-hidden="true"></i> SMS</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="text" onclick="setType('text', this)"><i class="fa-solid fa-font" aria-hidden="true"></i> Texto</button>
-                        <button type="button" class="type-btn" aria-pressed="false" data-type="geo" onclick="setType('geo', this)"><i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Mapa</button>
+        <div class="tool" id="qr-tool">
+            <div class="tool-main">
+                <section class="card card-content" aria-labelledby="h-content">
+                    <div class="card-head">
+                        <span class="step-num">1</span>
+                        <h2 id="h-content">¿Qué debe abrir su QR?</h2>
                     </div>
+                    <div class="field">
+                        <div class="chips" role="radiogroup" aria-label="Tipo de código QR">
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="url"><i class="fa-solid fa-link" aria-hidden="true"></i> Enlace</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="whatsapp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="wifi"><i class="fa-solid fa-wifi" aria-hidden="true"></i> WiFi</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="vcard"><i class="fa-regular fa-address-card" aria-hidden="true"></i> Contacto</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="email"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Email</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="phone"><i class="fa-solid fa-phone" aria-hidden="true"></i> Llamada</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="sms"><i class="fa-solid fa-comment-sms" aria-hidden="true"></i> SMS</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="text"><i class="fa-solid fa-font" aria-hidden="true"></i> Texto</button>
+                            <button type="button" class="chip" role="radio" aria-checked="false" data-type="geo"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Ubicación</button>
+                        </div>
+                    </div>
+                    <div id="dynamic-inputs"></div>
+                </section>
+
+                <section class="card card-design" aria-labelledby="h-design">
+                    <div class="card-head">
+                        <span class="step-num">2</span>
+                        <h2 id="h-design">Personalice el diseño</h2>
+                        <span class="opt">Opcional</span>
+                    </div>
+        <div class="tabs-ui" role="tablist" aria-label="Opciones de diseño">
+            <button type="button" class="tab-ui" role="tab" id="qr-tab-style" aria-selected="true" aria-controls="qr-panel-style"><i class="fa-solid fa-palette" aria-hidden="true"></i> Estilo y color</button>
+            <button type="button" class="tab-ui" role="tab" id="qr-tab-logo" aria-selected="false" aria-controls="qr-panel-logo" tabindex="-1"><i class="fa-solid fa-image" aria-hidden="true"></i> Logo</button>
+        </div>
+        <div class="tab-panel" id="qr-panel-style" role="tabpanel" aria-labelledby="qr-tab-style">
+            <span class="field-label">Estilos rápidos</span>
+            <div class="presets" id="qr-presets"></div>
+            <div class="grid-2">
+                <div class="field">
+                    <label for="qr-dots">Forma de los puntos</label>
+                    <select id="qr-dots">
+                    <option value="square">Cuadrados</option>
+                    <option value="rounded">Redondeados</option>
+                    <option value="dots">Puntos</option>
+                    <option value="classy">Elegante</option>
+                    <option value="classy-rounded">Elegante suave</option>
+                    <option value="extra-rounded">Muy redondeados</option>
+                    </select>
                 </div>
-                <div id="dynamic-inputs"></div>
-
-                <h2 class="panel-title spaced"><i class="fa-solid fa-paintbrush" aria-hidden="true"></i> 2. Personalización Visual</h2>
-
-                <div class="grid-2">
-                    <div class="subpanel">
-                        <h3 class="subpanel-title">Cuerpo (Datos)</h3>
-                        <div class="form-group">
-                            <label for="qr-dots-type">Forma Puntos</label>
-                            <select id="qr-dots-type" onchange="updateDesign()">
-                                <option value="square">Cuadrado</option>
-                                <option value="rounded">Redondo</option>
-                                <option value="dots">Puntos</option>
-                                <option value="classy">Classy</option>
-                                <option value="classy-rounded">Classy Smooth</option>
-                                <option value="extra-rounded">Extra Redondo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="colorDots">Color Puntos</label>
-                            <div class="color-field">
-                                <input type="color" id="colorDots" value="#0f172a" oninput="updateDesign()">
-                                <span>Principal</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="subpanel">
-                        <h3 class="subpanel-title">Esquinas (Ojos)</h3>
-                        <div class="form-group">
-                            <label for="qr-corner-type">Forma Esquinas</label>
-                            <select id="qr-corner-type" onchange="updateDesign()">
-                                <option value="square">Cuadrado</option>
-                                <option value="extra-rounded">Redondeado</option>
-                                <option value="dot">Círculo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="colorCorners">Color Esquinas</label>
-                            <div class="color-field">
-                                <input type="color" id="colorCorners" value="#0f172a" oninput="updateDesign()">
-                                <span>Ojos</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="field">
+                    <label for="qr-corners">Forma de las esquinas</label>
+                    <select id="qr-corners">
+                    <option value="square">Cuadradas</option>
+                    <option value="extra-rounded">Redondeadas</option>
+                    <option value="dot">Circulares</option>
+                    </select>
                 </div>
+            </div>
+            <div class="grid-3 keep">
+            <div class="field">
+                <label for="qr-color">Puntos</label>
+                <div class="color-input"><input type="color" id="qr-color" value="#0f172a"><output for="qr-color">#0F172A</output></div>
+            </div>
+            <div class="field">
+                <label for="qr-corner-color">Esquinas</label>
+                <div class="color-input"><input type="color" id="qr-corner-color" value="#0f172a"><output for="qr-corner-color">#0F172A</output></div>
+            </div>
+            <div class="field">
+                <label for="qr-bg">Fondo</label>
+                <div class="color-input"><input type="color" id="qr-bg" value="#ffffff"><output for="qr-bg">#FFFFFF</output></div>
+            </div>
+            </div>
+        </div>
+        <div class="tab-panel" id="qr-panel-logo" role="tabpanel" aria-labelledby="qr-tab-logo" hidden>
+            <div class="dropzone dropzone-sm" id="qr-logo-drop" role="button" tabindex="0">
+                <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                <strong>Suba su logo o arrástrelo aquí</strong>
+                <small>PNG, JPG o SVG · Se procesa en su equipo</small>
+            </div>
+            <div class="file-chip" id="qr-logo-chip" hidden>
+                <img id="qr-logo-img" alt="Logo cargado">
+                <div><strong id="qr-logo-name">logo</strong><span>Logo personalizado</span></div>
+                <button type="button" class="btn btn-secondary btn-sm" id="qr-logo-remove">Quitar</button>
+            </div>
+            <input type="file" id="qr-logo-input" accept="image/*" hidden>
+            <span class="field-label" style="margin-top:16px">O elija un ícono <span class="hint">(toma el color de los puntos)</span></span>
+            <div class="icon-grid" id="qr-icons"></div>
+            <div class="field">
+                <label for="qr-logo-size">Tamaño del logo</label>
+                <input type="range" id="qr-logo-size" min="0.2" max="0.5" step="0.05" value="0.35">
+            </div>
+        </div>
+                </section>
+            </div>
 
-                <div class="mt-20">
-                    <h3 class="section-title">3. Fondo y Branding</h3>
-                    <div class="grid-1-2">
-                        <div class="form-group">
-                            <label for="colorBg">Color Fondo</label>
-                            <input type="color" id="colorBg" value="#ffffff" oninput="updateDesign()">
+            <aside class="tool-aside" aria-labelledby="h-preview">
+                <section class="card preview-card" id="qr-preview-card">
+                    <div class="card-head">
+                        <span class="step-num">3</span>
+                        <h2 id="h-preview">Descargue su QR</h2>
+                    </div>
+                    <div class="qr-stage" id="qr-stage" data-state="empty">
+                        <div id="canvas"></div>
+                        <div class="qr-empty" aria-hidden="true">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            Complete el paso 1
+                            <span>Su código aparecerá aquí al instante</span>
                         </div>
-
-                        <div class="form-group">
-                            <span class="field-label">Logotipo Central</span>
-                            <div class="logo-upload-container">
-                                <button type="button" class="upload-placeholder" id="logoUploadPlaceholder" onclick="document.getElementById('logoInput').click()">
-                                    <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
-                                    <span>Subir Logo</span>
-                                </button>
-                                <div class="logo-preview-wrapper" id="logoPreviewArea" hidden>
-                                    <img alt="Vista previa del logo" class="logo-preview-img" id="imgPreview">
-                                    <button type="button" class="btn btn-danger" onclick="removeLogo(event)" aria-label="Quitar logo">X</button>
-                                </div>
-                                <input type="file" id="logoInput" accept="image/*" hidden onchange="handleLogoUpload(this)">
-                            </div>
+                    </div>
+                    <p class="status" id="qr-status" role="status" aria-live="polite"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Escriba el contenido para crear su QR.</span></p>
+                    <div class="field">
+                        <span class="field-label" id="lbl-format">Formato</span>
+                        <div class="segmented" role="radiogroup" aria-labelledby="lbl-format">
+                            <label><input type="radio" name="qr-format" value="png" checked><span>PNG<small>Web y redes</small></span></label>
+                            <label><input type="radio" name="qr-format" value="svg"><span>SVG<small>Imprenta</small></span></label>
+                            <label><input type="radio" name="qr-format" value="jpeg"><span>JPG<small>Ligero</small></span></label>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <span class="field-label">O elija un ícono (toma el color de los puntos)</span>
-                        <div class="icon-grid" id="icon-presets"></div>
+                    <div class="field" id="size-field">
+                        <span class="field-label" id="lbl-size">Tamaño</span>
+                        <div class="segmented" role="radiogroup" aria-labelledby="lbl-size">
+                            <label><input type="radio" name="qr-size" value="512"><span>512 px</span></label>
+                            <label><input type="radio" name="qr-size" value="1024" checked><span>1024 px</span></label>
+                            <label><input type="radio" name="qr-size" value="2048"><span>2048 px</span></label>
+                        </div>
                     </div>
-                </div>
-
-            </section>
-
-            <section class="panel preview-container" aria-label="Vista previa">
-                <h2>Vista Previa</h2>
-
-                <div id="canvas"></div>
-
-                <div class="preview-actions">
-                    <div class="form-group">
-                        <label for="dl-format">Formato de Descarga</label>
-                        <select id="dl-format">
-                            <option value="png">PNG (Imagen)</option>
-                            <option value="svg">SVG (Vectorial)</option>
-                            <option value="jpeg">JPEG</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="downloadQR()">
-                        <i class="fa-solid fa-download" aria-hidden="true"></i> Descargar QR
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-download" disabled>
+                        <i class="fa-solid fa-download" aria-hidden="true"></i> <span>Descargar PNG</span>
                     </button>
-                </div>
-            </section>
+                    <div class="trust">
+                        <span><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span>
+                        <span><i class="fa-solid fa-check" aria-hidden="true"></i> Sin marca de agua</span>
+                        <span><i class="fa-solid fa-check" aria-hidden="true"></i> No caduca</span>
+                    </div>
+                </section>
+            </aside>
+        </div>
+
+        <div class="mobile-bar" id="mobile-bar" aria-hidden="true">
+            <a class="btn btn-secondary" href="#qr-preview-card" tabindex="-1"><i class="fa-solid fa-eye" aria-hidden="true"></i> Ver QR</a>
+            <button type="button" class="btn btn-primary" id="btn-download-bar" tabindex="-1" disabled><i class="fa-solid fa-download" aria-hidden="true"></i> Descargar</button>
         </div>
 
 

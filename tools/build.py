@@ -41,7 +41,72 @@ e = html.escape
 
 def partial(name):
     with open(os.path.join(ROOT, "src", "partials", name + ".html"), encoding="utf-8") as f:
-        return f.read()
+        text = f.read()
+    for prefix in ("qr", "bulk"):
+        tag = "{{design:%s}}" % prefix
+        if tag in text:
+            line = next(l for l in text.splitlines() if tag in l)
+            pad = len(line) - len(line.lstrip())
+            text = text.replace(line, indent(design_panel(prefix), pad))
+    return text
+
+
+def design_panel(p):
+    """Panel de diseño compartido (QR individual y masivo)."""
+    dots = [("square", "Cuadrados"), ("rounded", "Redondeados"), ("dots", "Puntos"),
+            ("classy", "Elegante"), ("classy-rounded", "Elegante suave"), ("extra-rounded", "Muy redondeados")]
+    corners = [("square", "Cuadradas"), ("extra-rounded", "Redondeadas"), ("dot", "Circulares")]
+    opt = lambda items: "\n".join(f'            <option value="{v}">{t}</option>' for v, t in items)
+    color = lambda id_, label, val: f"""    <div class="field">
+        <label for="{p}-{id_}">{label}</label>
+        <div class="color-input"><input type="color" id="{p}-{id_}" value="{val}"><output for="{p}-{id_}">{val.upper()}</output></div>
+    </div>"""
+    return f"""<div class="tabs-ui" role="tablist" aria-label="Opciones de diseño">
+    <button type="button" class="tab-ui" role="tab" id="{p}-tab-style" aria-selected="true" aria-controls="{p}-panel-style"><i class="fa-solid fa-palette" aria-hidden="true"></i> Estilo y color</button>
+    <button type="button" class="tab-ui" role="tab" id="{p}-tab-logo" aria-selected="false" aria-controls="{p}-panel-logo" tabindex="-1"><i class="fa-solid fa-image" aria-hidden="true"></i> Logo</button>
+</div>
+<div class="tab-panel" id="{p}-panel-style" role="tabpanel" aria-labelledby="{p}-tab-style">
+    <span class="field-label">Estilos rápidos</span>
+    <div class="presets" id="{p}-presets"></div>
+    <div class="grid-2">
+        <div class="field">
+            <label for="{p}-dots">Forma de los puntos</label>
+            <select id="{p}-dots">
+{opt(dots)}
+            </select>
+        </div>
+        <div class="field">
+            <label for="{p}-corners">Forma de las esquinas</label>
+            <select id="{p}-corners">
+{opt(corners)}
+            </select>
+        </div>
+    </div>
+    <div class="grid-3 keep">
+{color("color", "Puntos", "#0f172a")}
+{color("corner-color", "Esquinas", "#0f172a")}
+{color("bg", "Fondo", "#ffffff")}
+    </div>
+</div>
+<div class="tab-panel" id="{p}-panel-logo" role="tabpanel" aria-labelledby="{p}-tab-logo" hidden>
+    <div class="dropzone dropzone-sm" id="{p}-logo-drop" role="button" tabindex="0">
+        <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+        <strong>Suba su logo o arrástrelo aquí</strong>
+        <small>PNG, JPG o SVG · Se procesa en su equipo</small>
+    </div>
+    <div class="file-chip" id="{p}-logo-chip" hidden>
+        <img id="{p}-logo-img" alt="Logo cargado">
+        <div><strong id="{p}-logo-name">logo</strong><span>Logo personalizado</span></div>
+        <button type="button" class="btn btn-secondary btn-sm" id="{p}-logo-remove">Quitar</button>
+    </div>
+    <input type="file" id="{p}-logo-input" accept="image/*" hidden>
+    <span class="field-label" style="margin-top:16px">O elija un ícono <span class="hint">(toma el color de los puntos)</span></span>
+    <div class="icon-grid" id="{p}-icons"></div>
+    <div class="field">
+        <label for="{p}-logo-size">Tamaño del logo</label>
+        <input type="range" id="{p}-logo-size" min="0.2" max="0.5" step="0.05" value="0.35">
+    </div>
+</div>"""
 
 
 def indent(text, n):
@@ -88,7 +153,7 @@ def head(p):
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/styles.css">
 
@@ -106,14 +171,15 @@ def nav(active):
     cur = ' aria-current="page"' if active == "apoyar" else ""
     links.append(f'<a href="/apoyar" class="nav-cta"{cur}><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>')
     return f"""    <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <nav class="navbar" aria-label="Principal">
-        <div class="navbar-container">
-            <a class="brand" href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> {BRAND}</a>
-            <div class="nav-links">
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="{BRAND}, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> {BRAND}</a>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
                 {chr(10).join(" " * 16 + l for l in links).strip()}
-            </div>
+            </nav>
         </div>
-    </nav>"""
+    </header>"""
 
 
 def footer():
@@ -150,11 +216,14 @@ def page(p, main_html, script=""):
     header_html = ""
     if p.get("h1"):
         sub = f"\n            <p>{p['lead']}</p>" if p.get("lead") else ""
+        if p.get("badges"):
+            sub += "\n            <div class=\"badges\">" + "".join(
+                f'<span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> {b}</span>' for b in p["badges"]) + "</div>"
         header_html = f"""        <div class="page-header">
             <h1>{p["h1"]}</h1>{sub}
         </div>
 """
-    body_attr = f' data-qr-type="{p["qr_type"]}"' if p.get("qr_type") else ""
+    body_attr = ' class="has-mobile-bar"' if p.get("mobile_bar") else ""
     return f"""{head(p)}
 <body{body_attr}>
 {nav(p.get("active"))}
@@ -349,6 +418,8 @@ def build_qr_pages():
         if p.get("crumbs"):
             p["jsonld"].append(crumbs_ld(p["crumbs"]))
         p["scripts"] = ["qr", "icons"]
+        p["badges"] = ["Gratis", "Sin registro", "No caduca", "Sus datos no salen de su equipo"]
+        p["mobile_bar"] = True
         related = [r for r in RELATED_QR if r[0] != p["url"]]
         main = "\n\n".join([
             partial("qr-tool"),
@@ -374,7 +445,8 @@ def build_bulk_barcode():
         "description": "Genera cientos de códigos QR o códigos de barras (EAN-13, Code 128, UPC) a la vez desde un Excel o CSV. Personaliza el diseño y descarga todo en un ZIP. Gratis y sin registro.",
         "h1": "Generación Masiva de QR y Códigos de Barras",
         "lead": "Suba un Excel y obtenga cientos de códigos QR o de barras en un ZIP, cada uno con su nombre.",
-        "scripts": ["qr", "barcode", "xlsx", "jszip", "filesaver"],
+        "scripts": ["qr", "barcode", "xlsx", "jszip", "filesaver", "icons"],
+        "badges": ["Gratis", "Sin registro", "Hasta 500 filas por lote", "El archivo no se sube a internet"],
     }
     faqs = [
         ("¿Cuántos códigos puedo generar a la vez?", "No hay un límite fijo; depende de la memoria de su equipo. Recomendamos lotes de hasta 500 filas, sobre todo en tamaños grandes (2000 o 4000 px)."),
@@ -403,6 +475,7 @@ def build_bulk_barcode():
         "h1": "Generador de Códigos de Barras",
         "lead": "Etiquetas compatibles con lectores de tienda y logística: EAN-13, UPC, Code 128, Code 39 e ITF-14.",
         "scripts": ["barcode"],
+        "badges": ["Gratis", "SVG vectorial", "Valida el dígito de control"],
     }
     faqs = [
         ("¿Qué formato debo usar?", "<strong>EAN-13</strong> para productos de venta al público (supermercados, bodegas). <strong>Code 128</strong> para uso interno, logística y códigos con letras. <strong>ITF-14</strong> para cajas de embalaje. <strong>UPC</strong> para productos que se venden en EE. UU."),
@@ -412,7 +485,7 @@ def build_bulk_barcode():
     ]
     p["jsonld"] = [app_ld("Generador de códigos de barras", p["url"], p["description"]), faq_ld(faqs)]
     main = "\n\n".join([partial("barcode-tool"), faq_html(faqs), support_banner()])
-    write(p["file"], page(p, main, "    <script>\n        document.addEventListener('DOMContentLoaded', generateBarcode);\n    </script>\n"))
+    write(p["file"], page(p, main, "    <script>\n        document.addEventListener('DOMContentLoaded', initBarcodePage);\n    </script>\n"))
 
 
 # ---------------------------------------------------------------------

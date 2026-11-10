@@ -1,55 +1,73 @@
-<div class="workspace-grid">
-    <section class="panel">
-        <h2 class="panel-title"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Parámetros</h2>
-
-        <div class="form-group">
-            <label for="barcode-format">Formato Estándar</label>
-            <select id="barcode-format" onchange="generateBarcode()">
-                <option value="CODE128">Code 128 (Logística General)</option>
-                <option value="EAN13">EAN-13 (Retail/Productos)</option>
-                <option value="UPC">UPC (Retail USA)</option>
-                <option value="CODE39">Code 39 (Industria/Automotriz)</option>
-                <option value="ITF14">ITF-14 (Cajas de embalaje)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="barcode-value">Valor / Código</label>
-            <input type="text" id="barcode-value" placeholder="Ej: 123456789" value="CODE-128-TEST" oninput="generateBarcode()">
-            <small class="hint">EAN-13: 12 o 13 dígitos · UPC: 11 o 12 dígitos · ITF-14: 13 o 14 dígitos.</small>
-        </div>
-
-        <div class="form-group">
-            <label for="bar-color">Color de Barras</label>
-            <input type="color" id="bar-color" value="#000000" oninput="generateBarcode()">
-        </div>
-
-        <div class="form-group">
-            <label for="show-text">Mostrar Texto Debajo</label>
-            <select id="show-text" onchange="generateBarcode()">
-                <option value="true">Sí</option>
-                <option value="false">No</option>
-            </select>
-        </div>
-    </section>
-
-    <section class="panel preview-container">
-        <h2><i class="fa-solid fa-print" aria-hidden="true"></i> Resultado</h2>
-        <div class="barcode-box">
-            <svg id="barcode" role="img" aria-label="Código de barras generado"></svg>
-            <p id="barcode-error" class="error-text" role="alert" hidden></p>
-        </div>
-        <div class="preview-actions">
-            <div class="form-group">
-                <label for="barcode-dl-format">Formato de Descarga</label>
-                <select id="barcode-dl-format">
-                    <option value="svg">SVG (Vectorial)</option>
-                    <option value="png">PNG (Alta resolución)</option>
-                </select>
+<div class="tool" id="barcode-tool">
+    <div class="tool-main">
+        <section class="card card-content" aria-labelledby="h-bc-content">
+            <div class="card-head">
+                <span class="step-num">1</span>
+                <h2 id="h-bc-content">Formato y código</h2>
             </div>
-            <button type="button" class="btn btn-primary" id="btn-download-barcode" onclick="downloadBarcode()">
-                <i class="fa-solid fa-file-export" aria-hidden="true"></i> Descargar
+            <div class="field">
+                <label for="barcode-format">Formato</label>
+                <select id="barcode-format">
+                    <option value="CODE128">Code 128 · Uso general y logística (letras y números)</option>
+                    <option value="EAN13">EAN-13 · Productos de venta al público</option>
+                    <option value="UPC">UPC-A · Productos para EE. UU.</option>
+                    <option value="CODE39">Code 39 · Industria (mayúsculas y números)</option>
+                    <option value="ITF14">ITF-14 · Cajas de embalaje</option>
+                </select>
+                <p class="hint" id="barcode-format-hint"></p>
+            </div>
+            <div class="field">
+                <label for="barcode-value">Código</label>
+                <input type="text" id="barcode-value" value="CODE-128-TEST" autocomplete="off" spellcheck="false" aria-describedby="barcode-error">
+                <p class="field-error" id="barcode-error" hidden><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span></span></p>
+            </div>
+        </section>
+
+        <section class="card card-design" aria-labelledby="h-bc-design">
+            <div class="card-head">
+                <span class="step-num">2</span>
+                <h2 id="h-bc-design">Personalice</h2>
+                <span class="opt">Opcional</span>
+            </div>
+            <div class="grid-2">
+                <div class="field">
+                    <label for="bar-color">Color de las barras</label>
+                    <div class="color-input"><input type="color" id="bar-color" value="#000000"><output for="bar-color">#000000</output></div>
+                </div>
+                <div class="field">
+                    <label for="bar-height">Altura de las barras</label>
+                    <input type="range" id="bar-height" min="40" max="160" step="10" value="100">
+                </div>
+            </div>
+            <div class="field">
+                <span class="field-label" id="lbl-showtext">Texto debajo</span>
+                <div class="segmented" role="radiogroup" aria-labelledby="lbl-showtext">
+                    <label><input type="radio" name="show-text" value="true" checked><span>Mostrar código</span></label>
+                    <label><input type="radio" name="show-text" value="false"><span>Solo barras</span></label>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="tool-aside">
+        <section class="card preview-card" id="bc-preview-card" aria-labelledby="h-bc-preview">
+            <div class="card-head">
+                <span class="step-num">3</span>
+                <h2 id="h-bc-preview">Descargue</h2>
+            </div>
+            <div class="qr-stage barcode-stage" id="barcode-stage" data-state="ready">
+                <svg id="barcode" role="img" aria-label="Código de barras generado"></svg>
+            </div>
+            <div class="field">
+                <span class="field-label" id="lbl-bc-format">Formato</span>
+                <div class="segmented" role="radiogroup" aria-labelledby="lbl-bc-format">
+                    <label><input type="radio" name="bc-format" value="svg" checked><span>SVG<small>Imprenta</small></span></label>
+                    <label><input type="radio" name="bc-format" value="png"><span>PNG<small>Alta resolución</small></span></label>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-download-barcode">
+                <i class="fa-solid fa-download" aria-hidden="true"></i> Descargar
             </button>
-        </div>
-    </section>
+        </section>
+    </aside>
 </div>
