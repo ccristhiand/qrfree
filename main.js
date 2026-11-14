@@ -74,6 +74,9 @@ function triggerDownload(blob, filename) {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+const numberFmt = new Intl.NumberFormat("es-PE");
+function fmtNum(n) { return numberFmt.format(n); }
+
 function debounce(fn, ms) {
     let t;
     return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
@@ -122,7 +125,11 @@ function toast(message, type = "info") {
     el.innerHTML = `<i class="fa-solid ${icon}" aria-hidden="true"></i><span></span>`;
     el.querySelector("span").textContent = message;
     box.appendChild(el);
-    setTimeout(() => el.remove(), 3500);
+    setTimeout(() => {
+        el.classList.add("is-leaving");
+        el.addEventListener("animationend", () => el.remove(), { once: true });
+        setTimeout(() => el.remove(), 400); // respaldo si el movimiento está reducido
+    }, 3500);
 }
 
 /* =========================================
@@ -233,6 +240,17 @@ class DesignPanel {
             });
         });
         initDropzone(this.el("logo-drop"), this.el("logo-input"), (f) => this.setLogoFile(f));
+        const size = this.el("logo-size");
+        if (size) {
+            const out = size.parentElement.querySelector("output");
+            const sync = () => {
+                const pct = Math.round(parseFloat(size.value) * 100) + " %";
+                size.setAttribute("aria-valuetext", pct);
+                if (out) out.textContent = pct;
+            };
+            size.addEventListener("input", sync);
+            sync();
+        }
         const rm = this.el("logo-remove");
         if (rm) rm.addEventListener("click", () => this.clearLogo(true));
         this.markPreset(0);
@@ -376,15 +394,15 @@ const PREVIEW_SIZE = 280;
 const quietZone = (size) => Math.round(size * 0.06);
 
 const formTemplates = {
-    url: `<div class="field"><label for="inp-url">Enlace (URL)</label><input type="url" id="inp-url" placeholder="miempresa.com" inputmode="url" autocomplete="url" oninput="updateSingleQR()"><p class="hint">Puede escribirlo sin «https://», lo agregamos por usted.</p></div>`,
-    whatsapp: `<div class="field"><label for="inp-wa-phone">Número de WhatsApp</label><input type="tel" id="inp-wa-phone" placeholder="51 999 888 777" inputmode="tel" oninput="updateSingleQR()"><p class="hint">Con código de país. Perú: 51 + su celular.</p></div><div class="field"><label for="inp-wa-msg">Mensaje inicial <span class="hint">(opcional)</span></label><input type="text" id="inp-wa-msg" placeholder="Hola, quiero información..." oninput="updateSingleQR()"></div>`,
-    wifi: `<div class="field"><label for="inp-ssid">Nombre de la red (SSID)</label><input type="text" id="inp-ssid" autocomplete="off" oninput="updateSingleQR()"><p class="hint">Escríbalo exactamente igual, con mayúsculas y espacios.</p></div><div class="grid-2"><div class="field"><label for="inp-pass">Contraseña</label><input type="text" id="inp-pass" autocomplete="off" oninput="updateSingleQR()"></div><div class="field"><label for="inp-enc">Seguridad</label><select id="inp-enc" onchange="updateSingleQR()"><option value="WPA">WPA/WPA2/WPA3</option><option value="WEP">WEP</option><option value="nopass">Sin contraseña</option></select></div></div>`,
-    vcard: `<div class="grid-2"><div class="field"><label for="inp-first">Nombre</label><input type="text" id="inp-first" autocomplete="given-name" oninput="updateSingleQR()"></div><div class="field"><label for="inp-last">Apellido</label><input type="text" id="inp-last" autocomplete="family-name" oninput="updateSingleQR()"></div></div><div class="grid-2"><div class="field"><label for="inp-tel">Celular</label><input type="tel" id="inp-tel" autocomplete="tel" oninput="updateSingleQR()"></div><div class="field"><label for="inp-email">Email</label><input type="email" id="inp-email" autocomplete="email" oninput="updateSingleQR()"></div></div><div class="field"><label for="inp-org">Empresa <span class="hint">(opcional)</span></label><input type="text" id="inp-org" autocomplete="organization" oninput="updateSingleQR()"></div>`,
-    email: `<div class="field"><label for="inp-mail-to">Correo de destino</label><input type="email" id="inp-mail-to" placeholder="correo@ejemplo.com" oninput="updateSingleQR()"></div><div class="field"><label for="inp-mail-sub">Asunto <span class="hint">(opcional)</span></label><input type="text" id="inp-mail-sub" oninput="updateSingleQR()"></div><div class="field"><label for="inp-mail-body">Mensaje <span class="hint">(opcional)</span></label><textarea id="inp-mail-body" rows="2" oninput="updateSingleQR()"></textarea></div>`,
-    phone: `<div class="field"><label for="inp-phone">Número de teléfono</label><input type="tel" id="inp-phone" placeholder="+51 900 000 000" inputmode="tel" oninput="updateSingleQR()"></div>`,
-    sms: `<div class="field"><label for="inp-sms-phone">Número de destino</label><input type="tel" id="inp-sms-phone" placeholder="+51..." inputmode="tel" oninput="updateSingleQR()"></div><div class="field"><label for="inp-sms-msg">Mensaje</label><textarea id="inp-sms-msg" rows="2" oninput="updateSingleQR()"></textarea></div>`,
-    text: `<div class="field"><label for="inp-text">Texto</label><textarea id="inp-text" rows="3" oninput="updateSingleQR()"></textarea><p class="hint">Mientras más texto, más denso el QR. Recomendado: menos de 300 caracteres.</p></div>`,
-    geo: `<div class="grid-2"><div class="field"><label for="inp-geo-lat">Latitud</label><input type="text" id="inp-geo-lat" inputmode="decimal" placeholder="-12.0464" oninput="updateSingleQR()"></div><div class="field"><label for="inp-geo-lon">Longitud</label><input type="text" id="inp-geo-lon" inputmode="decimal" placeholder="-77.0428" oninput="updateSingleQR()"></div></div><p class="hint">En Google Maps: mantenga presionado un punto y copie las coordenadas.</p>`
+    url: `<div class="field"><label for="inp-url">Enlace (URL)</label><input type="url" id="inp-url" name="url" placeholder="miempresa.com/catalogo" inputmode="url" autocomplete="url" spellcheck="false" oninput="updateSingleQR()"><p class="hint">Puede escribirlo sin «https://», lo agregamos por usted.</p></div>`,
+    whatsapp: `<div class="field"><label for="inp-wa-phone">Número de WhatsApp</label><input type="tel" id="inp-wa-phone" name="whatsapp" autocomplete="tel" placeholder="51 999 888 777" inputmode="tel" oninput="updateSingleQR()"><p class="hint">Con código de país. Perú: 51 + su celular.</p></div><div class="field"><label for="inp-wa-msg">Mensaje inicial <span class="hint">(opcional)</span></label><input type="text" id="inp-wa-msg" name="mensaje" autocomplete="off" placeholder="Hola, quiero información…" oninput="updateSingleQR()"></div>`,
+    wifi: `<div class="field"><label for="inp-ssid">Nombre de la red (SSID)</label><input type="text" id="inp-ssid" name="ssid" autocomplete="off" spellcheck="false" oninput="updateSingleQR()"><p class="hint">Escríbalo exactamente igual, con mayúsculas y espacios.</p></div><div class="grid-2"><div class="field"><label for="inp-pass">Contraseña</label><input type="text" id="inp-pass" name="wifi-clave" autocomplete="off" spellcheck="false" oninput="updateSingleQR()"></div><div class="field"><label for="inp-enc">Seguridad</label><select id="inp-enc" name="seguridad" onchange="updateSingleQR()"><option value="WPA">WPA/WPA2/WPA3</option><option value="WEP">WEP</option><option value="nopass">Sin contraseña</option></select></div></div>`,
+    vcard: `<div class="grid-2"><div class="field"><label for="inp-first">Nombre</label><input type="text" id="inp-first" name="nombre" autocomplete="given-name" oninput="updateSingleQR()"></div><div class="field"><label for="inp-last">Apellido</label><input type="text" id="inp-last" name="apellido" autocomplete="family-name" oninput="updateSingleQR()"></div></div><div class="grid-2"><div class="field"><label for="inp-tel">Celular</label><input type="tel" id="inp-tel" name="celular" autocomplete="tel" oninput="updateSingleQR()"></div><div class="field"><label for="inp-email">Email</label><input type="email" id="inp-email" name="email" autocomplete="email" spellcheck="false" oninput="updateSingleQR()"></div></div><div class="field"><label for="inp-org">Empresa <span class="hint">(opcional)</span></label><input type="text" id="inp-org" name="empresa" autocomplete="organization" oninput="updateSingleQR()"></div>`,
+    email: `<div class="field"><label for="inp-mail-to">Correo de destino</label><input type="email" id="inp-mail-to" name="correo-destino" autocomplete="off" spellcheck="false" placeholder="correo@ejemplo.com" oninput="updateSingleQR()"></div><div class="field"><label for="inp-mail-sub">Asunto <span class="hint">(opcional)</span></label><input type="text" id="inp-mail-sub" name="asunto" autocomplete="off" oninput="updateSingleQR()"></div><div class="field"><label for="inp-mail-body">Mensaje <span class="hint">(opcional)</span></label><textarea id="inp-mail-body" name="cuerpo" rows="2" oninput="updateSingleQR()"></textarea></div>`,
+    phone: `<div class="field"><label for="inp-phone">Número de teléfono</label><input type="tel" id="inp-phone" name="telefono" autocomplete="tel" placeholder="+51 900 000 000" inputmode="tel" oninput="updateSingleQR()"></div>`,
+    sms: `<div class="field"><label for="inp-sms-phone">Número de destino</label><input type="tel" id="inp-sms-phone" name="sms-numero" autocomplete="off" placeholder="+51 999 888 777" inputmode="tel" oninput="updateSingleQR()"></div><div class="field"><label for="inp-sms-msg">Mensaje</label><textarea id="inp-sms-msg" name="sms-mensaje" rows="2" oninput="updateSingleQR()"></textarea></div>`,
+    text: `<div class="field"><label for="inp-text">Texto</label><textarea id="inp-text" name="texto" rows="3" oninput="updateSingleQR()"></textarea><p class="hint">Mientras más texto, más denso el QR. Recomendado: menos de 300 caracteres.</p></div>`,
+    geo: `<div class="grid-2"><div class="field"><label for="inp-geo-lat">Latitud</label><input type="text" id="inp-geo-lat" name="latitud" autocomplete="off" inputmode="decimal" placeholder="-12.0464" oninput="updateSingleQR()"></div><div class="field"><label for="inp-geo-lon">Longitud</label><input type="text" id="inp-geo-lon" name="longitud" autocomplete="off" inputmode="decimal" placeholder="-77.0428" oninput="updateSingleQR()"></div></div><p class="hint">En Google Maps: mantenga presionado un punto y copie las coordenadas.</p>`
 };
 
 function buildSingleData() {
@@ -472,7 +490,18 @@ function initSingleQR(defaultType) {
     });
     qrCode.append($("#canvas"));
 
-    $$(".chip[data-type]").forEach(chip => chip.addEventListener("click", () => setType(chip.dataset.type, true)));
+    const chips = $$(".chip[data-type]");
+    chips.forEach((chip, i) => {
+        chip.addEventListener("click", () => setType(chip.dataset.type, true));
+        chip.addEventListener("keydown", (e) => {
+            const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+            if (!d) return;
+            e.preventDefault();
+            const next = chips[(i + d + chips.length) % chips.length];
+            setType(next.dataset.type, false);
+            next.focus();
+        });
+    });
     $$('input[name="qr-format"], input[name="qr-size"]').forEach(r => r.addEventListener("change", updateDownloadUi));
     $("#btn-download").addEventListener("click", downloadQR);
     const barBtn = $("#btn-download-bar");
@@ -484,9 +513,14 @@ function initSingleQR(defaultType) {
 
 function setType(type, focus) {
     currentType = formTemplates[type] ? type : "url";
-    $$(".chip[data-type]").forEach(c => c.setAttribute("aria-checked", String(c.dataset.type === currentType)));
+    $$(".chip[data-type]").forEach(c => {
+        const on = c.dataset.type === currentType;
+        c.setAttribute("aria-checked", String(on));
+        c.tabIndex = on ? 0 : -1;
+    });
     $("#dynamic-inputs").innerHTML = formTemplates[currentType];
-    if (focus) {
+    // Enfocar el primer campo solo con mouse/trackpad: en móvil abriría el teclado sin pedirlo
+    if (focus && window.matchMedia("(pointer: fine)").matches) {
         const first = $("#dynamic-inputs input, #dynamic-inputs textarea");
         if (first) first.focus({ preventScroll: true });
     }
@@ -611,7 +645,7 @@ function handleFile(file) {
         if (workbookData.length > 1) {
             bulkFileName = file.name;
             setupBulkUI();
-            toast(`${workbookData.length - 1} filas cargadas.`, "success");
+            toast(`${fmtNum(workbookData.length - 1)} filas cargadas.`, "success");
         } else {
             toast("El archivo está vacío o no tiene filas de datos.", "error");
         }
@@ -639,10 +673,10 @@ function setupBulkUI() {
     if (colCount > 1) selName.value = "1";
 
     $("#file-name").textContent = bulkFileName;
-    $("#record-count").textContent = `${workbookData.length - 1} filas de datos · ${colCount} columna(s)`;
+    $("#record-count").textContent = `${fmtNum(workbookData.length - 1)} filas de datos · ${colCount} columna(s)`;
     const btn = $("#btn-process");
     btn.disabled = false;
-    btn.querySelector("span").textContent = `Generar ${workbookData.length - 1} códigos`;
+    btn.querySelector("span").textContent = `Generar ${fmtNum(workbookData.length - 1)} códigos`;
     show("bulk-report", false);
     renderDataPreview();
     updateBulkPreview();
@@ -738,8 +772,8 @@ const validateBarRows = debounce(() => {
         try { JsBarcode(probe, v, { format: fmt, displayValue: false }); ok++; } catch (e) { /* inválido */ }
     }
     show(box, true);
-    if (ok === total) setStatus(box, "ok", `Las ${total} filas son válidas para ${fmt}.`);
-    else setStatus(box, ok ? "warn" : "error", `${ok} de ${total} filas son válidas para ${fmt}. Las demás se listarán en ERRORES.txt.`);
+    if (ok === total) setStatus(box, "ok", `Las ${fmtNum(total)} filas son válidas para ${fmt}.`);
+    else setStatus(box, ok ? "warn" : "error", `${fmtNum(ok)} de ${fmtNum(total)} filas son válidas para ${fmt}. Corrija las demás en su Excel o se listarán en ERRORES.txt.`);
 }, 250);
 
 function uniqueName(base, used) {
@@ -758,7 +792,7 @@ async function processBulkData() {
     const btnLabel = btn.querySelector("span");
     const prevLabel = btnLabel.textContent;
     btn.disabled = true;
-    btnLabel.textContent = "Generando...";
+    btnLabel.textContent = "Generando…";
 
     const mode = bulkMode();
     const { dataCol, nameCol } = bulkColumns();
@@ -816,7 +850,7 @@ async function processBulkData() {
                 }
             }
             pFill.style.width = `${Math.round((i / total) * 100)}%`;
-            pText.textContent = `Procesando ${i} de ${total}`;
+            pText.textContent = `Procesando ${fmtNum(i)} de ${fmtNum(total)}`;
             if (i % 5 === 0) await new Promise(r => setTimeout(r, 0));
         }
 
@@ -828,11 +862,11 @@ async function processBulkData() {
             pText.textContent = "No se generó ningún código.";
             toast("Ninguna fila tiene un valor válido.", "error");
         } else {
-            pText.textContent = "Empaquetando ZIP...";
+            pText.textContent = "Empaquetando ZIP…";
             const content = await zip.generateAsync({ type: "blob" });
             saveAs(content, `${mode === "qr" ? "QR" : "Codigos_barras"}_${sanitizeFilename(bulkFileName.replace(/\.[^.]+$/, "")) || "lote"}.zip`);
             pText.textContent = "¡Completado!";
-            toast(`ZIP con ${ok} archivo(s) descargado.`, "success");
+            toast(`ZIP con ${fmtNum(ok)} archivo(s) descargado.`, "success");
             afterDownload();
         }
         showBulkReport(ok, empty, errors);
@@ -846,12 +880,12 @@ async function processBulkData() {
 
 function showBulkReport(ok, empty, errors) {
     const box = $("#bulk-report");
-    let html = `<strong><i class="fa-solid fa-circle-check" aria-hidden="true"></i> ${ok} archivo(s) generado(s).</strong>`;
+    let html = `<strong><i class="fa-solid fa-circle-check" aria-hidden="true"></i> ${fmtNum(ok)} archivo(s) generado(s).</strong>`;
     if (empty) html += `<br>${empty} fila(s) vacía(s) omitida(s).`;
     if (errors.length) {
         const list = errors.slice(0, 10).map(e => `<li>Fila ${e.row}: <code>${escapeHtml(e.content)}</code></li>`).join("");
         html += `<br><span class="report-error">${errors.length} fila(s) con valor inválido para el formato elegido (detalle en ERRORES.txt dentro del ZIP):</span><ul>${list}</ul>` +
-            (errors.length > 10 ? `<p>... y ${errors.length - 10} más.</p>` : "");
+            (errors.length > 10 ? `<p>… y ${fmtNum(errors.length - 10)} más.</p>` : "");
     }
     box.innerHTML = html;
     box.classList.toggle("has-errors", errors.length > 0);
@@ -986,9 +1020,15 @@ function showSupport() {
                 <button type="button" class="btn btn-secondary" data-close>Ahora no</button>
             </div>
         </div>`;
+    // Fondo inerte: ni el teclado ni el lector de pantalla salen del diálogo
+    const background = $$("body > *").filter(el => el !== modal && !el.classList.contains("toasts"));
+    background.forEach(el => el.setAttribute("inert", ""));
     const close = () => {
-        modal.remove();
         document.removeEventListener("keydown", onKey);
+        background.forEach(el => el.removeAttribute("inert"));
+        modal.classList.add("is-closing");
+        modal.addEventListener("animationend", () => modal.remove(), { once: true });
+        setTimeout(() => modal.remove(), 300);
         if (lastFocus && lastFocus.focus) lastFocus.focus();
     };
     const onKey = (e) => {

@@ -7,7 +7,7 @@
             </div>
             <div class="field">
                 <label for="barcode-format">Formato</label>
-                <select id="barcode-format">
+                <select id="barcode-format" name="formato">
                     <option value="CODE128">Code 128 · Uso general y logística (letras y números)</option>
                     <option value="EAN13">EAN-13 · Productos de venta al público</option>
                     <option value="UPC">UPC-A · Productos para EE. UU.</option>
@@ -18,8 +18,8 @@
             </div>
             <div class="field">
                 <label for="barcode-value">Código</label>
-                <input type="text" id="barcode-value" value="CODE-128-TEST" autocomplete="off" spellcheck="false" aria-describedby="barcode-error">
-                <p class="field-error" id="barcode-error" hidden><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span></span></p>
+                <input type="text" id="barcode-value" name="codigo" value="CODE-128-TEST" autocomplete="off" spellcheck="false" aria-describedby="barcode-error">
+                <p class="field-error" id="barcode-error" aria-live="polite" hidden><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i><span></span></p>
             </div>
         </section>
 
@@ -32,11 +32,11 @@
             <div class="grid-2">
                 <div class="field">
                     <label for="bar-color">Color de las barras</label>
-                    <div class="color-input"><input type="color" id="bar-color" value="#000000"><output for="bar-color">#000000</output></div>
+                    <div class="color-input"><input type="color" id="bar-color" name="color" value="#000000"><output for="bar-color">#000000</output></div>
                 </div>
                 <div class="field">
                     <label for="bar-height">Altura de las barras</label>
-                    <input type="range" id="bar-height" min="40" max="160" step="10" value="100">
+                    <input type="range" id="bar-height" name="altura" min="40" max="160" step="10" value="100">
                 </div>
             </div>
             <div class="field">

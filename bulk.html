@@ -23,8 +23,10 @@
 
     <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
     <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#ffffff">
 
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -115,7 +117,7 @@
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="site-header">
         <div class="header-inner">
-            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> QR Free</a>
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">QR Free</span></a>
             <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             <nav class="site-nav" id="site-nav" aria-label="Principal">
                 <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
@@ -148,7 +150,7 @@
                     <strong>Arrastre su archivo aquí o haga clic para elegirlo</strong>
                     <small id="drop-help">.xlsx, .xls o .csv · Recomendado: hasta 500 filas · No se sube a internet</small>
                 </div>
-                <input type="file" id="excel-input" accept=".xlsx,.xls,.csv" hidden>
+                <input type="file" id="excel-input" name="excel" accept=".xlsx,.xls,.csv" hidden>
 
                 <div id="bulk-controls" hidden>
                     <div class="file-chip">
@@ -159,11 +161,11 @@
                     <div class="grid-2" style="margin-top:16px">
                         <div class="field">
                             <label for="col-data">Columna con el contenido</label>
-                            <select id="col-data"></select>
+                            <select id="col-data" name="columna-contenido"></select>
                         </div>
                         <div class="field">
                             <label for="col-name">Columna para el nombre del archivo</label>
-                            <select id="col-name"></select>
+                            <select id="col-name" name="columna-nombre"></select>
                         </div>
                     </div>
                     <span class="field-label">Vista previa de las primeras filas</span>
@@ -218,7 +220,7 @@
             <div class="grid-2">
                 <div class="field">
                     <label for="bulk-dots">Forma de los puntos</label>
-                    <select id="bulk-dots">
+                    <select id="bulk-dots" name="forma-puntos">
                     <option value="square">Cuadrados</option>
                     <option value="rounded">Redondeados</option>
                     <option value="dots">Puntos</option>
@@ -229,7 +231,7 @@
                 </div>
                 <div class="field">
                     <label for="bulk-corners">Forma de las esquinas</label>
-                    <select id="bulk-corners">
+                    <select id="bulk-corners" name="forma-esquinas">
                     <option value="square">Cuadradas</option>
                     <option value="extra-rounded">Redondeadas</option>
                     <option value="dot">Circulares</option>
@@ -239,15 +241,15 @@
             <div class="grid-3 keep">
             <div class="field">
                 <label for="bulk-color">Puntos</label>
-                <div class="color-input"><input type="color" id="bulk-color" value="#0f172a"><output for="bulk-color">#0F172A</output></div>
+                <div class="color-input"><input type="color" id="bulk-color" name="color" value="#0f172a"><output for="bulk-color">#0F172A</output></div>
             </div>
             <div class="field">
                 <label for="bulk-corner-color">Esquinas</label>
-                <div class="color-input"><input type="color" id="bulk-corner-color" value="#0f172a"><output for="bulk-corner-color">#0F172A</output></div>
+                <div class="color-input"><input type="color" id="bulk-corner-color" name="corner-color" value="#0f172a"><output for="bulk-corner-color">#0F172A</output></div>
             </div>
             <div class="field">
                 <label for="bulk-bg">Fondo</label>
-                <div class="color-input"><input type="color" id="bulk-bg" value="#ffffff"><output for="bulk-bg">#FFFFFF</output></div>
+                <div class="color-input"><input type="color" id="bulk-bg" name="bg" value="#ffffff"><output for="bulk-bg">#FFFFFF</output></div>
             </div>
             </div>
         </div>
@@ -258,23 +260,23 @@
                 <small>PNG, JPG o SVG · Se procesa en su equipo</small>
             </div>
             <div class="file-chip" id="bulk-logo-chip" hidden>
-                <img id="bulk-logo-img" alt="Logo cargado">
+                <img id="bulk-logo-img" alt="Logo cargado" width="40" height="40">
                 <div><strong id="bulk-logo-name">logo</strong><span>Logo personalizado</span></div>
                 <button type="button" class="btn btn-secondary btn-sm" id="bulk-logo-remove">Quitar</button>
             </div>
-            <input type="file" id="bulk-logo-input" accept="image/*" hidden>
+            <input type="file" id="bulk-logo-input" name="logo" accept="image/*" hidden>
             <span class="field-label" style="margin-top:16px">O elija un ícono <span class="hint">(toma el color de los puntos)</span></span>
             <div class="icon-grid" id="bulk-icons"></div>
             <div class="field">
-                <label for="bulk-logo-size">Tamaño del logo</label>
-                <input type="range" id="bulk-logo-size" min="0.2" max="0.5" step="0.05" value="0.35">
+                <label for="bulk-logo-size">Tamaño del logo <output for="bulk-logo-size" class="hint">35 %</output></label>
+                <input type="range" id="bulk-logo-size" name="logo-tamano" min="0.2" max="0.5" step="0.05" value="0.35">
             </div>
         </div>
                         </div>
                         <div id="mode-barcode" hidden>
                             <div class="field">
                                 <label for="bulk-bar-format">Formato</label>
-                                <select id="bulk-bar-format">
+                                <select id="bulk-bar-format" name="formato-barras">
                                     <option value="CODE128">Code 128 · Uso general y logística</option>
                                     <option value="EAN13">EAN-13 · Productos de venta al público</option>
                                     <option value="UPC">UPC-A · Productos para EE. UU.</option>
@@ -285,7 +287,7 @@
                             <div class="grid-2">
                                 <div class="field">
                                     <label for="bulk-bar-color">Color de las barras</label>
-                                    <div class="color-input"><input type="color" id="bulk-bar-color" value="#000000"><output for="bulk-bar-color">#000000</output></div>
+                                    <div class="color-input"><input type="color" id="bulk-bar-color" name="color-barras" value="#000000"><output for="bulk-bar-color">#000000</output></div>
                                 </div>
                                 <div class="field">
                                     <span class="field-label" id="lbl-bulk-text">Texto debajo</span>
@@ -295,7 +297,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="status" id="bar-validity" hidden></p>
+                            <p class="status" id="bar-validity" role="status" aria-live="polite" hidden></p>
                         </div>
                     </div>
                     <div class="mini-preview">
@@ -324,7 +326,7 @@
                     </div>
                     <div class="field">
                         <label for="bulk-export-size">Tamaño</label>
-                        <select id="bulk-export-size">
+                        <select id="bulk-export-size" name="tamano">
                             <option value="500">500 px · Web</option>
                             <option value="1000" selected>1000 px · Recomendado</option>
                             <option value="2000">2000 px · Impresión grande</option>
@@ -334,7 +336,7 @@
                 </div>
                 <div class="progress" id="progress-container" hidden>
                     <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-                    <p class="progress-text" id="progress-text" aria-live="polite">Iniciando...</p>
+                    <p class="progress-text" id="progress-text" aria-live="polite">Iniciando…</p>
                 </div>
                 <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-process" disabled>
                     <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> <span>Primero suba un archivo</span>

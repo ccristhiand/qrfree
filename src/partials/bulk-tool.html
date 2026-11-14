@@ -13,7 +13,7 @@
             <strong>Arrastre su archivo aquí o haga clic para elegirlo</strong>
             <small id="drop-help">.xlsx, .xls o .csv · Recomendado: hasta 500 filas · No se sube a internet</small>
         </div>
-        <input type="file" id="excel-input" accept=".xlsx,.xls,.csv" hidden>
+        <input type="file" id="excel-input" name="excel" accept=".xlsx,.xls,.csv" hidden>
 
         <div id="bulk-controls" hidden>
             <div class="file-chip">
@@ -24,11 +24,11 @@
             <div class="grid-2" style="margin-top:16px">
                 <div class="field">
                     <label for="col-data">Columna con el contenido</label>
-                    <select id="col-data"></select>
+                    <select id="col-data" name="columna-contenido"></select>
                 </div>
                 <div class="field">
                     <label for="col-name">Columna para el nombre del archivo</label>
-                    <select id="col-name"></select>
+                    <select id="col-name" name="columna-nombre"></select>
                 </div>
             </div>
             <span class="field-label">Vista previa de las primeras filas</span>
@@ -78,7 +78,7 @@
                 <div id="mode-barcode" hidden>
                     <div class="field">
                         <label for="bulk-bar-format">Formato</label>
-                        <select id="bulk-bar-format">
+                        <select id="bulk-bar-format" name="formato-barras">
                             <option value="CODE128">Code 128 · Uso general y logística</option>
                             <option value="EAN13">EAN-13 · Productos de venta al público</option>
                             <option value="UPC">UPC-A · Productos para EE. UU.</option>
@@ -89,7 +89,7 @@
                     <div class="grid-2">
                         <div class="field">
                             <label for="bulk-bar-color">Color de las barras</label>
-                            <div class="color-input"><input type="color" id="bulk-bar-color" value="#000000"><output for="bulk-bar-color">#000000</output></div>
+                            <div class="color-input"><input type="color" id="bulk-bar-color" name="color-barras" value="#000000"><output for="bulk-bar-color">#000000</output></div>
                         </div>
                         <div class="field">
                             <span class="field-label" id="lbl-bulk-text">Texto debajo</span>
@@ -99,7 +99,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="status" id="bar-validity" hidden></p>
+                    <p class="status" id="bar-validity" role="status" aria-live="polite" hidden></p>
                 </div>
             </div>
             <div class="mini-preview">
@@ -128,7 +128,7 @@
             </div>
             <div class="field">
                 <label for="bulk-export-size">Tamaño</label>
-                <select id="bulk-export-size">
+                <select id="bulk-export-size" name="tamano">
                     <option value="500">500 px · Web</option>
                     <option value="1000" selected>1000 px · Recomendado</option>
                     <option value="2000">2000 px · Impresión grande</option>
@@ -138,7 +138,7 @@
         </div>
         <div class="progress" id="progress-container" hidden>
             <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-            <p class="progress-text" id="progress-text" aria-live="polite">Iniciando...</p>
+            <p class="progress-text" id="progress-text" aria-live="polite">Iniciando…</p>
         </div>
         <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-process" disabled>
             <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> <span>Primero suba un archivo</span>

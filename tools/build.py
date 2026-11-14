@@ -59,7 +59,7 @@ def design_panel(p):
     opt = lambda items: "\n".join(f'            <option value="{v}">{t}</option>' for v, t in items)
     color = lambda id_, label, val: f"""    <div class="field">
         <label for="{p}-{id_}">{label}</label>
-        <div class="color-input"><input type="color" id="{p}-{id_}" value="{val}"><output for="{p}-{id_}">{val.upper()}</output></div>
+        <div class="color-input"><input type="color" id="{p}-{id_}" name="{id_}" value="{val}"><output for="{p}-{id_}">{val.upper()}</output></div>
     </div>"""
     return f"""<div class="tabs-ui" role="tablist" aria-label="Opciones de diseño">
     <button type="button" class="tab-ui" role="tab" id="{p}-tab-style" aria-selected="true" aria-controls="{p}-panel-style"><i class="fa-solid fa-palette" aria-hidden="true"></i> Estilo y color</button>
@@ -71,13 +71,13 @@ def design_panel(p):
     <div class="grid-2">
         <div class="field">
             <label for="{p}-dots">Forma de los puntos</label>
-            <select id="{p}-dots">
+            <select id="{p}-dots" name="forma-puntos">
 {opt(dots)}
             </select>
         </div>
         <div class="field">
             <label for="{p}-corners">Forma de las esquinas</label>
-            <select id="{p}-corners">
+            <select id="{p}-corners" name="forma-esquinas">
 {opt(corners)}
             </select>
         </div>
@@ -95,16 +95,16 @@ def design_panel(p):
         <small>PNG, JPG o SVG · Se procesa en su equipo</small>
     </div>
     <div class="file-chip" id="{p}-logo-chip" hidden>
-        <img id="{p}-logo-img" alt="Logo cargado">
+        <img id="{p}-logo-img" alt="Logo cargado" width="40" height="40">
         <div><strong id="{p}-logo-name">logo</strong><span>Logo personalizado</span></div>
         <button type="button" class="btn btn-secondary btn-sm" id="{p}-logo-remove">Quitar</button>
     </div>
-    <input type="file" id="{p}-logo-input" accept="image/*" hidden>
+    <input type="file" id="{p}-logo-input" name="logo" accept="image/*" hidden>
     <span class="field-label" style="margin-top:16px">O elija un ícono <span class="hint">(toma el color de los puntos)</span></span>
     <div class="icon-grid" id="{p}-icons"></div>
     <div class="field">
-        <label for="{p}-logo-size">Tamaño del logo</label>
-        <input type="range" id="{p}-logo-size" min="0.2" max="0.5" step="0.05" value="0.35">
+        <label for="{p}-logo-size">Tamaño del logo <output for="{p}-logo-size" class="hint">35 %</output></label>
+        <input type="range" id="{p}-logo-size" name="logo-tamano" min="0.2" max="0.5" step="0.05" value="0.35">
     </div>
 </div>"""
 
@@ -149,8 +149,10 @@ def head(p):
 
     <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
     <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#ffffff">
 
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -173,7 +175,7 @@ def nav(active):
     return f"""    <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="site-header">
         <div class="header-inner">
-            <a class="brand" href="/" aria-label="{BRAND}, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> {BRAND}</a>
+            <a class="brand" href="/" aria-label="{BRAND}, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">{BRAND}</span></a>
             <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             <nav class="site-nav" id="site-nav" aria-label="Principal">
                 {chr(10).join(" " * 16 + l for l in links).strip()}
