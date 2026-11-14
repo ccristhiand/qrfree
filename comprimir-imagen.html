@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Comprimir Imagen Gratis | Reducir el peso de fotos JPG y PNG | QR Free</title>
+    <meta name="description" content="Comprime imágenes JPG, PNG y WebP gratis y reduce su peso hasta en 80 % sin perder calidad visible. Varias fotos a la vez, sin subirlas a internet.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qrfre.com/comprimir-imagen">
+
+    <meta property="og:title" content="Comprimir Imagen Gratis | Reducir el peso de fotos JPG y PNG | QR Free">
+    <meta property="og:description" content="Comprime imágenes JPG, PNG y WebP gratis y reduce su peso hasta en 80 % sin perder calidad visible. Varias fotos a la vez, sin subirlas a internet.">
+    <meta property="og:image" content="https://qrfre.com/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://qrfre.com/comprimir-imagen">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QR Free">
+    <meta property="og:locale" content="es_PE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://qrfre.com/img/og-image.png">
+
+    <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <meta name="google-adsense-account" content="ca-pub-6481587162431047">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6481587162431047" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Comprimir imágenes",
+      "url": "https://qrfre.com/comprimir-imagen",
+      "description": "Comprime imágenes JPG, PNG y WebP gratis y reduce su peso hasta en 80 % sin perder calidad visible. Varias fotos a la vez, sin subirlas a internet.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Cualquiera (navegador web)",
+      "inLanguage": "es",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PEN"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "QR Free",
+        "url": "https://qrfre.com/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cuánto se reduce?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Las fotos del celular suelen bajar de 3–5 MB a 300–600 KB con calidad 70 % y ancho de 1920 px, sin diferencia visible en pantalla."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué mi PNG casi no se reduce?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El formato PNG no tiene ajuste de calidad. Elija JPG (si no necesita fondo transparente) o WebP para reducirlo mucho más."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Las imágenes se suben a internet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Se comprimen en su navegador."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://qrfre.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Herramientas",
+          "item": "https://qrfre.com/herramientas"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Comprimir imagen",
+          "item": "https://qrfre.com/comprimir-imagen"
+        }
+      ]
+    }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">QR Free</span></a>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
+                <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
+                <a href="/herramientas" class="active" aria-current="page"><i class="fa-solid fa-toolbox" aria-hidden="true"></i> <span>Herramientas</span></a>
+                <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
+                <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
+                <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
+                <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-wrapper" id="contenido">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> <span aria-hidden="true">›</span> <a href="/herramientas">Herramientas</a> <span aria-hidden="true">›</span> <span aria-current="page">Comprimir imagen</span></nav>
+        <div class="page-header">
+            <h1>Comprimir imágenes</h1>
+            <p>Reduzca el peso de sus fotos para su web, correo o formularios que piden archivos livianos. Varias a la vez.</p>
+            <div class="badges"><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sin registro</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Funciona en el celular</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sus datos no salen de su equipo</span></div>
+        </div>
+        <div class="tool">
+            <div class="tool-main">
+                <section class="card" aria-labelledby="h-step-1">
+                    <div class="card-head">
+                        <span class="step-num">1</span>
+                        <h2 id="h-step-1">Agregue sus imágenes</h2>
+                    </div>
+                    <div class="dropzone" id="tool-drop" role="button" tabindex="0" aria-describedby="tool-drop-sub">
+                        <i class="fa-solid fa-images" aria-hidden="true"></i>
+                        <strong>Elija imágenes o arrástrelas aquí</strong>
+                        <small id="tool-drop-sub">JPG, PNG, WebP · Varias a la vez · No se suben a internet</small>
+                    </div>
+                    <input type="file" id="tool-input" accept="image/*" multiple hidden>
+                    <ul class="file-list" id="file-list" hidden></ul>
+                    <ul class="file-list file-results" id="img-results" hidden aria-label="Resultados"></ul>
+                </section>
+            </div>
+            <aside class="tool-aside">
+                <section class="card" aria-labelledby="h-step-2">
+                    <div class="card-head">
+                        <span class="step-num">2</span>
+                        <h2 id="h-step-2">Ajuste y descargue</h2>
+                    </div>
+                    <form id="img-options" onsubmit="return false">
+                        <div class="field">
+                            <label for="img-format">Formato de salida</label>
+                            <select id="img-format" name="formato">
+                                <option value="same">Mismo formato</option>
+                                <option value="jpg">JPG</option>
+                                <option value="webp">WebP (más liviano)</option>
+                                <option value="png">PNG</option>
+                            </select>
+                        </div>
+                        <div class="field" id="quality-field">
+                            <label for="img-quality">Calidad <output id="img-quality-out" for="img-quality" class="hint">70 %</output></label>
+                            <input type="range" id="img-quality" name="calidad" min="10" max="100" step="5" value="70">
+                            <p class="hint">70 % reduce mucho el peso sin que se note a simple vista.</p>
+                        </div>
+                        <div class="field">
+                            <label for="img-maxw">Ancho máximo</label>
+                            <select id="img-maxw" name="maximo">
+                                <option value="0">No cambiar el tamaño</option>
+                                <option value="3840">3840 px (4K)</option>
+                                <option value="2560">2560 px</option>
+                                <option value="1920" selected>1920 px (Full HD)</option>
+                                <option value="1280">1280 px (web)</option>
+                                <option value="1080">1080 px (redes)</option>
+                                <option value="800">800 px</option>
+                            </select>
+                            <p class="hint">Reducir las medidas es lo que más baja el peso.</p>
+                        </div>
+                    </form>
+                    <div class="status" id="tool-status" role="status"></div>
+                    <div class="progress" id="tool-progress" hidden>
+                        <div class="progress-track" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill"></div></div>
+                        <p class="progress-text" aria-live="polite"></p>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-run" disabled>
+                        <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Comprimir imágenes
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-block" id="btn-zip" hidden>
+                        <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> Descargar todas (ZIP)
+                    </button>
+                    <p class="trust"><span><i class="fa-solid fa-lock" aria-hidden="true"></i> Sus archivos no salen de su equipo</span><span><i class="fa-solid fa-check" aria-hidden="true"></i> Sin marcas de agua</span></p>
+                </section>
+            </aside>
+        </div>
+
+        <section class="content-section">
+            <h2>Cómo se usa, paso a paso</h2>
+            <ol class="how-to">
+                <li><strong>Agregue sus imágenes.</strong> Puede soltar decenas a la vez.</li>
+                <li><strong>Ajuste la calidad.</strong> 70 % es un buen equilibrio. Reducir el ancho máximo baja aún más el peso.</li>
+                <li><strong>Descargue.</strong> Una por una o todas juntas en un ZIP.</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2>Preguntas frecuentes</h2>
+            <details class="faq-item">
+                <summary>¿Cuánto se reduce?</summary>
+                <p>Las fotos del celular suelen bajar de 3–5 MB a 300–600 KB con calidad 70 % y ancho de 1920 px, sin diferencia visible en pantalla.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Por qué mi PNG casi no se reduce?</summary>
+                <p>El formato PNG no tiene ajuste de calidad. Elija JPG (si no necesita fondo transparente) o WebP para reducirlo mucho más.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Las imágenes se suben a internet?</summary>
+                <p>No. Se comprimen en su navegador.</p>
+            </details>
+        </section>
+
+        <section class="content-section">
+            <h2>Otras herramientas gratuitas</h2>
+            <div class="related-grid">
+            <a class="related-card" href="/redimensionar-imagen"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i><span><strong>Cambiar tamaño de imagen</strong>Medidas exactas para Instagram, Facebook, YouTube o foto carné.</span></a>
+            <a class="related-card" href="/convertir-imagen"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i><span><strong>Convertir imagen</strong>WebP a JPG, PNG a JPG, JPG a PNG y más.</span></a>
+            <a class="related-card" href="/heic-a-jpg"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i><span><strong>HEIC a JPG</strong>Abra las fotos del iPhone en Windows y en cualquier app.</span></a>
+            <a class="related-card" href="/calculadora-liquidacion"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i><span><strong>Calculadora de liquidación</strong>Beneficios sociales al renunciar o ser despedido.</span></a>
+            <a class="related-card" href="/calculadora-renta-quinta"><i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i><span><strong>Sueldo neto y renta de 5.ª</strong>Cuánto recibe al mes después de AFP/ONP e impuesto.</span></a>
+            <a class="related-card" href="/link-whatsapp"><i class="fa-solid fa-link" aria-hidden="true"></i><span><strong>Link de WhatsApp</strong>Enlace wa.me con mensaje para su Instagram o web.</span></a>
+            <a class="related-card" href="/herramientas"><i class="fa-solid fa-toolbox" aria-hidden="true"></i><span><strong>Ver todas</strong>22 herramientas gratis.</span></a>
+            </div>
+        </section>
+
+        <section class="support-banner">
+            <div>
+                <h2><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> ¿Le ahorramos tiempo?</h2>
+                <p>QR Free es gratis y sin registro. Si le fue útil, puede apoyar con un Yape desde S/ 1 para mantener el sitio y crear más plantillas.</p>
+            </div>
+            <a class="btn btn-support" href="/apoyar">Apoyar con Yape</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h2>Códigos QR</h2>
+                <ul>
+                    <li><a href="/">Generador de QR</a></li>
+                    <li><a href="/qr-wifi">QR de WiFi</a></li>
+                    <li><a href="/qr-whatsapp">QR de WhatsApp</a></li>
+                    <li><a href="/qr-vcard">QR de tarjeta de contacto</a></li>
+                    <li><a href="/bulk">QR masivo desde Excel</a></li>
+                    <li><a href="/barcode">Código de barras</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Más herramientas</h2>
+                <ul>
+                    <li><a href="/unir-pdf">Unir PDF</a></li>
+                    <li><a href="/comprimir-pdf">Comprimir PDF</a></li>
+                    <li><a href="/imagen-a-pdf">JPG a PDF</a></li>
+                    <li><a href="/comprimir-imagen">Comprimir imagen</a></li>
+                    <li><a href="/cotizacion">Cotizaciones en PDF</a></li>
+                    <li><a href="/calculadora-cts">Calculadora de CTS</a></li>
+                    <li><a href="/calculadora-liquidacion">Calculadora de liquidación</a></li>
+                    <li><a href="/sorteo">Sorteos y ruleta</a></li>
+                    <li><a href="/herramientas">Ver todas las herramientas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Plantillas Excel</h2>
+                <ul>
+                    <li><a href="/plantillas/registro-docente">Registro docente</a></li>
+                    <li><a href="/plantillas/inventario-codigo-barras">Inventario con código de barras</a></li>
+                    <li><a href="/plantillas/control-ventas-caja">Control de ventas y caja</a></li>
+                    <li><a href="/plantillas/lista-invitados-qr">Lista de invitados con QR</a></li>
+                    <li><a href="/plantillas/">Ver todas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>QR Free</h2>
+                <ul>
+                    <li><a href="/apoyar">Apoyar el proyecto</a></li>
+                    <li><a href="/acerca">Acerca de</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                    <li><a href="/privacidad">Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer-copy">© 2026 QR Free · Herramientas gratuitas hechas en Perú · Todo se procesa en su navegador: no guardamos sus datos.</p>
+    </footer>
+
+    <script src="/main.js"></script>
+    <script src="/js/kit.js?v=4dd9d04a"></script>
+    <script src="/js/image-tools.js?v=0522ca29"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => initImageTool('compress'));
+    </script>
+</body>
+</html>

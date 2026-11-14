@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Validar RUC y convertir DNI a RUC | Verificador de RUC Perú | QR Free</title>
+    <meta name="description" content="Verifica si un número de RUC es válido (dígito verificador y tipo de contribuyente) o calcula el RUC de una persona natural a partir de su DNI. Gratis.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qrfre.com/validar-ruc">
+
+    <meta property="og:title" content="Validar RUC y convertir DNI a RUC | Verificador de RUC Perú | QR Free">
+    <meta property="og:description" content="Verifica si un número de RUC es válido (dígito verificador y tipo de contribuyente) o calcula el RUC de una persona natural a partir de su DNI. Gratis.">
+    <meta property="og:image" content="https://qrfre.com/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://qrfre.com/validar-ruc">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QR Free">
+    <meta property="og:locale" content="es_PE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://qrfre.com/img/og-image.png">
+
+    <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <meta name="google-adsense-account" content="ca-pub-6481587162431047">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6481587162431047" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Validar RUC y convertir DNI a RUC",
+      "url": "https://qrfre.com/validar-ruc",
+      "description": "Verifica si un número de RUC es válido (dígito verificador y tipo de contribuyente) o calcula el RUC de una persona natural a partir de su DNI. Gratis.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Cualquiera (navegador web)",
+      "inLanguage": "es",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PEN"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "QR Free",
+        "url": "https://qrfre.com/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Esto confirma que el RUC está activo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Solo valida que el número esté bien formado. Para saber si está activo y habido, use la Consulta RUC de la web de SUNAT."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo se obtiene el RUC desde el DNI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El RUC de una persona natural es 10 + los 8 dígitos del DNI + un dígito verificador. Solo existe si la persona se inscribió en SUNAT."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué significan los primeros dígitos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "10: persona natural con DNI. 15 y 17: personas naturales con otros documentos o extranjeros. 20: empresas (personas jurídicas)."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://qrfre.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Herramientas",
+          "item": "https://qrfre.com/herramientas"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Validar RUC / DNI a RUC",
+          "item": "https://qrfre.com/validar-ruc"
+        }
+      ]
+    }
+    </script>
+
+</head>
+<body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">QR Free</span></a>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
+                <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
+                <a href="/herramientas" class="active" aria-current="page"><i class="fa-solid fa-toolbox" aria-hidden="true"></i> <span>Herramientas</span></a>
+                <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
+                <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
+                <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
+                <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-wrapper" id="contenido">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> <span aria-hidden="true">›</span> <a href="/herramientas">Herramientas</a> <span aria-hidden="true">›</span> <span aria-current="page">Validar RUC / DNI a RUC</span></nav>
+        <div class="page-header">
+            <h1>Validar RUC y convertir DNI a RUC</h1>
+            <p>Compruebe si un RUC está bien escrito antes de emitir una factura, u obtenga el RUC 10 de una persona a partir de su DNI.</p>
+            <div class="badges"><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sin registro</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Funciona en el celular</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sus datos no salen de su equipo</span></div>
+        </div>
+        <div class="tool">
+            <div class="tool-main">
+                <form class="card" id="calc-form" novalidate aria-labelledby="h-step-1">
+                    <div class="card-head">
+                        <span class="step-num">1</span>
+                        <h2 id="h-step-1">Sus datos</h2>
+                    </div>
+                    <div class="field">
+                        <label for="ruc-input">RUC o DNI</label>
+                        <input type="text" id="ruc-input" name="ruc" inputmode="numeric" maxlength="14" placeholder="Ej.: 20131312955 o 45678912" autocomplete="off" spellcheck="false" autofocus>
+                        <p class="hint">Con un RUC (11 dígitos) se valida; con un DNI (8 dígitos) se obtiene el RUC de persona natural.</p>
+                    </div>
+                </form>
+            </div>
+            <aside class="tool-aside">
+                <section class="card result-card" aria-labelledby="h-result">
+                    <div class="card-head">
+                        <h2 id="h-result">Resultado</h2>
+                    </div>
+                    <div id="calc-result" aria-live="polite"></div>
+                    <p class="calc-note" id="calc-note" hidden></p>
+                </section>
+            </aside>
+        </div>
+
+        <section class="content-section">
+            <h2>Cómo se usa, paso a paso</h2>
+            <ol class="how-to">
+                <li><strong>Escriba el RUC o el DNI.</strong> Puede pegarlo con espacios o guiones: se limpian solos.</li>
+                <li><strong>Vea el resultado al instante.</strong> Con un RUC verá si el dígito verificador es correcto y el tipo de contribuyente. Con un DNI verá el RUC de persona natural.</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2>Preguntas frecuentes</h2>
+            <details class="faq-item">
+                <summary>¿Esto confirma que el RUC está activo?</summary>
+                <p>No. Solo valida que el número esté bien formado. Para saber si está activo y habido, use la Consulta RUC de la web de SUNAT.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Cómo se obtiene el RUC desde el DNI?</summary>
+                <p>El RUC de una persona natural es 10 + los 8 dígitos del DNI + un dígito verificador. Solo existe si la persona se inscribió en SUNAT.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Qué significan los primeros dígitos?</summary>
+                <p>10: persona natural con DNI. 15 y 17: personas naturales con otros documentos o extranjeros. 20: empresas (personas jurídicas).</p>
+            </details>
+        </section>
+
+        <section class="content-section">
+            <h2>Otras herramientas gratuitas</h2>
+            <div class="related-grid">
+            <a class="related-card" href="/cotizacion"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i><span><strong>Cotizaciones en PDF</strong>Cotizaciones, proformas y notas de venta con su logo.</span></a>
+            <a class="related-card" href="/calculadora-igv"><i class="fa-solid fa-percent" aria-hidden="true"></i><span><strong>Calculadora de IGV</strong>Agregue o quite el 18 % de IGV y obtenga el monto en letras.</span></a>
+            <a class="related-card" href="/calculadora-renta-quinta"><i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i><span><strong>Sueldo neto y renta de 5.ª</strong>Cuánto recibe al mes después de AFP/ONP e impuesto.</span></a>
+            <a class="related-card" href="/link-whatsapp"><i class="fa-solid fa-link" aria-hidden="true"></i><span><strong>Link de WhatsApp</strong>Enlace wa.me con mensaje para su Instagram o web.</span></a>
+            <a class="related-card" href="/contador-palabras"><i class="fa-solid fa-font" aria-hidden="true"></i><span><strong>Contador de palabras</strong>Cuente palabras y caracteres, y cambie mayúsculas.</span></a>
+            <a class="related-card" href="/sorteo"><i class="fa-solid fa-dharmachakra" aria-hidden="true"></i><span><strong>Sorteos y ruleta</strong>Ruleta, ganadores al azar, equipos y números.</span></a>
+            <a class="related-card" href="/herramientas"><i class="fa-solid fa-toolbox" aria-hidden="true"></i><span><strong>Ver todas</strong>22 herramientas gratis.</span></a>
+            </div>
+        </section>
+
+        <section class="support-banner">
+            <div>
+                <h2><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> ¿Le ahorramos tiempo?</h2>
+                <p>QR Free es gratis y sin registro. Si le fue útil, puede apoyar con un Yape desde S/ 1 para mantener el sitio y crear más plantillas.</p>
+            </div>
+            <a class="btn btn-support" href="/apoyar">Apoyar con Yape</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h2>Códigos QR</h2>
+                <ul>
+                    <li><a href="/">Generador de QR</a></li>
+                    <li><a href="/qr-wifi">QR de WiFi</a></li>
+                    <li><a href="/qr-whatsapp">QR de WhatsApp</a></li>
+                    <li><a href="/qr-vcard">QR de tarjeta de contacto</a></li>
+                    <li><a href="/bulk">QR masivo desde Excel</a></li>
+                    <li><a href="/barcode">Código de barras</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Más herramientas</h2>
+                <ul>
+                    <li><a href="/unir-pdf">Unir PDF</a></li>
+                    <li><a href="/comprimir-pdf">Comprimir PDF</a></li>
+                    <li><a href="/imagen-a-pdf">JPG a PDF</a></li>
+                    <li><a href="/comprimir-imagen">Comprimir imagen</a></li>
+                    <li><a href="/cotizacion">Cotizaciones en PDF</a></li>
+                    <li><a href="/calculadora-cts">Calculadora de CTS</a></li>
+                    <li><a href="/calculadora-liquidacion">Calculadora de liquidación</a></li>
+                    <li><a href="/sorteo">Sorteos y ruleta</a></li>
+                    <li><a href="/herramientas">Ver todas las herramientas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Plantillas Excel</h2>
+                <ul>
+                    <li><a href="/plantillas/registro-docente">Registro docente</a></li>
+                    <li><a href="/plantillas/inventario-codigo-barras">Inventario con código de barras</a></li>
+                    <li><a href="/plantillas/control-ventas-caja">Control de ventas y caja</a></li>
+                    <li><a href="/plantillas/lista-invitados-qr">Lista de invitados con QR</a></li>
+                    <li><a href="/plantillas/">Ver todas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>QR Free</h2>
+                <ul>
+                    <li><a href="/apoyar">Apoyar el proyecto</a></li>
+                    <li><a href="/acerca">Acerca de</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                    <li><a href="/privacidad">Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer-copy">© 2026 QR Free · Herramientas gratuitas hechas en Perú · Todo se procesa en su navegador: no guardamos sus datos.</p>
+    </footer>
+
+    <script src="/main.js"></script>
+    <script src="/js/kit.js?v=4dd9d04a"></script>
+    <script src="/js/calc-peru.js?v=a71baa61"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => initRuc());
+    </script>
+</body>
+</html>
