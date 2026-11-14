@@ -155,8 +155,11 @@ def head(p):
     <meta name="twitter:image" content="{SITE}/img/og-image.png">
 
     <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
-    <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.webmanifest">
     <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="QR Free">
 
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -164,11 +167,13 @@ def head(p):
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="{asset("/styles.css")}">
 
     <meta name="google-adsense-account" content="{ADSENSE}">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE}" crossorigin="anonymous"></script>
 {ld}{scripts}
+    <script src="{asset("/js/indice.js")}" defer></script>
+    <script src="{asset("/js/buscador.js")}" defer></script>
 </head>"""
 
 
@@ -178,11 +183,13 @@ def nav(active):
         cur = ' class="active" aria-current="page"' if key == active else ""
         links.append(f'<a href="{href}"{cur}><i class="fa-solid {icon}" aria-hidden="true"></i> <span>{label}</span></a>')
     cur = ' aria-current="page"' if active == "apoyar" else ""
+    links.append('<button type="button" class="nav-install" data-install hidden><i class="fa-solid fa-download" aria-hidden="true"></i> <span>Instalar app</span></button>')
     links.append(f'<a href="/apoyar" class="nav-cta"{cur}><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>')
     return f"""    <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="site-header">
         <div class="header-inner">
             <a class="brand" href="/" aria-label="{BRAND}, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">{BRAND}</span></a>
+            <button type="button" class="search-btn" data-open-search aria-label="Buscar herramientas (Ctrl+K)"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span>Buscar</span><kbd>Ctrl K</kbd></button>
             <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             <nav class="site-nav" id="site-nav" aria-label="Principal">
                 {chr(10).join(" " * 16 + l for l in links).strip()}
@@ -245,7 +252,7 @@ def page(p, main_html, script=""):
 
 {footer()}
 
-    <script src="/main.js"></script>
+    <script src="{asset("/main.js")}"></script>
 {script}</body>
 </html>
 """
@@ -814,7 +821,7 @@ def build_static():
 # 5. Herramientas: PDF, imágenes, cotizaciones, calculadoras y utilidades
 #    (contenido y HTML en tools/herramientas.py, lógica en /js/)
 # ---------------------------------------------------------------------
-FOOTER_TOOLS = {"unir-pdf", "comprimir-pdf", "imagen-a-pdf", "comprimir-imagen", "cotizacion", "calculadora-cts", "calculadora-liquidacion", "sorteo"}
+FOOTER_TOOLS = {"quitar-fondo", "transcribir-audio", "escanear-documento", "firmar-pdf", "unir-pdf", "comprimir-pdf", "cotizacion", "calculadora-cts", "calculadora-liquidacion"}
 
 
 def asset(path):
@@ -849,7 +856,8 @@ def build_tool_pages():
             related_html("Otras herramientas gratuitas", related + [("/herramientas", "fa-toolbox", "Ver todas", f"{len(H.TOOLS)} herramientas gratis.")]),
             support_banner(),
         ])
-        scripts = "".join(f'    <script src="{asset(s)}"></script>\n' for s in ["/js/kit.js", f"/js/{t['js']}.js"])
+        own = t["js"] if isinstance(t["js"], list) else [t["js"]]
+        scripts = "".join(f'    <script src="{asset(s)}"></script>\n' for s in ["/js/kit.js"] + [f"/js/{j}.js" for j in own])
         script = scripts + f"    <script>\n        document.addEventListener('DOMContentLoaded', () => {t['init']});\n    </script>\n"
         write(p["file"], page(p, main, script))
 
@@ -926,7 +934,80 @@ def build_sitemap():
 """)
 
 
+# ---------------------------------------------------------------------
+# 7. App instalable (manifiesto + service worker) e índice del buscador
+# ---------------------------------------------------------------------
+POPULAR = ["/quitar-fondo", "/unir-pdf", "/escanear-documento", "/firmar-pdf", "/", "/comprimir-pdf",
+           "/transcribir-audio", "/cotizacion", "/calculadora-cts", "/heic-a-jpg"]
+
+
+def build_search_index():
+    cats = {c[0]: c[2] for c in H.CATEGORIES}
+    items = [{"u": "/" + t["slug"], "t": t["short"], "d": t["card"], "i": t["icon"], "c": cats[t["cat"]],
+              "k": " ".join([t["h1"], t["title"].split("|")[0], t.get("keys", "")])} for t in H.TOOLS]
+    for q in QR_PAGES:
+        items.append({"u": q["url"], "t": q["h1"], "d": q["lead"], "i": "fa-qrcode", "c": "Códigos QR", "k": q["title"]})
+    items += [
+        {"u": "/bulk", "t": "QR y códigos de barras masivos desde Excel", "d": "Cientos de códigos en un ZIP.", "i": "fa-layer-group", "c": "Códigos QR", "k": "masivo lote excel csv zip"},
+        {"u": "/barcode", "t": "Generador de códigos de barras", "d": "EAN-13, Code 128, UPC e ITF-14.", "i": "fa-barcode", "c": "Códigos QR", "k": "barras ean upc etiqueta producto"},
+        {"u": "/plantillas/", "t": "Plantillas Excel gratis", "d": "Para docentes, negocios y eventos.", "i": "fa-file-excel", "c": "Plantillas", "k": "excel plantilla hoja de calculo"},
+        {"u": "/herramientas", "t": "Todas las herramientas", "d": "PDF, imágenes, IA, calculadoras y más.", "i": "fa-toolbox", "c": "Sitio", "k": "herramientas todo"},
+        {"u": "/apoyar", "t": "Apoyar con Yape", "d": "Ayude a mantener el sitio gratis.", "i": "fa-mug-hot", "c": "Sitio", "k": "donar yape apoyar"},
+        {"u": "/contacto", "t": "Contacto", "d": "Escríbanos sugerencias o problemas.", "i": "fa-envelope", "c": "Sitio", "k": "contacto correo sugerencia"},
+    ]
+    items += [{"u": f"/plantillas/{t['slug']}", "t": t["short"], "d": t["lead"], "i": t["icon"], "c": "Plantillas Excel", "k": t["title"]} for t in TEMPLATES]
+    for it in items:
+        if it["u"] in POPULAR:
+            it["p"] = POPULAR.index(it["u"]) + 1
+    items.sort(key=lambda it: it.get("p", 99))
+    write("js/indice.js", "/* Generado por tools/build.py: índice del buscador (Ctrl+K). No editar. */\nwindow.QRF_INDEX = "
+          + json.dumps(items, ensure_ascii=False, separators=(",", ":")) + ";\n")
+
+
+def build_pwa():
+    manifest = {
+        "name": "QR Free · Herramientas gratis", "short_name": "QR Free",
+        "description": "Códigos QR, PDF, imágenes, IA y calculadoras gratis. Todo en su equipo.",
+        "lang": "es-PE", "start_url": "/herramientas?app=1", "scope": "/", "display": "standalone",
+        "background_color": "#f6f8fb", "theme_color": "#ffffff",
+        "icons": [
+            {"src": "/img/app/icon-192.png", "sizes": "192x192", "type": "image/png"},
+            {"src": "/img/app/icon-512.png", "sizes": "512x512", "type": "image/png"},
+            {"src": "/img/app/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+        ],
+        "shortcuts": [
+            {"name": "Escanear documento", "url": "/escanear-documento", "icons": [{"src": "/img/app/icon-192.png", "sizes": "192x192"}]},
+            {"name": "Quitar fondo", "url": "/quitar-fondo", "icons": [{"src": "/img/app/icon-192.png", "sizes": "192x192"}]},
+            {"name": "Unir PDF", "url": "/unir-pdf", "icons": [{"src": "/img/app/icon-192.png", "sizes": "192x192"}]},
+            {"name": "Generador QR", "url": "/", "icons": [{"src": "/img/app/icon-192.png", "sizes": "192x192"}]},
+        ],
+    }
+    write("manifest.webmanifest", json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    # Versión = huella de los archivos estáticos: cambia sola cuando algo cambia
+    files = ["styles.css", "main.js", "iconos_db.js"] + sorted("js/" + f for f in os.listdir(os.path.join(ROOT, "js")) if f.endswith(".js"))
+    h = hashlib.md5()
+    for f in files:
+        with open(os.path.join(ROOT, f), "rb") as fh:
+            h.update(fh.read())
+    precache = ["/", "/herramientas", asset("/styles.css"), asset("/main.js"), asset("/js/kit.js"), asset("/js/indice.js"), asset("/js/buscador.js")] + POPULAR
+    precache = list(dict.fromkeys(precache))
+    # Archivos de las páginas guardadas, para que también funcionen sin conexión
+    assets = [CDN["qr"], CDN["icons"]]
+    for t in H.TOOLS:
+        if "/" + t["slug"] in precache:
+            own = t["js"] if isinstance(t["js"], list) else [t["js"]]
+            assets += [asset(f"/js/{j}.js") for j in own] + [CDN[l] for l in t["libs"]]
+            if "pdfjs" in t["libs"]:
+                assets.append(CDN["pdfjs"].replace("pdf.min.js", "pdf.worker.min.js"))
+    assets = [a for a in dict.fromkeys(assets) if a not in precache]
+    with open(os.path.join(ROOT, "src", "sw.js"), encoding="utf-8") as f:
+        sw = f.read()
+    sw = sw.replace('"__VERSION__"', json.dumps(h.hexdigest()[:10])).replace("__PRECACHE__", json.dumps(precache)).replace("__ASSETS__", json.dumps(assets))
+    write("sw.js", "/* Generado por tools/build.py desde src/sw.js. No editar. */\n" + sw)
+
+
 if __name__ == "__main__":
+    build_search_index()
     build_qr_pages()
     build_bulk_barcode()
     build_templates()
@@ -934,3 +1015,4 @@ if __name__ == "__main__":
     build_tool_pages()
     build_hub()
     build_sitemap()
+    build_pwa()
