@@ -1,0 +1,148 @@
+<div class="bulk-steps">
+    <section class="card" aria-labelledby="h-file">
+        <div class="card-head">
+            <span class="step-num">1</span>
+            <div>
+                <h2 id="h-file">Suba su Excel o CSV</h2>
+                <p>Una fila por código. La primera fila son los encabezados.</p>
+            </div>
+        </div>
+
+        <div class="dropzone dropzone-excel" id="drop-zone" role="button" tabindex="0" aria-describedby="drop-help">
+            <i class="fa-solid fa-file-excel" aria-hidden="true"></i>
+            <strong>Arrastre su archivo aquí o haga clic para elegirlo</strong>
+            <small id="drop-help">.xlsx, .xls o .csv · Recomendado: hasta 500 filas · No se sube a internet</small>
+        </div>
+        <input type="file" id="excel-input" name="excel" accept=".xlsx,.xls,.csv" hidden>
+
+        <div id="bulk-controls" hidden>
+            <div class="file-chip">
+                <i class="fa-solid fa-file-excel" aria-hidden="true"></i>
+                <div><strong id="file-name"></strong><span id="record-count"></span></div>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-change-file">Cambiar</button>
+            </div>
+            <div class="grid-2" style="margin-top:16px">
+                <div class="field">
+                    <label for="col-data">Columna con el contenido</label>
+                    <select id="col-data" name="columna-contenido"></select>
+                </div>
+                <div class="field">
+                    <label for="col-name">Columna para el nombre del archivo</label>
+                    <select id="col-name" name="columna-nombre"></select>
+                </div>
+            </div>
+            <span class="field-label">Vista previa de las primeras filas</span>
+            <div class="table-wrap">
+                <table class="data-preview">
+                    <thead><tr><th>Fila</th><th>Contenido</th><th>Archivo</th></tr></thead>
+                    <tbody id="data-preview-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <details class="help" id="bulk-help">
+            <summary><i class="fa-solid fa-circle-question" aria-hidden="true"></i> ¿Cómo debe ser mi Excel?</summary>
+            <div class="help-body">
+                <ol>
+                    <li>Una columna con el contenido: enlace, texto o número del código.</li>
+                    <li>Opcional: otra columna con el nombre de cada archivo.</li>
+                    <li>Los nombres repetidos se numeran solos (_2, _3) y las filas inválidas se listan en <em>ERRORES.txt</em>.</li>
+                </ol>
+                <div class="fake-excel" aria-label="Ejemplo de Excel">
+                    <div class="excel-row excel-head"><div class="excel-cell">Contenido</div><div class="excel-cell">Nombre</div></div>
+                    <div class="excel-row"><div class="excel-cell">https://miweb.com/prod1</div><div class="excel-cell">producto_001</div></div>
+                    <div class="excel-row"><div class="excel-cell">7751234567892</div><div class="excel-cell">arroz_1kg</div></div>
+                </div>
+                <div><button type="button" class="btn btn-excel btn-sm" id="btn-template"><i class="fa-solid fa-file-arrow-down" aria-hidden="true"></i> Descargar Excel de ejemplo</button></div>
+            </div>
+        </details>
+    </section>
+
+    <section class="card" aria-labelledby="h-type">
+        <div class="card-head">
+            <span class="step-num">2</span>
+            <h2 id="h-type">Elija el tipo y el diseño</h2>
+        </div>
+        <div class="field">
+            <div class="segmented segmented-lg" role="radiogroup" aria-label="Tipo de código">
+                <label><input type="radio" name="bulk-mode" value="qr" checked><span><i class="fa-solid fa-qrcode" aria-hidden="true"></i> Códigos QR</span></label>
+                <label><input type="radio" name="bulk-mode" value="barcode"><span><i class="fa-solid fa-barcode" aria-hidden="true"></i> Códigos de barras</span></label>
+            </div>
+        </div>
+
+        <div class="design-layout">
+            <div>
+                <div id="mode-qr">
+{{design:bulk}}
+                </div>
+                <div id="mode-barcode" hidden>
+                    <div class="field">
+                        <label for="bulk-bar-format">Formato</label>
+                        <select id="bulk-bar-format" name="formato-barras">
+                            <option value="CODE128">Code 128 · Uso general y logística</option>
+                            <option value="EAN13">EAN-13 · Productos de venta al público</option>
+                            <option value="UPC">UPC-A · Productos para EE. UU.</option>
+                            <option value="CODE39">Code 39 · Industria</option>
+                            <option value="ITF14">ITF-14 · Cajas de embalaje</option>
+                        </select>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="bulk-bar-color">Color de las barras</label>
+                            <div class="color-input"><input type="color" id="bulk-bar-color" name="color-barras" value="#000000"><output for="bulk-bar-color">#000000</output></div>
+                        </div>
+                        <div class="field">
+                            <span class="field-label" id="lbl-bulk-text">Texto debajo</span>
+                            <div class="segmented" role="radiogroup" aria-labelledby="lbl-bulk-text">
+                                <label><input type="radio" name="bulk-bar-text" value="true" checked><span>Mostrar</span></label>
+                                <label><input type="radio" name="bulk-bar-text" value="false"><span>Ocultar</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="status" id="bar-validity" role="status" aria-live="polite" hidden></p>
+                </div>
+            </div>
+            <div class="mini-preview">
+                <div class="qr-stage" data-state="ready">
+                    <div id="bulk-canvas-preview" class="qr-holder"></div>
+                    <svg id="bulk-bar-preview" hidden></svg>
+                </div>
+                <p id="bulk-preview-caption">Vista previa con un ejemplo</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card" aria-labelledby="h-generate">
+        <div class="card-head">
+            <span class="step-num">3</span>
+            <h2 id="h-generate">Genere y descargue el ZIP</h2>
+        </div>
+        <div class="grid-2">
+            <div class="field">
+                <span class="field-label" id="lbl-bulk-format">Formato de cada archivo</span>
+                <div class="segmented" role="radiogroup" aria-labelledby="lbl-bulk-format">
+                    <label><input type="radio" name="bulk-format" value="png" checked><span>PNG</span></label>
+                    <label><input type="radio" name="bulk-format" value="svg"><span>SVG</span></label>
+                    <label><input type="radio" name="bulk-format" value="jpeg"><span>JPG</span></label>
+                </div>
+            </div>
+            <div class="field">
+                <label for="bulk-export-size">Tamaño</label>
+                <select id="bulk-export-size" name="tamano">
+                    <option value="500">500 px · Web</option>
+                    <option value="1000" selected>1000 px · Recomendado</option>
+                    <option value="2000">2000 px · Impresión grande</option>
+                    <option value="4000">4000 px · Gigante (lento)</option>
+                </select>
+            </div>
+        </div>
+        <div class="progress" id="progress-container" hidden>
+            <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+            <p class="progress-text" id="progress-text" aria-live="polite">Iniciando…</p>
+        </div>
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-process" disabled>
+            <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> <span>Primero suba un archivo</span>
+        </button>
+        <div class="report" id="bulk-report" aria-live="polite" hidden style="margin-top:16px"></div>
+    </section>
+</div>

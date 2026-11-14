@@ -1,0 +1,80 @@
+<div class="tool" id="qr-tool">
+    <div class="tool-main">
+        <section class="card card-content" aria-labelledby="h-content">
+            <div class="card-head">
+                <span class="step-num">1</span>
+                <h2 id="h-content">¿Qué debe abrir su QR?</h2>
+            </div>
+            <div class="field">
+                <div class="chips" role="radiogroup" aria-label="Tipo de código QR">
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="url"><i class="fa-solid fa-link" aria-hidden="true"></i> Enlace</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="whatsapp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="wifi"><i class="fa-solid fa-wifi" aria-hidden="true"></i> WiFi</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="vcard"><i class="fa-regular fa-address-card" aria-hidden="true"></i> Contacto</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="email"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Email</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="phone"><i class="fa-solid fa-phone" aria-hidden="true"></i> Llamada</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="sms"><i class="fa-solid fa-comment-sms" aria-hidden="true"></i> SMS</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="text"><i class="fa-solid fa-font" aria-hidden="true"></i> Texto</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-type="geo"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Ubicación</button>
+                </div>
+            </div>
+            <div id="dynamic-inputs"></div>
+        </section>
+
+        <section class="card card-design" aria-labelledby="h-design">
+            <div class="card-head">
+                <span class="step-num">2</span>
+                <h2 id="h-design">Personalice el diseño</h2>
+                <span class="opt">Opcional</span>
+            </div>
+{{design:qr}}
+        </section>
+    </div>
+
+    <aside class="tool-aside" aria-labelledby="h-preview">
+        <section class="card preview-card" id="qr-preview-card">
+            <div class="card-head">
+                <span class="step-num">3</span>
+                <h2 id="h-preview">Descargue su QR</h2>
+            </div>
+            <div class="qr-stage" id="qr-stage" data-state="empty">
+                <div id="canvas"></div>
+                <div class="qr-empty" aria-hidden="true">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Complete el paso 1
+                    <span>Su código aparecerá aquí al instante</span>
+                </div>
+            </div>
+            <p class="status" id="qr-status" role="status" aria-live="polite"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Escriba el contenido para crear su QR.</span></p>
+            <div class="field">
+                <span class="field-label" id="lbl-format">Formato</span>
+                <div class="segmented" role="radiogroup" aria-labelledby="lbl-format">
+                    <label><input type="radio" name="qr-format" value="png" checked><span>PNG<small>Web y redes</small></span></label>
+                    <label><input type="radio" name="qr-format" value="svg"><span>SVG<small>Imprenta</small></span></label>
+                    <label><input type="radio" name="qr-format" value="jpeg"><span>JPG<small>Ligero</small></span></label>
+                </div>
+            </div>
+            <div class="field" id="size-field">
+                <span class="field-label" id="lbl-size">Tamaño</span>
+                <div class="segmented" role="radiogroup" aria-labelledby="lbl-size">
+                    <label><input type="radio" name="qr-size" value="512"><span>512 px</span></label>
+                    <label><input type="radio" name="qr-size" value="1024" checked><span>1024 px</span></label>
+                    <label><input type="radio" name="qr-size" value="2048"><span>2048 px</span></label>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-download" disabled>
+                <i class="fa-solid fa-download" aria-hidden="true"></i> <span>Descargar PNG</span>
+            </button>
+            <div class="trust">
+                <span><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span>
+                <span><i class="fa-solid fa-check" aria-hidden="true"></i> Sin marca de agua</span>
+                <span><i class="fa-solid fa-check" aria-hidden="true"></i> No caduca</span>
+            </div>
+        </section>
+    </aside>
+</div>
+
+<div class="mobile-bar" id="mobile-bar" aria-hidden="true">
+    <a class="btn btn-secondary" href="#qr-preview-card" tabindex="-1"><i class="fa-solid fa-eye" aria-hidden="true"></i> Ver QR</a>
+    <button type="button" class="btn btn-primary" id="btn-download-bar" tabindex="-1" disabled><i class="fa-solid fa-download" aria-hidden="true"></i> Descargar</button>
+</div>
