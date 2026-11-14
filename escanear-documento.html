@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Escanear Documentos con el Celular Gratis | Escáner a PDF online | QR Free</title>
+    <meta name="description" content="Escanea documentos con la cámara del celular y conviértelos en PDF gratis: detecta los bordes, endereza la hoja, quita sombras y mejora el texto. Sin instalar apps.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qrfre.com/escanear-documento">
+
+    <meta property="og:title" content="Escanear Documentos con el Celular Gratis | Escáner a PDF online | QR Free">
+    <meta property="og:description" content="Escanea documentos con la cámara del celular y conviértelos en PDF gratis: detecta los bordes, endereza la hoja, quita sombras y mejora el texto. Sin instalar apps.">
+    <meta property="og:image" content="https://qrfre.com/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://qrfre.com/escanear-documento">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QR Free">
+    <meta property="og:locale" content="es_PE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://qrfre.com/img/og-image.png">
+
+    <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="QR Free">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css?v=6b107e3f">
+
+    <meta name="google-adsense-account" content="ca-pub-6481587162431047">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6481587162431047" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Escanear documentos con el celular",
+      "url": "https://qrfre.com/escanear-documento",
+      "description": "Escanea documentos con la cámara del celular y conviértelos en PDF gratis: detecta los bordes, endereza la hoja, quita sombras y mejora el texto. Sin instalar apps.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Cualquiera (navegador web)",
+      "inLanguage": "es",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PEN"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "QR Free",
+        "url": "https://qrfre.com/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Necesito instalar una app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Funciona en el navegador de su celular. Si quiere tenerlo a mano, use «Instalar app» en el menú y quedará como una app más."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Sirve para trámites?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. El PDF queda en tamaño A4, enderezado y legible, listo para subir a portales o enviar por correo. Si pide menos peso, use comprimir PDF."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Las fotos se suben a internet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Todo el procesamiento ocurre en su celular o computadora."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué no detecta los bordes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Funciona mejor si la hoja contrasta con el fondo (hoja blanca sobre mesa oscura). Si no, arrastre los puntos a mano."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://qrfre.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Herramientas",
+          "item": "https://qrfre.com/herramientas"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Escanear documentos",
+          "item": "https://qrfre.com/escanear-documento"
+        }
+      ]
+    }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="/js/indice.js?v=da62fcfc" defer></script>
+    <script src="/js/buscador.js?v=15823eab" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">QR Free</span></a>
+            <button type="button" class="search-btn" data-open-search aria-label="Buscar herramientas (Ctrl+K)"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span>Buscar</span><kbd>Ctrl K</kbd></button>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
+                <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
+                <a href="/herramientas" class="active" aria-current="page"><i class="fa-solid fa-toolbox" aria-hidden="true"></i> <span>Herramientas</span></a>
+                <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
+                <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
+                <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
+                <button type="button" class="nav-install" data-install hidden><i class="fa-solid fa-download" aria-hidden="true"></i> <span>Instalar app</span></button>
+                <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-wrapper" id="contenido">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> <span aria-hidden="true">›</span> <a href="/herramientas">Herramientas</a> <span aria-hidden="true">›</span> <span aria-current="page">Escanear documentos</span></nav>
+        <div class="page-header">
+            <h1>Escanear documentos con el celular</h1>
+            <p>Tome una foto de la hoja: se detectan los bordes, se endereza, se quitan las sombras y obtiene un PDF nítido. Sin instalar nada.</p>
+            <div class="badges"><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sin registro</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Funciona en el celular</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sus datos no salen de su equipo</span></div>
+        </div>
+        <div class="tool">
+            <div class="tool-main">
+                <section class="card" aria-labelledby="h-step-1">
+                    <div class="card-head">
+                        <span class="step-num">1</span>
+                        <h2 id="h-step-1">Tome la foto del documento</h2>
+                    </div>
+                    <div id="scan-pick">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-camera"><i class="fa-solid fa-camera" aria-hidden="true"></i> Tomar foto con la cámara</button>
+                        <input type="file" id="scan-camera" accept="image/*" capture="environment" hidden>
+                        <p class="or-sep"><span>o</span></p>
+                        <div class="dropzone" id="tool-drop" role="button" tabindex="0" aria-describedby="tool-drop-sub">
+                            <i class="fa-solid fa-images" aria-hidden="true"></i>
+                            <strong>Suba fotos de documentos</strong>
+                            <small id="tool-drop-sub">Puede elegir varias: cada una será una página</small>
+                        </div>
+                        <input type="file" id="tool-input" accept="image/*" multiple hidden>
+                        <ul class="tips">
+                            <li><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Ponga la hoja sobre una mesa oscura y con buena luz.</li>
+                            <li><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> Tome la foto desde arriba, con toda la hoja dentro.</li>
+                        </ul>
+                    </div>
+                    <div id="scan-editor" hidden>
+                        <p class="hint">Arrastre los <strong>4 puntos</strong> hasta las esquinas de la hoja. <span id="scan-queue"></span></p>
+                        <div class="scan-stage" id="scan-stage">
+                            <canvas id="scan-src"></canvas>
+                            <svg id="scan-overlay" aria-label="Esquinas del documento">
+                                <polygon id="scan-poly"></polygon>
+                                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina superior izquierda"></circle>
+                                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina superior derecha"></circle>
+                                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina inferior derecha"></circle>
+                                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina inferior izquierda"></circle>
+                            </svg>
+                        </div>
+                        <div class="btn-row scan-tools">
+                            <button type="button" class="btn btn-secondary btn-sm" id="scan-auto"><i class="fa-solid fa-crop-simple" aria-hidden="true"></i> Detectar bordes</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="scan-full"><i class="fa-solid fa-expand" aria-hidden="true"></i> Toda la foto</button>
+                            <button type="button" class="icon-btn" id="scan-rot-l" aria-label="Girar a la izquierda"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button>
+                            <button type="button" class="icon-btn" id="scan-rot-r" aria-label="Girar a la derecha"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="btn-row">
+                            <button type="button" class="btn btn-primary btn-lg" id="scan-add"><i class="fa-solid fa-check" aria-hidden="true"></i> Agregar página</button>
+                            <button type="button" class="btn btn-ghost" id="scan-discard">Descartar foto</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="card" id="scan-pages-card" aria-labelledby="h-pages" hidden>
+                    <div class="card-head"><h2 id="h-pages">Páginas escaneadas</h2></div>
+                    <ol class="scan-pages" id="scan-pages"></ol>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('btn-camera').click()"><i class="fa-solid fa-plus" aria-hidden="true"></i> Escanear otra página</button>
+                </section>
+            </div>
+            <aside class="tool-aside">
+                <section class="card" aria-labelledby="h-step-2">
+                    <div class="card-head">
+                        <span class="step-num">2</span>
+                        <h2 id="h-step-2">Mejore y descargue</h2>
+                    </div>
+                    <div class="field">
+                        <span class="field-label" id="lbl-scan-filter">Filtro</span>
+                        <div class="segmented" role="radiogroup" aria-labelledby="lbl-scan-filter"><label><input type="radio" name="scan-filter" value="auto" checked><span>Mejorado<small>sin sombras</small></span></label><label><input type="radio" name="scan-filter" value="bw"><span>B/N<small>texto nítido</small></span></label><label><input type="radio" name="scan-filter" value="gray"><span>Grises</span></label><label><input type="radio" name="scan-filter" value="original"><span>Original</span></label></div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="scan-size">Tamaño de página</label>
+                            <select id="scan-size" name="tamano">
+                                <option value="a4">A4</option>
+                                <option value="letter">Carta</option>
+                                <option value="fit">Igual a la foto</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="scan-name">Nombre del archivo</label>
+                            <input type="text" id="scan-name" placeholder="escaneo" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="status" id="tool-status" role="status"></div>
+                    <div class="progress" id="tool-progress" hidden>
+                        <div class="progress-track" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill"></div></div>
+                        <p class="progress-text" aria-live="polite"></p>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-pdf" disabled><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Descargar PDF</button>
+                    <button type="button" class="btn btn-secondary btn-block" id="btn-jpg" disabled><i class="fa-solid fa-images" aria-hidden="true"></i> Descargar como JPG</button>
+                    <p class="trust"><span><i class="fa-solid fa-lock" aria-hidden="true"></i> Sus archivos no salen de su equipo</span><span><i class="fa-solid fa-check" aria-hidden="true"></i> Sin marcas de agua</span></p>
+                </section>
+            </aside>
+        </div>
+
+        <section class="content-section">
+            <h2>Cómo se usa, paso a paso</h2>
+            <ol class="how-to">
+                <li><strong>Tome la foto o súbala.</strong> Con la hoja sobre una superficie oscura y buena luz.</li>
+                <li><strong>Ajuste las esquinas.</strong> Se detectan solas; si hace falta, arrastre los 4 puntos a las esquinas de la hoja.</li>
+                <li><strong>Elija el filtro y agregue más páginas.</strong> «Mejorado» quita sombras; «B/N» deja el texto muy nítido.</li>
+                <li><strong>Descargue el PDF.</strong> En A4, carta o del tamaño de la foto.</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2>Preguntas frecuentes</h2>
+            <details class="faq-item">
+                <summary>¿Necesito instalar una app?</summary>
+                <p>No. Funciona en el navegador de su celular. Si quiere tenerlo a mano, use «Instalar app» en el menú y quedará como una app más.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Sirve para trámites?</summary>
+                <p>Sí. El PDF queda en tamaño A4, enderezado y legible, listo para subir a portales o enviar por correo. Si pide menos peso, use <a href="/comprimir-pdf">comprimir PDF</a>.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Las fotos se suben a internet?</summary>
+                <p>No. Todo el procesamiento ocurre en su celular o computadora.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Por qué no detecta los bordes?</summary>
+                <p>Funciona mejor si la hoja contrasta con el fondo (hoja blanca sobre mesa oscura). Si no, arrastre los puntos a mano.</p>
+            </details>
+        </section>
+
+        <section class="content-section">
+            <h2>Otras herramientas gratuitas</h2>
+            <div class="related-grid">
+            <a class="related-card" href="/firmar-pdf"><i class="fa-solid fa-file-signature" aria-hidden="true"></i><span><strong>Firmar PDF</strong>Dibuje o escriba su firma y colóquela en cualquier PDF.</span></a>
+            <a class="related-card" href="/unir-pdf"><i class="fa-solid fa-object-group" aria-hidden="true"></i><span><strong>Unir PDF</strong>Junte varios PDF en uno solo, en el orden que quiera.</span></a>
+            <a class="related-card" href="/dividir-pdf"><i class="fa-solid fa-scissors" aria-hidden="true"></i><span><strong>Dividir PDF</strong>Extraiga páginas o separe un PDF en varios archivos.</span></a>
+            <a class="related-card" href="/comprimir-pdf"><i class="fa-solid fa-compress" aria-hidden="true"></i><span><strong>Comprimir PDF</strong>Reduzca el peso de PDF escaneados para enviarlos por correo.</span></a>
+            <a class="related-card" href="/imagen-a-pdf"><i class="fa-solid fa-file-image" aria-hidden="true"></i><span><strong>JPG a PDF</strong>Convierta fotos o capturas en un solo PDF.</span></a>
+            <a class="related-card" href="/calculadora-gratificacion"><i class="fa-solid fa-gift" aria-hidden="true"></i><span><strong>Calculadora de gratificación</strong>Gratificación de julio y diciembre con bonificación del 9 %.</span></a>
+            <a class="related-card" href="/calculadora-liquidacion"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i><span><strong>Calculadora de liquidación</strong>Beneficios sociales al renunciar o ser despedido.</span></a>
+            <a class="related-card" href="/herramientas"><i class="fa-solid fa-toolbox" aria-hidden="true"></i><span><strong>Ver todas</strong>26 herramientas gratis.</span></a>
+            </div>
+        </section>
+
+        <section class="support-banner">
+            <div>
+                <h2><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> ¿Le ahorramos tiempo?</h2>
+                <p>QR Free es gratis y sin registro. Si le fue útil, puede apoyar con un Yape desde S/ 1 para mantener el sitio y crear más plantillas.</p>
+            </div>
+            <a class="btn btn-support" href="/apoyar">Apoyar con Yape</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h2>Códigos QR</h2>
+                <ul>
+                    <li><a href="/">Generador de QR</a></li>
+                    <li><a href="/qr-wifi">QR de WiFi</a></li>
+                    <li><a href="/qr-whatsapp">QR de WhatsApp</a></li>
+                    <li><a href="/qr-vcard">QR de tarjeta de contacto</a></li>
+                    <li><a href="/bulk">QR masivo desde Excel</a></li>
+                    <li><a href="/barcode">Código de barras</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Más herramientas</h2>
+                <ul>
+                    <li><a href="/quitar-fondo">Quitar fondo de fotos</a></li>
+                    <li><a href="/transcribir-audio">Audio a texto</a></li>
+                    <li><a href="/escanear-documento">Escanear documentos</a></li>
+                    <li><a href="/firmar-pdf">Firmar PDF</a></li>
+                    <li><a href="/unir-pdf">Unir PDF</a></li>
+                    <li><a href="/comprimir-pdf">Comprimir PDF</a></li>
+                    <li><a href="/cotizacion">Cotizaciones en PDF</a></li>
+                    <li><a href="/calculadora-cts">Calculadora de CTS</a></li>
+                    <li><a href="/calculadora-liquidacion">Calculadora de liquidación</a></li>
+                    <li><a href="/herramientas">Ver todas las herramientas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Plantillas Excel</h2>
+                <ul>
+                    <li><a href="/plantillas/registro-docente">Registro docente</a></li>
+                    <li><a href="/plantillas/inventario-codigo-barras">Inventario con código de barras</a></li>
+                    <li><a href="/plantillas/control-ventas-caja">Control de ventas y caja</a></li>
+                    <li><a href="/plantillas/lista-invitados-qr">Lista de invitados con QR</a></li>
+                    <li><a href="/plantillas/">Ver todas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>QR Free</h2>
+                <ul>
+                    <li><a href="/apoyar">Apoyar el proyecto</a></li>
+                    <li><a href="/acerca">Acerca de</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                    <li><a href="/privacidad">Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer-copy">© 2026 QR Free · Herramientas gratuitas hechas en Perú · Todo se procesa en su navegador: no guardamos sus datos.</p>
+    </footer>
+
+    <script src="/main.js?v=a1345b1b"></script>
+    <script src="/js/kit.js?v=4dd9d04a"></script>
+    <script src="/js/escaner.js?v=cfff238c"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => initScanner());
+    </script>
+</body>
+</html>

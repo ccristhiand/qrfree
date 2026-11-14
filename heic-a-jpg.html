@@ -22,8 +22,11 @@
     <meta name="twitter:image" content="https://qrfre.com/img/og-image.png">
 
     <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
-    <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.webmanifest">
     <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="QR Free">
 
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -31,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/styles.css?v=6b107e3f">
 
     <meta name="google-adsense-account" content="ca-pub-6481587162431047">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6481587162431047" crossorigin="anonymous"></script>
@@ -118,12 +121,15 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="/js/indice.js?v=da62fcfc" defer></script>
+    <script src="/js/buscador.js?v=15823eab" defer></script>
 </head>
 <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="site-header">
         <div class="header-inner">
             <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">QR Free</span></a>
+            <button type="button" class="search-btn" data-open-search aria-label="Buscar herramientas (Ctrl+K)"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span>Buscar</span><kbd>Ctrl K</kbd></button>
             <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
             <nav class="site-nav" id="site-nav" aria-label="Principal">
                 <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
@@ -131,6 +137,7 @@
                 <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
                 <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
                 <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
+                <button type="button" class="nav-install" data-install hidden><i class="fa-solid fa-download" aria-hidden="true"></i> <span>Instalar app</span></button>
                 <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
             </nav>
         </div>
@@ -227,10 +234,10 @@
             <a class="related-card" href="/comprimir-imagen"><i class="fa-solid fa-down-left-and-up-right-to-center" aria-hidden="true"></i><span><strong>Comprimir imagen</strong>Reduzca el peso de fotos JPG y PNG sin perder calidad visible.</span></a>
             <a class="related-card" href="/redimensionar-imagen"><i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i><span><strong>Cambiar tamaño de imagen</strong>Medidas exactas para Instagram, Facebook, YouTube o foto carné.</span></a>
             <a class="related-card" href="/convertir-imagen"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i><span><strong>Convertir imagen</strong>WebP a JPG, PNG a JPG, JPG a PNG y más.</span></a>
-            <a class="related-card" href="/calculadora-edad"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i><span><strong>Edad y días entre fechas</strong>Edad exacta, días entre fechas y días hábiles.</span></a>
-            <a class="related-card" href="/unir-pdf"><i class="fa-solid fa-object-group" aria-hidden="true"></i><span><strong>Unir PDF</strong>Junte varios PDF en uno solo, en el orden que quiera.</span></a>
-            <a class="related-card" href="/dividir-pdf"><i class="fa-solid fa-scissors" aria-hidden="true"></i><span><strong>Dividir PDF</strong>Extraiga páginas o separe un PDF en varios archivos.</span></a>
-            <a class="related-card" href="/herramientas"><i class="fa-solid fa-toolbox" aria-hidden="true"></i><span><strong>Ver todas</strong>22 herramientas gratis.</span></a>
+            <a class="related-card" href="/calculadora-renta-quinta"><i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i><span><strong>Sueldo neto y renta de 5.ª</strong>Cuánto recibe al mes después de AFP/ONP e impuesto.</span></a>
+            <a class="related-card" href="/link-whatsapp"><i class="fa-solid fa-link" aria-hidden="true"></i><span><strong>Link de WhatsApp</strong>Enlace wa.me con mensaje para su Instagram o web.</span></a>
+            <a class="related-card" href="/contador-palabras"><i class="fa-solid fa-font" aria-hidden="true"></i><span><strong>Contador de palabras</strong>Cuente palabras y caracteres, y cambie mayúsculas.</span></a>
+            <a class="related-card" href="/herramientas"><i class="fa-solid fa-toolbox" aria-hidden="true"></i><span><strong>Ver todas</strong>26 herramientas gratis.</span></a>
             </div>
         </section>
 
@@ -259,14 +266,15 @@
             <div>
                 <h2>Más herramientas</h2>
                 <ul>
+                    <li><a href="/quitar-fondo">Quitar fondo de fotos</a></li>
+                    <li><a href="/transcribir-audio">Audio a texto</a></li>
+                    <li><a href="/escanear-documento">Escanear documentos</a></li>
+                    <li><a href="/firmar-pdf">Firmar PDF</a></li>
                     <li><a href="/unir-pdf">Unir PDF</a></li>
                     <li><a href="/comprimir-pdf">Comprimir PDF</a></li>
-                    <li><a href="/imagen-a-pdf">JPG a PDF</a></li>
-                    <li><a href="/comprimir-imagen">Comprimir imagen</a></li>
                     <li><a href="/cotizacion">Cotizaciones en PDF</a></li>
                     <li><a href="/calculadora-cts">Calculadora de CTS</a></li>
                     <li><a href="/calculadora-liquidacion">Calculadora de liquidación</a></li>
-                    <li><a href="/sorteo">Sorteos y ruleta</a></li>
                     <li><a href="/herramientas">Ver todas las herramientas</a></li>
                 </ul>
             </div>
@@ -293,7 +301,7 @@
         <p class="footer-copy">© 2026 QR Free · Herramientas gratuitas hechas en Perú · Todo se procesa en su navegador: no guardamos sus datos.</p>
     </footer>
 
-    <script src="/main.js"></script>
+    <script src="/main.js?v=a1345b1b"></script>
     <script src="/js/kit.js?v=4dd9d04a"></script>
     <script src="/js/image-tools.js?v=0522ca29"></script>
     <script>

@@ -732,19 +732,265 @@ def ui_dates():
 
 
 # ---------------------------------------------------------------------
+# IA en el navegador, escáner y firma
+# ---------------------------------------------------------------------
+AI_NOTE = """<details class="help">
+    <summary><i class="fa-solid fa-microchip" aria-hidden="true"></i> ¿Cómo funciona la IA sin subir mis archivos?</summary>
+    <div class="help-body"><p>La primera vez su navegador descarga el modelo de inteligencia artificial y lo guarda.
+    Desde entonces todo se procesa <strong>en su propio equipo</strong>: sus archivos nunca se envían a un servidor.
+    Funciona mejor en una computadora o en un celular reciente, con Chrome o Edge.</p></div>
+</details>"""
+
+
+def ui_remove_bg():
+    main = f"""<section class="card" aria-labelledby="h-step-1">
+    {head(1, "Agregue sus fotos")}
+{indent(dropzone("fa-user", "Elija fotos de personas o arrástrelas aquí", "Retratos, selfies o fotos de cuerpo entero · JPG, PNG o WebP", "image/*"), 4)}
+    <div class="bg-grid" id="bg-results" hidden aria-live="polite"></div>
+{indent(AI_NOTE, 4)}
+</section>"""
+    opts = f"""{segmented("bg-mode", "Fondo", [("transparent", "Transparente", "PNG"), ("white", "Blanco", "foto carné"), ("color", "Color", ""), ("blur", "Desenfocado", "")])}
+<div class="field" id="bg-color-field" hidden>
+    <label for="bg-color">Color de fondo</label>
+    <div class="color-input"><input type="color" id="bg-color" value="#2563eb"><output for="bg-color">#2563EB</output></div>
+    <div class="chips chips-wrap">
+        <button type="button" class="chip" data-bg-color="#1e3a8a">Azul oscuro</button>
+        <button type="button" class="chip" data-bg-color="#38bdf8">Celeste</button>
+        <button type="button" class="chip" data-bg-color="#e2e8f0">Gris claro</button>
+        <button type="button" class="chip" data-bg-color="#dc2626">Rojo</button>
+    </div>
+</div>"""
+    extra = """<button type="button" class="btn btn-secondary btn-block" id="btn-zip" hidden>
+    <i class="fa-solid fa-file-zipper" aria-hidden="true"></i> Descargar todas (ZIP)
+</button>"""
+    return tool_layout(main, run_card(2, "Quite el fondo", "Quitar fondo", "fa-wand-magic-sparkles", opts, extra))
+
+
+def ui_transcribe():
+    langs = [("spanish", "Español"), ("english", "Inglés"), ("portuguese", "Portugués"), ("french", "Francés"), ("italian", "Italiano")]
+    main = f"""<section class="card" aria-labelledby="h-step-1">
+    {head(1, "Agregue sus audios")}
+{indent(dropzone("fa-file-audio", "Elija audios o arrástrelos aquí", "Audios de WhatsApp (.opus, .ogg), notas de voz, MP3, M4A, WAV o videos", "audio/*,video/*,.opus,.ogg,.m4a,.amr"), 4)}
+    <button type="button" class="btn btn-secondary btn-block rec-btn" id="btn-record"><i class="fa-solid fa-microphone" aria-hidden="true"></i> Grabar con el micrófono</button>
+    <div class="asr-list" id="asr-results" hidden></div>
+{indent(AI_NOTE, 4)}
+</section>"""
+    opts = "\n".join([
+        segmented("asr-model", "Calidad", [("rapido", "Rápida", "≈ 40 MB"), ("preciso", "Buena", "≈ 80 MB"), ("max", "Máxima", "≈ 250 MB")], "preciso"),
+        select("asr-lang", "idioma", "Idioma del audio", langs),
+        check("asr-task", "traducir", "Traducir al inglés", hint="(en vez de transcribir)"),
+    ])
+    return tool_layout(main, run_card(2, "Transcriba", "Transcribir a texto", "fa-wand-magic-sparkles", opts))
+
+
+def ui_scanner():
+    main = f"""<section class="card" aria-labelledby="h-step-1">
+    {head(1, "Tome la foto del documento")}
+    <div id="scan-pick">
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-camera"><i class="fa-solid fa-camera" aria-hidden="true"></i> Tomar foto con la cámara</button>
+        <input type="file" id="scan-camera" accept="image/*" capture="environment" hidden>
+        <p class="or-sep"><span>o</span></p>
+{indent(dropzone("fa-images", "Suba fotos de documentos", "Puede elegir varias: cada una será una página", "image/*"), 8)}
+        <ul class="tips">
+            <li><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Ponga la hoja sobre una mesa oscura y con buena luz.</li>
+            <li><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> Tome la foto desde arriba, con toda la hoja dentro.</li>
+        </ul>
+    </div>
+    <div id="scan-editor" hidden>
+        <p class="hint">Arrastre los <strong>4 puntos</strong> hasta las esquinas de la hoja. <span id="scan-queue"></span></p>
+        <div class="scan-stage" id="scan-stage">
+            <canvas id="scan-src"></canvas>
+            <svg id="scan-overlay" aria-label="Esquinas del documento">
+                <polygon id="scan-poly"></polygon>
+                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina superior izquierda"></circle>
+                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina superior derecha"></circle>
+                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina inferior derecha"></circle>
+                <circle class="scan-handle" tabindex="0" role="slider" aria-label="Esquina inferior izquierda"></circle>
+            </svg>
+        </div>
+        <div class="btn-row scan-tools">
+            <button type="button" class="btn btn-secondary btn-sm" id="scan-auto"><i class="fa-solid fa-crop-simple" aria-hidden="true"></i> Detectar bordes</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="scan-full"><i class="fa-solid fa-expand" aria-hidden="true"></i> Toda la foto</button>
+            <button type="button" class="icon-btn" id="scan-rot-l" aria-label="Girar a la izquierda"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button>
+            <button type="button" class="icon-btn" id="scan-rot-r" aria-label="Girar a la derecha"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>
+        </div>
+        <div class="btn-row">
+            <button type="button" class="btn btn-primary btn-lg" id="scan-add"><i class="fa-solid fa-check" aria-hidden="true"></i> Agregar página</button>
+            <button type="button" class="btn btn-ghost" id="scan-discard">Descartar foto</button>
+        </div>
+    </div>
+</section>
+<section class="card" id="scan-pages-card" aria-labelledby="h-pages" hidden>
+    <div class="card-head"><h2 id="h-pages">Páginas escaneadas</h2></div>
+    <ol class="scan-pages" id="scan-pages"></ol>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('btn-camera').click()"><i class="fa-solid fa-plus" aria-hidden="true"></i> Escanear otra página</button>
+</section>"""
+    aside = f"""<section class="card" aria-labelledby="h-step-2">
+    {head(2, "Mejore y descargue")}
+{indent(segmented("scan-filter", "Filtro", [("auto", "Mejorado", "sin sombras"), ("bw", "B/N", "texto nítido"), ("gray", "Grises", ""), ("original", "Original", "")]), 4)}
+    <div class="grid-2">
+{indent(select("scan-size", "tamano", "Tamaño de página", [("a4", "A4"), ("letter", "Carta"), ("fit", "Igual a la foto")]), 8)}
+        <div class="field">
+            <label for="scan-name">Nombre del archivo</label>
+            <input type="text" id="scan-name" placeholder="escaneo" autocomplete="off">
+        </div>
+    </div>
+    <div class="status" id="tool-status" role="status"></div>
+{indent(PROGRESS, 4)}
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-pdf" disabled><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Descargar PDF</button>
+    <button type="button" class="btn btn-secondary btn-block" id="btn-jpg" disabled><i class="fa-solid fa-images" aria-hidden="true"></i> Descargar como JPG</button>
+    {TRUST}
+</section>"""
+    return tool_layout(main, aside)
+
+
+def ui_sign():
+    fonts = [("Great Vibes", "Elegante"), ("Dancing Script", "Manuscrita"), ("Caveat", "Natural")]
+    font_opts = "".join(f'<label><input type="radio" name="sig-font" value="{v}"{" checked" if i == 0 else ""}><span style="font-family:\'{v}\',cursive;font-size:1.15rem">{t}</span></label>' for i, (v, t) in enumerate(fonts))
+    main = f"""<section class="card" aria-labelledby="h-step-1">
+    {head(1, "Suba su PDF")}
+{indent(dropzone("fa-file-pdf", "Elija el PDF a firmar o arrástrelo aquí", "Contratos, cartas, formularios · No se sube a internet", "application/pdf,.pdf", False), 4)}
+{indent(file_chip(), 4)}
+</section>
+<section class="card" aria-labelledby="h-step-2">
+    {head(2, "Cree su firma")}
+    <div class="tabs-ui" role="tablist" aria-label="Forma de crear la firma" id="sig-tabs">
+        <button type="button" class="tab-ui" role="tab" id="tab-draw" aria-selected="true" aria-controls="panel-draw"><i class="fa-solid fa-pen-nib" aria-hidden="true"></i> Dibujar</button>
+        <button type="button" class="tab-ui" role="tab" id="tab-type" aria-selected="false" aria-controls="panel-type" tabindex="-1"><i class="fa-solid fa-keyboard" aria-hidden="true"></i> Escribir</button>
+        <button type="button" class="tab-ui" role="tab" id="tab-upload" aria-selected="false" aria-controls="panel-upload" tabindex="-1"><i class="fa-solid fa-image" aria-hidden="true"></i> Foto</button>
+    </div>
+    <div class="tab-panel" id="panel-draw" role="tabpanel" aria-labelledby="tab-draw">
+        <canvas id="sig-pad" class="sig-pad" aria-label="Recuadro para dibujar su firma con el mouse o el dedo"></canvas>
+        <div class="sig-pad-foot"><span class="hint">Firme con el mouse o con el dedo</span><button type="button" class="btn btn-ghost btn-sm" id="sig-clear"><i class="fa-solid fa-eraser" aria-hidden="true"></i> Borrar</button></div>
+    </div>
+    <div class="tab-panel" id="panel-type" role="tabpanel" aria-labelledby="tab-type" hidden>
+        <div class="field">
+            <label for="sig-text">Su nombre</label>
+            <input type="text" id="sig-text" placeholder="Ej.: María Quispe" autocomplete="name">
+        </div>
+        <div class="segmented" role="radiogroup" aria-label="Estilo de letra">{font_opts}</div>
+        <div class="sig-preview"><canvas id="sig-type-preview" aria-label="Vista previa de la firma"></canvas></div>
+    </div>
+    <div class="tab-panel" id="panel-upload" role="tabpanel" aria-labelledby="tab-upload" hidden>
+        <div class="dropzone dropzone-sm" id="sig-drop" role="button" tabindex="0">
+            <i class="fa-solid fa-camera" aria-hidden="true"></i>
+            <strong>Foto de su firma en papel blanco</strong>
+            <small>El fondo blanco se quita solo</small>
+        </div>
+        <input type="file" id="sig-input" accept="image/*" hidden>
+        <div class="sig-preview"><canvas id="sig-up-preview" hidden aria-label="Firma subida"></canvas></div>
+    </div>
+    <div class="sig-options">
+        <div class="segmented" role="radiogroup" aria-label="Color de la tinta">
+            <label><input type="radio" name="sig-color" value="#111827" checked><span><i class="ink-dot" style="background:#111827"></i> Negro</span></label>
+            <label><input type="radio" name="sig-color" value="#1d4ed8"><span><i class="ink-dot" style="background:#1d4ed8"></i> Azul</span></label>
+        </div>
+        {check("sig-remember", "recordar", "Guardar mi firma en este equipo", True)}
+    </div>
+    <button type="button" class="btn btn-primary btn-block" id="sig-use"><i class="fa-solid fa-check" aria-hidden="true"></i> Usar esta firma</button>
+    <div class="sig-current" id="sig-current-wrap" hidden><span class="hint">Firma activa:</span><img id="sig-current" alt="Firma activa"></div>
+    <div id="sig-saved-wrap" hidden>
+        <span class="field-label">Firmas guardadas</span>
+        <div class="sig-saved" id="sig-saved"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="sig-forget">Borrar firmas guardadas</button>
+    </div>
+</section>
+<section class="card" id="sign-doc-card" aria-labelledby="h-step-3" hidden>
+    {head(3, "Colóquela en el documento")}
+    <div class="sign-toolbar">
+        <button type="button" class="btn btn-primary" id="add-sig" data-place><i class="fa-solid fa-signature" aria-hidden="true"></i> Colocar firma</button>
+        <div class="sign-text-tool">
+            <input type="text" id="text-value" placeholder="Nombre, DNI, cargo…" aria-label="Texto para agregar">
+            <button type="button" class="btn btn-secondary" id="add-text" data-place><i class="fa-solid fa-font" aria-hidden="true"></i> Texto</button>
+        </div>
+        <button type="button" class="btn btn-secondary" id="add-date" data-place><i class="fa-regular fa-calendar" aria-hidden="true"></i> Fecha de hoy</button>
+    </div>
+    <div class="sign-pages" id="sign-pages"></div>
+</section>"""
+    aside = run_card(4, "Descargue", "Descargar PDF firmado", "fa-file-signature")
+    return tool_layout(main, aside)
+
+
+# ---------------------------------------------------------------------
 # Catálogo de herramientas (SEO y contenido)
 # ---------------------------------------------------------------------
 CATEGORIES = [
+    ("ia", "fa-wand-magic-sparkles", "Inteligencia artificial", "IA que corre en su propio equipo: sus fotos y audios no se suben a internet."),
     ("pdf", "fa-file-pdf", "PDF", "Una, divida, comprima y convierta sus PDF sin subirlos a internet."),
     ("img", "fa-image", "Imágenes", "Comprima, cambie el tamaño y convierta fotos en segundos."),
     ("negocio", "fa-store", "Negocios y SUNAT", "Cotizaciones en PDF, IGV y validación de RUC."),
     ("trabajo", "fa-briefcase", "Trabajo en Perú", "CTS, gratificación, liquidación y sueldo neto."),
-    ("util", "fa-wand-magic-sparkles", "Utilidades", "Herramientas rápidas para el día a día."),
+    ("util", "fa-screwdriver-wrench", "Utilidades", "Herramientas rápidas para el día a día."),
 ]
 
 PDF_LIBS = ["pdflib", "jszip"]
 TOOLS = [
+    # ------------------------------ IA
+    {
+        "slug": "quitar-fondo", "keys": "foto carne carnet cv perfil recortar persona png transparente borrar fondo",  "cat": "ia", "icon": "fa-user-large", "short": "Quitar fondo de fotos",
+        "card": "Fondo transparente, blanco o de color para fotos de personas.",
+        "title": "Quitar Fondo de Fotos Gratis con IA | Fondo blanco o transparente | QR Free",
+        "description": "Quita el fondo de fotos de personas gratis con inteligencia artificial. Fondo transparente, blanco para foto carné, de color o desenfocado. Sin subir tus fotos.",
+        "h1": "Quitar el fondo de fotos con IA", "lead": "La IA recorta a la persona y usted elige el fondo: transparente, blanco para foto carné o CV, de color o desenfocado.",
+        "ui": ui_remove_bg, "js": ["ia-tools"], "init": "initRemoveBg()", "libs": ["jszip"],
+        "badges": ["Gratis", "Con IA", "Sin marcas de agua", "Sus fotos no salen de su equipo"],
+        "steps": [("Agregue sus fotos.", "Retratos, selfies o fotos de cuerpo entero. Puede agregar varias."),
+                  ("Pulse «Quitar fondo».", "La primera vez se descarga la IA (≈ 25 MB); después es casi instantáneo."),
+                  ("Elija el fondo y descargue.", "Transparente (PNG), blanco, de color o desenfocado.")],
+        "faqs": [("¿Funciona con fotos de productos?", "Esta IA está entrenada para <strong>personas</strong>: retratos, fotos de perfil, foto carné o de cuerpo entero. Con objetos o productos el recorte puede no ser preciso."),
+                 ("¿Mis fotos se suben a internet?", "No. La IA se descarga a su navegador y la foto se procesa en su propio equipo."),
+                 ("¿Sirve para la foto carné o el CV?", "Sí. Elija el fondo <strong>Blanco</strong> y luego ajuste la medida con nuestra herramienta para <a href=\"/redimensionar-imagen\">cambiar el tamaño</a> (foto carné de 3,5 × 4,5 cm)."),
+                 ("¿Por qué tarda la primera vez?", "Porque su navegador descarga el modelo de IA (≈ 25 MB). Queda guardado: las siguientes veces empieza al instante.")],
+    },
+    {
+        "slug": "transcribir-audio", "keys": "whatsapp nota de voz dictado subtitulos srt voz a texto whisper",  "cat": "ia", "icon": "fa-microphone-lines", "short": "Audio a texto",
+        "card": "Transcriba audios de WhatsApp y notas de voz con IA.",
+        "title": "Transcribir Audio a Texto Gratis con IA | Audios de WhatsApp | QR Free",
+        "description": "Convierte audios de WhatsApp, notas de voz y grabaciones a texto gratis con IA (Whisper). En español, con subtítulos .srt. Tus audios no se suben a internet.",
+        "h1": "Transcribir audio a texto con IA", "lead": "Convierta audios de WhatsApp, notas de voz, clases o entrevistas en texto. Con la IA Whisper, en su propio equipo.",
+        "ui": ui_transcribe, "js": ["ia-tools"], "init": "initTranscribe()", "libs": [],
+        "badges": ["Gratis", "Con IA", "En español", "Sus audios no salen de su equipo"],
+        "steps": [("Agregue sus audios o grabe.", "En WhatsApp mantenga presionado el audio → Compartir → guárdelo en su equipo y súbalo aquí."),
+                  ("Elija la calidad.", "«Buena» funciona bien para la mayoría de audios. «Máxima» es más exacta pero más lenta."),
+                  ("Copie o descargue el texto.", "También como subtítulos .srt para sus videos.")],
+        "faqs": [("¿Cómo saco un audio de WhatsApp?", "En Android: mantenga presionado el audio → Compartir → Guardar en Archivos (o envíelo a su correo). En iPhone: mantenga presionado → Reenviar → Compartir → Guardar en Archivos. En WhatsApp Web: pase el mouse sobre el audio → Descargar."),
+                 ("¿Mis audios se suben a internet?", "No. La IA Whisper se descarga a su navegador y transcribe en su propio equipo. Ideal para audios privados."),
+                 ("¿Cuánto tarda?", "Depende de su equipo. En una computadora reciente, un audio de 1 minuto tarda entre 5 y 30 segundos. La primera vez además se descarga la IA."),
+                 ("¿Qué tan exacta es?", "Muy buena con voz clara en español. Puede equivocarse con nombres propios, ruido o varias personas hablando a la vez: revise el texto antes de usarlo.")],
+    },
     # ------------------------------ PDF
+    {
+        "slug": "escanear-documento", "keys": "camscanner camara scanner foto documento dni",  "cat": "pdf", "icon": "fa-camera", "short": "Escanear documentos",
+        "card": "Escáner con la cámara del celular: endereza, quita sombras y crea un PDF.",
+        "title": "Escanear Documentos con el Celular Gratis | Escáner a PDF online | QR Free",
+        "description": "Escanea documentos con la cámara del celular y conviértelos en PDF gratis: detecta los bordes, endereza la hoja, quita sombras y mejora el texto. Sin instalar apps.",
+        "h1": "Escanear documentos con el celular", "lead": "Tome una foto de la hoja: se detectan los bordes, se endereza, se quitan las sombras y obtiene un PDF nítido. Sin instalar nada.",
+        "ui": ui_scanner, "js": ["escaner"], "init": "initScanner()", "libs": ["pdflib", "jszip"],
+        "steps": [("Tome la foto o súbala.", "Con la hoja sobre una superficie oscura y buena luz."),
+                  ("Ajuste las esquinas.", "Se detectan solas; si hace falta, arrastre los 4 puntos a las esquinas de la hoja."),
+                  ("Elija el filtro y agregue más páginas.", "«Mejorado» quita sombras; «B/N» deja el texto muy nítido."),
+                  ("Descargue el PDF.", "En A4, carta o del tamaño de la foto.")],
+        "faqs": [("¿Necesito instalar una app?", "No. Funciona en el navegador de su celular. Si quiere tenerlo a mano, use «Instalar app» en el menú y quedará como una app más."),
+                 ("¿Sirve para trámites?", "Sí. El PDF queda en tamaño A4, enderezado y legible, listo para subir a portales o enviar por correo. Si pide menos peso, use <a href=\"/comprimir-pdf\">comprimir PDF</a>."),
+                 ("¿Las fotos se suben a internet?", "No. Todo el procesamiento ocurre en su celular o computadora."),
+                 ("¿Por qué no detecta los bordes?", "Funciona mejor si la hoja contrasta con el fondo (hoja blanca sobre mesa oscura). Si no, arrastre los puntos a mano.")],
+    },
+    {
+        "slug": "firmar-pdf", "keys": "firma electronica contrato rubrica",  "cat": "pdf", "icon": "fa-file-signature", "short": "Firmar PDF",
+        "card": "Dibuje o escriba su firma y colóquela en cualquier PDF.",
+        "title": "Firmar PDF Gratis Online | Agregar firma a un PDF | QR Free",
+        "description": "Firma documentos PDF gratis: dibuja tu firma con el dedo o el mouse, escríbela o sube una foto. Agrega texto y fecha. Sin registro y sin subir tu documento.",
+        "h1": "Firmar PDF", "lead": "Dibuje su firma con el dedo o el mouse, escríbala o súbala en foto, y colóquela donde quiera. También puede agregar su nombre, DNI y la fecha.",
+        "ui": ui_sign, "js": ["pdf-tools", "firmar-pdf"], "init": "initSignPdf()", "libs": ["pdflib", "pdfjs"],
+        "steps": [("Suba el PDF.", "Contratos, cartas, solicitudes o formularios."),
+                  ("Cree su firma.", "Dibújela, escríbala con una letra manuscrita o suba una foto de su firma en papel blanco."),
+                  ("Colóquela.", "Pulse «Colocar firma» y toque el lugar. Arrástrela para moverla y use la esquina para cambiar el tamaño."),
+                  ("Descargue el PDF firmado.", "La firma queda dentro del documento.")],
+        "faqs": [("¿Es una firma digital con validez legal?", "Es una <strong>firma electrónica simple</strong>: una imagen de su firma dentro del PDF. Sirve para muchos documentos del día a día, pero no reemplaza a la firma digital con certificado (por ejemplo, la del DNI electrónico) cuando una entidad la exige."),
+                 ("¿Mi documento se sube a internet?", "No. El PDF se abre y se firma en su navegador."),
+                 ("¿Se guarda mi firma?", "Solo si marca «Guardar mi firma en este equipo», y únicamente en este navegador. Puede borrarla cuando quiera."),
+                 ("¿Puedo firmar varias páginas?", "Sí. Pulse «Colocar firma» las veces que necesite y toque cada página donde quiera firmar.")],
+    },
     {
         "slug": "unir-pdf", "cat": "pdf", "icon": "fa-object-group", "short": "Unir PDF",
         "card": "Junte varios PDF en uno solo, en el orden que quiera.",
@@ -875,7 +1121,7 @@ TOOLS = [
     },
     # ------------------------------ Negocio
     {
-        "slug": "cotizacion", "cat": "negocio", "icon": "fa-file-invoice-dollar", "short": "Cotizaciones en PDF",
+        "slug": "cotizacion", "keys": "proforma presupuesto factura boleta nota de venta",  "cat": "negocio", "icon": "fa-file-invoice-dollar", "short": "Cotizaciones en PDF",
         "card": "Cotizaciones, proformas y notas de venta con su logo.",
         "title": "Generador de Cotizaciones Gratis en PDF | Proformas con logo | QR Free",
         "description": "Crea cotizaciones y proformas profesionales en PDF gratis, con tu logo, RUC, IGV y monto en letras. Sin registro: tus datos se guardan solo en tu equipo.",
@@ -964,7 +1210,7 @@ TOOLS = [
                  ("¿Si renuncio también me pagan?", "Sí. Al renunciar recibe todos los conceptos truncos; solo no corresponde la indemnización por despido.")],
     },
     {
-        "slug": "calculadora-renta-quinta", "cat": "trabajo", "icon": "fa-money-bill-wave", "short": "Sueldo neto y renta de 5.ª",
+        "slug": "calculadora-renta-quinta", "keys": "sueldo neto impuesto renta quinta afp onp",  "cat": "trabajo", "icon": "fa-money-bill-wave", "short": "Sueldo neto y renta de 5.ª",
         "card": "Cuánto recibe al mes después de AFP/ONP e impuesto.",
         "title": "Calculadora de Sueldo Neto y Renta de Quinta Categoría 2026 | QR Free",
         "description": "Calcula tu sueldo neto en Perú y la retención de renta de quinta categoría con la UIT 2026, AFP u ONP, gratificaciones y deducciones de 7 UIT y 3 UIT. Gratis.",

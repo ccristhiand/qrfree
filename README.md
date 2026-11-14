@@ -34,11 +34,15 @@ Luego haga commit y push: Cloudflare publica los archivos tal cual (no requiere 
 
 | Grupo | Páginas |
 |---|---|
-| PDF | `/unir-pdf`, `/dividir-pdf`, `/comprimir-pdf`, `/imagen-a-pdf`, `/pdf-a-jpg` |
+| Inteligencia artificial | `/quitar-fondo` (MODNet), `/transcribir-audio` (Whisper) — corren en `js/ia-worker.js` con Transformers.js |
+| PDF | `/escanear-documento`, `/firmar-pdf`, `/unir-pdf`, `/dividir-pdf`, `/comprimir-pdf`, `/imagen-a-pdf`, `/pdf-a-jpg` |
 | Imágenes | `/comprimir-imagen`, `/redimensionar-imagen`, `/convertir-imagen`, `/heic-a-jpg` |
 | Negocios y SUNAT | `/cotizacion`, `/calculadora-igv`, `/validar-ruc` |
 | Trabajo en Perú | `/calculadora-cts`, `/calculadora-gratificacion`, `/calculadora-liquidacion`, `/calculadora-renta-quinta` |
 | Utilidades | `/link-whatsapp`, `/contador-palabras`, `/sorteo`, `/generador-contrasenas`, `/calculadora-porcentajes`, `/calculadora-edad` |
+
+**App instalable y buscador:** `build.py` genera `manifest.webmanifest`, `sw.js` (desde `src/sw.js`, con versión automática) y
+`js/indice.js` (índice del buscador Ctrl+K de `js/buscador.js`). No edite esos tres archivos a mano.
 
 Todo funciona en el navegador; las librerías (pdf-lib, pdf.js, heic2any, jsPDF, JSZip) se cargan desde CDN solo en la página que las usa.
 
