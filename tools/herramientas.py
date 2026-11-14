@@ -406,7 +406,7 @@ SEGURO = lambda: segmented("seguro", "Seguro de salud", [("essalud", "EsSalud", 
 RMV_FIELD = f"""<details class="help">
     <summary><i class="fa-solid fa-sliders" aria-hidden="true"></i> Valores de referencia</summary>
     <div class="help-body">
-{indent(number("rmv", "rmv", "Remuneración mínima vital (RMV)", "1130", hint="Úsela para calcular la asignación familiar (10 %). Actualícela si el Gobierno la cambia."), 8)}
+{indent(number("rmv", "rmv", "Remuneración mínima vital (RMV)", "1230", hint="S/ 1 230 desde el 1 de octubre de 2026. Se usa para la asignación familiar (10 %). Para cálculos de meses anteriores use S/ 1 130."), 8)}
     </div>
 </details>"""
 
@@ -481,7 +481,7 @@ def ui_renta():
     <summary><i class="fa-solid fa-sliders" aria-hidden="true"></i> Valores de referencia</summary>
     <div class="help-body">
 {indent(number("uit", "uit", "Valor de la UIT", "5500", hint="UIT vigente para el año del cálculo."), 8)}
-{indent(number("rmv", "rmv", "Remuneración mínima vital (RMV)", "1130"), 8)}
+{indent(number("rmv", "rmv", "Remuneración mínima vital (RMV)", "1230"), 8)}
     </div>
 </details>""",
     ])

@@ -5,7 +5,7 @@
    Valores de referencia (editables en cada calculadora):
    ========================================= */
 const PE = {
-    RMV: 1130,   // Remuneración mínima vital
+    RMV: 1230,   // Remuneración mínima vital (D.S. 015-2026-TR, desde el 1 de octubre de 2026)
     UIT: 5500,   // Unidad impositiva tributaria
     IGV: 18,
 };

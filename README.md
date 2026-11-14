@@ -42,7 +42,7 @@ Luego haga commit y push: Cloudflare publica los archivos tal cual (no requiere 
 
 Todo funciona en el navegador; las librerías (pdf-lib, pdf.js, heic2any, jsPDF, JSZip) se cargan desde CDN solo en la página que las usa.
 
-**Valores que cambian cada año:** la RMV (S/ 1 130) y la UIT (S/ 5 500) están en `js/calc-peru.js` (`PE`) y como valor inicial
+**Valores que cambian cada año:** la RMV (S/ 1 230 desde octubre de 2026; subirá a S/ 1 300 en 2027) y la UIT (S/ 5 500) están en `js/calc-peru.js` (`PE`) y como valor inicial
 de los campos en `tools/herramientas.py` (`RMV_FIELD` y `ui_renta`). El usuario también puede editarlos en «Valores de referencia».
 
 Para agregar una herramienta: cree su función `ui_...` y su entrada en `TOOLS` (`tools/herramientas.py`), su lógica en `js/`, y ejecute `build.py`.
