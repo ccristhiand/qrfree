@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Comprimir PDF Gratis | Reducir el tamaño de un PDF online | QR Free</title>
+    <meta name="description" content="Comprime un PDF gratis y reduce su peso hasta en 90 % para enviarlo por correo, WhatsApp o subirlo a portales. Ideal para PDF escaneados. Sin subir tu archivo.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qrfre.com/comprimir-pdf">
+
+    <meta property="og:title" content="Comprimir PDF Gratis | Reducir el tamaño de un PDF online | QR Free">
+    <meta property="og:description" content="Comprime un PDF gratis y reduce su peso hasta en 90 % para enviarlo por correo, WhatsApp o subirlo a portales. Ideal para PDF escaneados. Sin subir tu archivo.">
+    <meta property="og:image" content="https://qrfre.com/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://qrfre.com/comprimir-pdf">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QR Free">
+    <meta property="og:locale" content="es_PE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://qrfre.com/img/og-image.png">
+
+    <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <meta name="google-adsense-account" content="ca-pub-6481587162431047">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6481587162431047" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Comprimir PDF",
+      "url": "https://qrfre.com/comprimir-pdf",
+      "description": "Comprime un PDF gratis y reduce su peso hasta en 90 % para enviarlo por correo, WhatsApp o subirlo a portales. Ideal para PDF escaneados. Sin subir tu archivo.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Cualquiera (navegador web)",
+      "inLanguage": "es",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PEN"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "QR Free",
+        "url": "https://qrfre.com/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cuánto se reduce el peso?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "En PDF escaneados suele bajar entre 50 % y 90 %. En PDF creados desde Word, que solo tienen texto, la reducción es menor porque ya son livianos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué ya no puedo seleccionar el texto?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Para lograr la máxima reducción cada página se convierte en una imagen optimizada. Si necesita copiar texto, guarde también el original."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Sirve para portales del Estado o universidades?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. Muchos portales piden archivos de menos de 2 o 5 MB. Si no alcanza con «Media», pruebe con «Alta»."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Mi documento se sube a internet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. La compresión se hace en su navegador."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://qrfre.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Herramientas",
+          "item": "https://qrfre.com/herramientas"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Comprimir PDF",
+          "item": "https://qrfre.com/comprimir-pdf"
+        }
+      ]
+    }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">QR Free</span></a>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
+                <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
+                <a href="/herramientas" class="active" aria-current="page"><i class="fa-solid fa-toolbox" aria-hidden="true"></i> <span>Herramientas</span></a>
+                <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
+                <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
+                <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
+                <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-wrapper" id="contenido">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> <span aria-hidden="true">›</span> <a href="/herramientas">Herramientas</a> <span aria-hidden="true">›</span> <span aria-current="page">Comprimir PDF</span></nav>
+        <div class="page-header">
+            <h1>Comprimir PDF</h1>
+            <p>Reduzca el peso de sus PDF escaneados para enviarlos por correo o subirlos a portales que piden archivos de menos de 2 MB.</p>
+            <div class="badges"><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sin registro</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Funciona en el celular</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sus datos no salen de su equipo</span></div>
+        </div>
+        <div class="tool">
+            <div class="tool-main">
+                <section class="card" aria-labelledby="h-step-1">
+                    <div class="card-head">
+                        <span class="step-num">1</span>
+                        <h2 id="h-step-1">Suba su PDF</h2>
+                    </div>
+                    <div class="dropzone" id="tool-drop" role="button" tabindex="0" aria-describedby="tool-drop-sub">
+                        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                        <strong>Elija un PDF o arrástrelo aquí</strong>
+                        <small id="tool-drop-sub">Ideal para PDF escaneados o con muchas fotos</small>
+                    </div>
+                    <input type="file" id="tool-input" accept="application/pdf,.pdf" hidden>
+                    <div class="file-chip file-chip-doc" id="tool-chip" hidden>
+                        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+                        <div><strong id="tool-chip-name">archivo.pdf</strong><span id="tool-chip-meta"></span></div>
+                        <button type="button" class="btn btn-secondary btn-sm" id="tool-chip-remove">Cambiar</button>
+                    </div>
+                    <details class="help">
+                        <summary><i class="fa-solid fa-circle-info" aria-hidden="true"></i> ¿Cómo funciona?</summary>
+                        <div class="help-body"><p>Cada página se convierte en una imagen optimizada. Es lo que más reduce el peso de PDF escaneados y con fotos.
+                        El texto deja de ser seleccionable, así que si necesita copiar texto conserve también el original.</p></div>
+                    </details>
+                </section>
+            </div>
+            <aside class="tool-aside">
+                <section class="card" aria-labelledby="h-step-2">
+                    <div class="card-head">
+                        <span class="step-num">2</span>
+                        <h2 id="h-step-2">Comprima y descargue</h2>
+                    </div>
+                    <div class="field">
+                        <span class="field-label" id="lbl-level">Nivel de compresión</span>
+                        <div class="segmented" role="radiogroup" aria-labelledby="lbl-level"><label><input type="radio" name="level" value="low"><span>Baja<small>más calidad</small></span></label><label><input type="radio" name="level" value="mid" checked><span>Media<small>recomendada</small></span></label><label><input type="radio" name="level" value="high"><span>Alta<small>menos peso</small></span></label></div>
+                    </div>
+                    <div class="status" id="tool-status" role="status"></div>
+                    <div class="progress" id="tool-progress" hidden>
+                        <div class="progress-track" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill"></div></div>
+                        <p class="progress-text" aria-live="polite"></p>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-run" disabled>
+                        <i class="fa-solid fa-compress" aria-hidden="true"></i> Comprimir PDF
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-block" id="btn-download" hidden>
+                        <i class="fa-solid fa-download" aria-hidden="true"></i> Descargar otra vez
+                    </button>
+                    <p class="trust"><span><i class="fa-solid fa-lock" aria-hidden="true"></i> Sus archivos no salen de su equipo</span><span><i class="fa-solid fa-check" aria-hidden="true"></i> Sin marcas de agua</span></p>
+                </section>
+            </aside>
+        </div>
+
+        <section class="content-section">
+            <h2>Cómo se usa, paso a paso</h2>
+            <ol class="how-to">
+                <li><strong>Suba su PDF.</strong> Funciona mejor con documentos escaneados o con muchas fotos.</li>
+                <li><strong>Elija el nivel.</strong> <strong>Media</strong> es la recomendada. Use <strong>Alta</strong> si el portal pide un archivo muy liviano.</li>
+                <li><strong>Pulse «Comprimir PDF».</strong> Verá cuánto se redujo y se descargará al instante.</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2>Preguntas frecuentes</h2>
+            <details class="faq-item">
+                <summary>¿Cuánto se reduce el peso?</summary>
+                <p>En PDF escaneados suele bajar entre 50 % y 90 %. En PDF creados desde Word, que solo tienen texto, la reducción es menor porque ya son livianos.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Por qué ya no puedo seleccionar el texto?</summary>
+                <p>Para lograr la máxima reducción cada página se convierte en una imagen optimizada. Si necesita copiar texto, guarde también el original.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Sirve para portales del Estado o universidades?</summary>
+                <p>Sí. Muchos portales piden archivos de menos de 2 o 5 MB. Si no alcanza con «Media», pruebe con «Alta».</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Mi documento se sube a internet?</summary>
+                <p>No. La compresión se hace en su navegador.</p>
+            </details>
+        </section>
+
+        <section class="content-section">
+            <h2>Otras herramientas gratuitas</h2>
+            <div class="related-grid">
+            <a class="related-card" href="/unir-pdf"><i class="fa-solid fa-object-group" aria-hidden="true"></i><span><strong>Unir PDF</strong>Junte varios PDF en uno solo, en el orden que quiera.</span></a>
+            <a class="related-card" href="/dividir-pdf"><i class="fa-solid fa-scissors" aria-hidden="true"></i><span><strong>Dividir PDF</strong>Extraiga páginas o separe un PDF en varios archivos.</span></a>
+            <a class="related-card" href="/imagen-a-pdf"><i class="fa-solid fa-file-image" aria-hidden="true"></i><span><strong>JPG a PDF</strong>Convierta fotos o capturas en un solo PDF.</span></a>
+            <a class="related-card" href="/pdf-a-jpg"><i class="fa-solid fa-images" aria-hidden="true"></i><span><strong>PDF a JPG</strong>Convierta cada página de un PDF en una imagen.</span></a>
+            <a class="related-card" href="/link-whatsapp"><i class="fa-solid fa-link" aria-hidden="true"></i><span><strong>Link de WhatsApp</strong>Enlace wa.me con mensaje para su Instagram o web.</span></a>
+            <a class="related-card" href="/contador-palabras"><i class="fa-solid fa-font" aria-hidden="true"></i><span><strong>Contador de palabras</strong>Cuente palabras y caracteres, y cambie mayúsculas.</span></a>
+            <a class="related-card" href="/herramientas"><i class="fa-solid fa-toolbox" aria-hidden="true"></i><span><strong>Ver todas</strong>22 herramientas gratis.</span></a>
+            </div>
+        </section>
+
+        <section class="support-banner">
+            <div>
+                <h2><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> ¿Le ahorramos tiempo?</h2>
+                <p>QR Free es gratis y sin registro. Si le fue útil, puede apoyar con un Yape desde S/ 1 para mantener el sitio y crear más plantillas.</p>
+            </div>
+            <a class="btn btn-support" href="/apoyar">Apoyar con Yape</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h2>Códigos QR</h2>
+                <ul>
+                    <li><a href="/">Generador de QR</a></li>
+                    <li><a href="/qr-wifi">QR de WiFi</a></li>
+                    <li><a href="/qr-whatsapp">QR de WhatsApp</a></li>
+                    <li><a href="/qr-vcard">QR de tarjeta de contacto</a></li>
+                    <li><a href="/bulk">QR masivo desde Excel</a></li>
+                    <li><a href="/barcode">Código de barras</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Más herramientas</h2>
+                <ul>
+                    <li><a href="/unir-pdf">Unir PDF</a></li>
+                    <li><a href="/comprimir-pdf">Comprimir PDF</a></li>
+                    <li><a href="/imagen-a-pdf">JPG a PDF</a></li>
+                    <li><a href="/comprimir-imagen">Comprimir imagen</a></li>
+                    <li><a href="/cotizacion">Cotizaciones en PDF</a></li>
+                    <li><a href="/calculadora-cts">Calculadora de CTS</a></li>
+                    <li><a href="/calculadora-liquidacion">Calculadora de liquidación</a></li>
+                    <li><a href="/sorteo">Sorteos y ruleta</a></li>
+                    <li><a href="/herramientas">Ver todas las herramientas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Plantillas Excel</h2>
+                <ul>
+                    <li><a href="/plantillas/registro-docente">Registro docente</a></li>
+                    <li><a href="/plantillas/inventario-codigo-barras">Inventario con código de barras</a></li>
+                    <li><a href="/plantillas/control-ventas-caja">Control de ventas y caja</a></li>
+                    <li><a href="/plantillas/lista-invitados-qr">Lista de invitados con QR</a></li>
+                    <li><a href="/plantillas/">Ver todas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>QR Free</h2>
+                <ul>
+                    <li><a href="/apoyar">Apoyar el proyecto</a></li>
+                    <li><a href="/acerca">Acerca de</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                    <li><a href="/privacidad">Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer-copy">© 2026 QR Free · Herramientas gratuitas hechas en Perú · Todo se procesa en su navegador: no guardamos sus datos.</p>
+    </footer>
+
+    <script src="/main.js"></script>
+    <script src="/js/kit.js?v=4dd9d04a"></script>
+    <script src="/js/pdf-tools.js?v=7b5c8a16"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => initCompressPdf());
+    </script>
+</body>
+</html>

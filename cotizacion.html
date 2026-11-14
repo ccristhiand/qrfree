@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Generador de Cotizaciones Gratis en PDF | Proformas con logo | QR Free</title>
+    <meta name="description" content="Crea cotizaciones y proformas profesionales en PDF gratis, con tu logo, RUC, IGV y monto en letras. Sin registro: tus datos se guardan solo en tu equipo.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://qrfre.com/cotizacion">
+
+    <meta property="og:title" content="Generador de Cotizaciones Gratis en PDF | Proformas con logo | QR Free">
+    <meta property="og:description" content="Crea cotizaciones y proformas profesionales en PDF gratis, con tu logo, RUC, IGV y monto en letras. Sin registro: tus datos se guardan solo en tu equipo.">
+    <meta property="og:image" content="https://qrfre.com/img/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://qrfre.com/cotizacion">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="QR Free">
+    <meta property="og:locale" content="es_PE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://qrfre.com/img/og-image.png">
+
+    <link rel="icon" type="image/png" href="/escaneo-de-codigo-qr.png">
+    <link rel="apple-touch-icon" href="/escaneo-de-codigo-qr.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/styles.css">
+
+    <meta name="google-adsense-account" content="ca-pub-6481587162431047">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6481587162431047" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Generador de cotizaciones y proformas",
+      "url": "https://qrfre.com/cotizacion",
+      "description": "Crea cotizaciones y proformas profesionales en PDF gratis, con tu logo, RUC, IGV y monto en letras. Sin registro: tus datos se guardan solo en tu equipo.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Cualquiera (navegador web)",
+      "inLanguage": "es",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "PEN"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "QR Free",
+        "url": "https://qrfre.com/"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿La nota de venta o el recibo reemplazan a una boleta o factura?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Son documentos internos sin valor tributario. Para ventas formales debe emitir boletas o facturas electrónicas desde SUNAT o un sistema autorizado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Dónde se guardan mis datos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Solo en este navegador (almacenamiento local). No los enviamos a ningún servidor. Si cambia de equipo o borra los datos del navegador, deberá ingresarlos de nuevo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo calcula el IGV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "«Agregar IGV» suma 18 % al subtotal. «Los precios ya incluyen IGV» separa el valor de venta y el IGV del total. «Sin IGV» no lo calcula."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo cambiar el número de la cotización?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, escriba el que quiera. Al pulsar «Nuevo documento» se usa el siguiente número."
+          }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Inicio",
+          "item": "https://qrfre.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Herramientas",
+          "item": "https://qrfre.com/herramientas"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Cotizaciones en PDF",
+          "item": "https://qrfre.com/cotizacion"
+        }
+      ]
+    }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="QR Free, inicio"><span class="brand-mark"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h2v2h-2v-2zm4 0h4v2h-4v-2zm-4 4h2v4h-2v-4zm4 0h2v2h2v4h-4v-6zm2-2h2v2h-2v-2z"/></svg></span> <span translate="no">QR Free</span></a>
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menú"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+            <nav class="site-nav" id="site-nav" aria-label="Principal">
+                <a href="/"><i class="fa-solid fa-qrcode" aria-hidden="true"></i> <span>Generador QR</span></a>
+                <a href="/herramientas" class="active" aria-current="page"><i class="fa-solid fa-toolbox" aria-hidden="true"></i> <span>Herramientas</span></a>
+                <a href="/bulk"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Masivo</span></a>
+                <a href="/barcode"><i class="fa-solid fa-barcode" aria-hidden="true"></i> <span>Código de Barras</span></a>
+                <a href="/plantillas/"><i class="fa-solid fa-file-excel" aria-hidden="true"></i> <span>Plantillas Excel</span></a>
+                <a href="/apoyar" class="nav-cta"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>Apoyar</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-wrapper" id="contenido">
+        <nav class="breadcrumb" aria-label="Ruta"><a href="/">Inicio</a> <span aria-hidden="true">›</span> <a href="/herramientas">Herramientas</a> <span aria-hidden="true">›</span> <span aria-current="page">Cotizaciones en PDF</span></nav>
+        <div class="page-header">
+            <h1>Generador de cotizaciones y proformas</h1>
+            <p>Cree cotizaciones, proformas y notas de venta en PDF con su logo, IGV y total en letras. Sus datos quedan guardados para la próxima vez.</p>
+            <div class="badges"><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Gratis</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sin registro</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Funciona en el celular</span><span class="badge"><i class="fa-solid fa-check" aria-hidden="true"></i> Sus datos no salen de su equipo</span></div>
+        </div>
+        <div class="tool">
+            <form class="tool-main" id="quote-form" novalidate>
+                <section class="card" aria-labelledby="h-step-1">
+                    <div class="card-head">
+                        <span class="step-num">1</span>
+                        <h2 id="h-step-1">Su negocio</h2>
+                    </div>
+                    <div class="dropzone dropzone-sm" id="logo-drop" role="button" tabindex="0">
+                        <i class="fa-solid fa-image" aria-hidden="true"></i>
+                        <strong>Suba su logo (opcional)</strong>
+                        <small>PNG o JPG · Queda guardado solo en este navegador</small>
+                    </div>
+                    <input type="file" id="logo-input" accept="image/*" hidden>
+                    <div class="file-chip" id="logo-chip" hidden>
+                        <img id="logo-img" alt="Logo" width="40" height="40">
+                        <div><strong>Logo cargado</strong><span>Aparecerá en el PDF</span></div>
+                        <button type="button" class="btn btn-secondary btn-sm" id="logo-remove">Quitar</button>
+                    </div>
+                    <div class="grid-2" style="margin-top:16px">
+                        <div class="field">
+                            <label for="emp-nombre">Nombre o razón social</label>
+                            <input type="text" id="emp-nombre" name="emp_nombre" placeholder="Ej.: Bodega Don Lucho" autocomplete="organization">
+                        </div>
+                        <div class="field">
+                            <label for="emp-ruc">RUC</label>
+                            <input type="text" id="emp-ruc" name="emp_ruc" placeholder="20123456789" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="emp-dir">Dirección</label>
+                        <input type="text" id="emp-dir" name="emp_dir" placeholder="Av. Principal 123, Lima" autocomplete="street-address">
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="emp-tel">Teléfono / WhatsApp</label>
+                            <input type="tel" id="emp-tel" name="emp_tel" placeholder="999 888 777" autocomplete="tel">
+                        </div>
+                        <div class="field">
+                            <label for="emp-email">Correo</label>
+                            <input type="email" id="emp-email" name="emp_email" placeholder="ventas@minegocio.com" autocomplete="email">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="q-color">Color del documento</label>
+                            <div class="color-input"><input type="color" id="q-color" name="color" value="#2563eb"><output for="q-color">#2563EB</output></div>
+                        </div>
+                        <div class="field field-end">
+                            <label class="check" for="q-recordar"><input type="checkbox" id="q-recordar" name="recordar" checked><span>Recordar mis datos en este equipo</span></label>
+                        </div>
+                    </div>
+                </section>
+                <section class="card" aria-labelledby="h-step-2">
+                    <div class="card-head">
+                        <span class="step-num">2</span>
+                        <h2 id="h-step-2">Documento y cliente</h2>
+                    </div>
+                    <div class="grid-3">
+                        <div class="field">
+                            <label for="q-tipo">Tipo</label>
+                            <select id="q-tipo" name="tipo">
+                                <option value="cotizacion">Cotización</option>
+                                <option value="proforma">Proforma</option>
+                                <option value="nota">Nota de venta</option>
+                                <option value="recibo">Recibo</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="q-numero">Número</label>
+                            <input type="text" id="q-numero" name="numero" placeholder="COT-0001" autocomplete="off">
+                        </div>
+                        <div class="field">
+                            <label for="q-fecha">Fecha</label>
+                            <input type="date" id="q-fecha" name="fecha">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field" id="validity-field">
+                            <label for="q-validez">Validez de la oferta</label>
+                            <select id="q-validez" name="validez"><option value="7">7 días</option><option value="15" selected>15 días</option><option value="30">30 días</option><option value="0">No indicar</option></select>
+                        </div>
+                        <div class="field">
+                            <label for="q-moneda">Moneda</label>
+                            <select id="q-moneda" name="moneda">
+                                <option value="PEN">Soles (S/)</option>
+                                <option value="USD">Dólares (US$)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="cli-nombre">Cliente</label>
+                            <input type="text" id="cli-nombre" name="cli_nombre" placeholder="Nombre o razón social" autocomplete="off">
+                        </div>
+                        <div class="field">
+                            <label for="cli-doc">RUC o DNI del cliente</label>
+                            <input type="text" id="cli-doc" name="cli_doc" placeholder="Opcional" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="grid-2">
+                        <div class="field">
+                            <label for="cli-dir">Dirección del cliente</label>
+                            <input type="text" id="cli-dir" name="cli_dir" placeholder="Opcional" autocomplete="off">
+                        </div>
+                        <div class="field">
+                            <label for="cli-contacto">Contacto</label>
+                            <input type="text" id="cli-contacto" name="cli_contacto" placeholder="Teléfono o correo (opcional)" autocomplete="off">
+                        </div>
+                    </div>
+                </section>
+                <section class="card" aria-labelledby="h-step-3">
+                    <div class="card-head">
+                        <span class="step-num">3</span>
+                        <h2 id="h-step-3">Productos o servicios</h2>
+                    </div>
+                    <div class="table-wrap items-wrap">
+                        <table class="items-table">
+                            <thead><tr><th scope="col">Descripción</th><th scope="col">Cant.</th><th scope="col">P. unit.</th><th scope="col">Importe</th><th scope="col"><span class="sr-only">Quitar</span></th></tr></thead>
+                            <tbody id="items-body"></tbody>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-add-item"><i class="fa-solid fa-plus" aria-hidden="true"></i> Agregar fila</button>
+                    <div class="grid-2" style="margin-top:16px">
+                        <div class="field">
+                            <label for="q-igv">IGV (18 %)</label>
+                            <select id="q-igv" name="igv">
+                                <option value="agregar">Agregar IGV a los precios</option>
+                                <option value="incluido">Los precios ya incluyen IGV</option>
+                                <option value="sin">Sin IGV</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="q-descuento">Descuento (monto)</label>
+                            <input type="number" id="q-descuento" name="descuento" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+                        </div>
+                    </div>
+                </section>
+                <section class="card" aria-labelledby="h-step-4">
+                    <div class="card-head">
+                        <span class="step-num">4</span>
+                        <h2 id="h-step-4">Condiciones y forma de pago</h2>
+                        <span class="opt">Opcional</span>
+                    </div>
+                    <div class="field">
+                        <label for="q-condiciones">Condiciones</label>
+                        <textarea id="q-condiciones" name="condiciones" rows="3" placeholder="Ej.: Tiempo de entrega: 3 días hábiles. Incluye instalación. Precios sujetos a stock."></textarea>
+                    </div>
+                    <div class="field">
+                        <label for="q-pago">Datos de pago</label>
+                        <textarea id="q-pago" name="pago" rows="3" placeholder="Ej.: Yape/Plin: 999 888 777 · BCP Soles: 191-12345678-0-12 · CCI: 002-191-..."></textarea>
+                    </div>
+                </section>
+            </form>
+            <aside class="tool-aside">
+                <section class="card preview-card" aria-labelledby="h-step-5">
+                    <div class="card-head"><span class="step-num">5</span><h2 id="h-step-5">Descargue su PDF</h2></div>
+                    <div class="result-list" id="quote-totals" aria-live="polite"></div>
+                    <p class="amount-words" id="quote-words"></p>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" id="btn-pdf"><i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Descargar PDF</button>
+                    <div class="btn-row">
+                        <button type="button" class="btn btn-secondary" id="btn-preview"><i class="fa-solid fa-eye" aria-hidden="true"></i> Vista previa</button>
+                        <button type="button" class="btn btn-secondary" id="btn-wa"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Avisar</button>
+                    </div>
+                    <button type="button" class="btn btn-ghost btn-block" id="btn-new"><i class="fa-solid fa-file-circle-plus" aria-hidden="true"></i> Nuevo documento</button>
+                    <p class="trust"><span><i class="fa-solid fa-lock" aria-hidden="true"></i> Sus datos se quedan en su equipo</span></p>
+                </section>
+            </aside>
+        </div>
+
+        <section class="content-section">
+            <h2>Cómo se usa, paso a paso</h2>
+            <ol class="how-to">
+                <li><strong>Complete los datos de su negocio.</strong> Solo la primera vez: quedan guardados en este navegador. Suba su logo si tiene.</li>
+                <li><strong>Elija el tipo de documento y el cliente.</strong> Cotización, proforma, nota de venta o recibo. El número se completa solo.</li>
+                <li><strong>Agregue productos o servicios.</strong> Elija si los precios incluyen IGV o si se debe agregar.</li>
+                <li><strong>Descargue el PDF.</strong> Envíelo por WhatsApp o correo. Para la siguiente, pulse «Nuevo documento».</li>
+            </ol>
+        </section>
+
+        <section class="content-section">
+            <h2>Preguntas frecuentes</h2>
+            <details class="faq-item">
+                <summary>¿La nota de venta o el recibo reemplazan a una boleta o factura?</summary>
+                <p>No. Son documentos internos sin valor tributario. Para ventas formales debe emitir boletas o facturas electrónicas desde SUNAT o un sistema autorizado.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Dónde se guardan mis datos?</summary>
+                <p>Solo en este navegador (almacenamiento local). No los enviamos a ningún servidor. Si cambia de equipo o borra los datos del navegador, deberá ingresarlos de nuevo.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Cómo calcula el IGV?</summary>
+                <p>«Agregar IGV» suma 18 % al subtotal. «Los precios ya incluyen IGV» separa el valor de venta y el IGV del total. «Sin IGV» no lo calcula.</p>
+            </details>
+            <details class="faq-item">
+                <summary>¿Puedo cambiar el número de la cotización?</summary>
+                <p>Sí, escriba el que quiera. Al pulsar «Nuevo documento» se usa el siguiente número.</p>
+            </details>
+        </section>
+
+        <section class="content-section">
+            <h2>Otras herramientas gratuitas</h2>
+            <div class="related-grid">
+            <a class="related-card" href="/calculadora-igv"><i class="fa-solid fa-percent" aria-hidden="true"></i><span><strong>Calculadora de IGV</strong>Agregue o quite el 18 % de IGV y obtenga el monto en letras.</span></a>
+            <a class="related-card" href="/validar-ruc"><i class="fa-solid fa-id-card" aria-hidden="true"></i><span><strong>Validar RUC / DNI a RUC</strong>Verifique si un RUC es válido u obtenga el RUC desde un DNI.</span></a>
+            <a class="related-card" href="/calculadora-liquidacion"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i><span><strong>Calculadora de liquidación</strong>Beneficios sociales al renunciar o ser despedido.</span></a>
+            <a class="related-card" href="/calculadora-renta-quinta"><i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i><span><strong>Sueldo neto y renta de 5.ª</strong>Cuánto recibe al mes después de AFP/ONP e impuesto.</span></a>
+            <a class="related-card" href="/link-whatsapp"><i class="fa-solid fa-link" aria-hidden="true"></i><span><strong>Link de WhatsApp</strong>Enlace wa.me con mensaje para su Instagram o web.</span></a>
+            <a class="related-card" href="/contador-palabras"><i class="fa-solid fa-font" aria-hidden="true"></i><span><strong>Contador de palabras</strong>Cuente palabras y caracteres, y cambie mayúsculas.</span></a>
+            <a class="related-card" href="/herramientas"><i class="fa-solid fa-toolbox" aria-hidden="true"></i><span><strong>Ver todas</strong>22 herramientas gratis.</span></a>
+            </div>
+        </section>
+
+        <section class="support-banner">
+            <div>
+                <h2><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> ¿Le ahorramos tiempo?</h2>
+                <p>QR Free es gratis y sin registro. Si le fue útil, puede apoyar con un Yape desde S/ 1 para mantener el sitio y crear más plantillas.</p>
+            </div>
+            <a class="btn btn-support" href="/apoyar">Apoyar con Yape</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h2>Códigos QR</h2>
+                <ul>
+                    <li><a href="/">Generador de QR</a></li>
+                    <li><a href="/qr-wifi">QR de WiFi</a></li>
+                    <li><a href="/qr-whatsapp">QR de WhatsApp</a></li>
+                    <li><a href="/qr-vcard">QR de tarjeta de contacto</a></li>
+                    <li><a href="/bulk">QR masivo desde Excel</a></li>
+                    <li><a href="/barcode">Código de barras</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Más herramientas</h2>
+                <ul>
+                    <li><a href="/unir-pdf">Unir PDF</a></li>
+                    <li><a href="/comprimir-pdf">Comprimir PDF</a></li>
+                    <li><a href="/imagen-a-pdf">JPG a PDF</a></li>
+                    <li><a href="/comprimir-imagen">Comprimir imagen</a></li>
+                    <li><a href="/cotizacion">Cotizaciones en PDF</a></li>
+                    <li><a href="/calculadora-cts">Calculadora de CTS</a></li>
+                    <li><a href="/calculadora-liquidacion">Calculadora de liquidación</a></li>
+                    <li><a href="/sorteo">Sorteos y ruleta</a></li>
+                    <li><a href="/herramientas">Ver todas las herramientas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>Plantillas Excel</h2>
+                <ul>
+                    <li><a href="/plantillas/registro-docente">Registro docente</a></li>
+                    <li><a href="/plantillas/inventario-codigo-barras">Inventario con código de barras</a></li>
+                    <li><a href="/plantillas/control-ventas-caja">Control de ventas y caja</a></li>
+                    <li><a href="/plantillas/lista-invitados-qr">Lista de invitados con QR</a></li>
+                    <li><a href="/plantillas/">Ver todas</a></li>
+                </ul>
+            </div>
+            <div>
+                <h2>QR Free</h2>
+                <ul>
+                    <li><a href="/apoyar">Apoyar el proyecto</a></li>
+                    <li><a href="/acerca">Acerca de</a></li>
+                    <li><a href="/contacto">Contacto</a></li>
+                    <li><a href="/privacidad">Privacidad</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="footer-copy">© 2026 QR Free · Herramientas gratuitas hechas en Perú · Todo se procesa en su navegador: no guardamos sus datos.</p>
+    </footer>
+
+    <script src="/main.js"></script>
+    <script src="/js/kit.js?v=4dd9d04a"></script>
+    <script src="/js/cotizacion.js?v=44478e79"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => initCotizacion());
+    </script>
+</body>
+</html>

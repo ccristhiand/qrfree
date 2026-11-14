@@ -10,9 +10,14 @@ Las páginas generadas se guardan en la raíz del repositorio (listas para Cloud
 NO edite a mano los .html generados: edite este script o los partials y vuelva a ejecutarlo.
 """
 import datetime as dt
+import hashlib
 import html
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import herramientas as H  # noqa: E402
 
 ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 SITE = "https://qrfre.com"
@@ -28,9 +33,11 @@ CDN = {
     "filesaver": "https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js",
     "icons": "/iconos_db.js",
 }
+CDN.update(H.CDN_EXTRA)
 
 NAV = [
     ("/", "fa-qrcode", "Generador QR", "qr"),
+    ("/herramientas", "fa-toolbox", "Herramientas", "herramientas"),
     ("/bulk", "fa-layer-group", "Masivo", "bulk"),
     ("/barcode", "fa-barcode", "Código de Barras", "barcode"),
     ("/plantillas/", "fa-file-excel", "Plantillas Excel", "plantillas"),
@@ -189,6 +196,7 @@ def footer():
     tools = [("/", "Generador de QR"), ("/qr-wifi", "QR de WiFi"), ("/qr-whatsapp", "QR de WhatsApp"),
              ("/qr-vcard", "QR de tarjeta de contacto"), ("/bulk", "QR masivo desde Excel"), ("/barcode", "Código de barras")]
     tpls = [("/plantillas/" + t["slug"], t["short"]) for t in TEMPLATES] + [("/plantillas/", "Ver todas")]
+    more = [("/" + t["slug"], t["short"]) for t in H.TOOLS if t["slug"] in FOOTER_TOOLS] + [("/herramientas", "Ver todas las herramientas")]
     site = [("/apoyar", "Apoyar el proyecto"), ("/acerca", "Acerca de"), ("/contacto", "Contacto"), ("/privacidad", "Privacidad")]
 
     def col(t, items):
@@ -201,7 +209,8 @@ def footer():
             </div>"""
     return f"""    <footer class="site-footer">
         <div class="footer-grid">
-{col("Herramientas", tools)}
+{col("Códigos QR", tools)}
+{col("Más herramientas", more)}
 {col("Plantillas Excel", tpls)}
 {col(BRAND, site)}
         </div>
@@ -328,6 +337,7 @@ RELATED_QR = [
     ("/qr-vcard", "fa-address-card", "QR de contacto (vCard)", "Su tarjeta de presentación digital."),
     ("/bulk", "fa-layer-group", "QR masivo desde Excel", "Cientos de QR en un ZIP."),
     ("/plantillas/", "fa-file-excel", "Plantillas Excel gratis", "Docentes, negocios y eventos."),
+    ("/herramientas", "fa-toolbox", "Más herramientas gratis", "PDF, imágenes, cotizaciones y calculadoras."),
 ]
 
 QR_PAGES = [
@@ -766,7 +776,7 @@ def build_static():
     }
     main = """<section class="content-section prose">
     <h2>1. Sus datos no salen de su equipo</h2>
-    <p>Los códigos QR, los códigos de barras y el procesamiento de archivos Excel se realizan <strong>íntegramente en su navegador</strong>. El contenido que escribe, los logos y los archivos que sube <strong>no se envían ni se almacenan</strong> en nuestros servidores.</p>
+    <p>Los códigos QR, los códigos de barras, el procesamiento de archivos Excel, PDF e imágenes, las cotizaciones y las calculadoras funcionan <strong>íntegramente en su navegador</strong>. El contenido que escribe, los logos, los documentos y las fotos que sube <strong>no se envían ni se almacenan</strong> en nuestros servidores.</p>
     <h2>2. Publicidad y cookies de terceros</h2>
     <p>Este sitio muestra anuncios de <strong>Google AdSense</strong>. Google y sus socios utilizan cookies para mostrar anuncios basados en sus visitas anteriores a este y otros sitios web.</p>
     <ul>
@@ -776,7 +786,7 @@ def build_static():
     <h2>3. Estadísticas</h2>
     <p>Podemos usar estadísticas agregadas y anónimas (por ejemplo, páginas más visitadas) para mejorar el sitio. No identifican a personas.</p>
     <h2>4. Almacenamiento local</h2>
-    <p>Guardamos en su navegador preferencias mínimas (por ejemplo, si ya vio el mensaje de apoyo) para no repetirlo. Puede borrarlas desde la configuración de su navegador.</p>
+    <p>Guardamos en su navegador (almacenamiento local) preferencias mínimas, como si ya vio el mensaje de apoyo, y, para su comodidad, lo último que escribió en algunas herramientas: los datos de su negocio y el borrador de la cotización, la lista del sorteo o el texto del contador de palabras. Esa información nunca sale de su equipo. Puede borrarla desde la configuración de su navegador.</p>
     <h2>5. Donaciones</h2>
     <p>Los aportes por Yape se procesan dentro de la aplicación Yape. No recibimos ni almacenamos datos de pago.</p>
     <h2>6. Sus derechos</h2>
@@ -801,12 +811,108 @@ def build_static():
 
 
 # ---------------------------------------------------------------------
-# 5. Sitemap
+# 5. Herramientas: PDF, imágenes, cotizaciones, calculadoras y utilidades
+#    (contenido y HTML en tools/herramientas.py, lógica en /js/)
+# ---------------------------------------------------------------------
+FOOTER_TOOLS = {"unir-pdf", "comprimir-pdf", "imagen-a-pdf", "comprimir-imagen", "cotizacion", "calculadora-cts", "calculadora-liquidacion", "sorteo"}
+
+
+def asset(path):
+    """Ruta con versión según el contenido, para que los navegadores no usen una copia vieja."""
+    with open(os.path.join(ROOT, path.lstrip("/")), "rb") as f:
+        return f"{path}?v={hashlib.md5(f.read()).hexdigest()[:8]}"
+
+
+def build_tool_pages():
+    cats = {c[0]: c for c in H.CATEGORIES}
+    for t in H.TOOLS:
+        url = "/" + t["slug"]
+        cat = cats[t["cat"]]
+        p = {
+            "file": t["slug"] + ".html", "url": url, "active": "herramientas",
+            "title": t["title"], "description": t["description"], "h1": t["h1"], "lead": t["lead"],
+            "crumbs": [("Inicio", "/"), ("Herramientas", "/herramientas"), (t["short"], None, url)],
+            "scripts": t["libs"],
+            "badges": t.get("badges", ["Gratis", "Sin registro", "Funciona en el celular", "Sus datos no salen de su equipo"]),
+        }
+        p["jsonld"] = [app_ld(t["h1"], url, t["description"]), faq_ld(t["faqs"]), crumbs_ld(p["crumbs"])]
+        same = [o for o in H.TOOLS if o["cat"] == t["cat"] and o is not t]
+        other = [o for o in H.TOOLS if o["cat"] != t["cat"]]
+        # Rotación estable para repartir enlaces internos entre todas las herramientas
+        k = sum(map(ord, t["slug"])) % len(other)
+        picks = same[:5] + (other[k:] + other[:k])[:max(2, 6 - len(same[:5]))]
+        related = [("/" + o["slug"], o["icon"], o["short"], o["card"]) for o in picks]
+        main = "\n\n".join([
+            t["ui"](),
+            steps_html(t.get("how", "Cómo se usa, paso a paso"), t["steps"]),
+            faq_html(t["faqs"]),
+            related_html("Otras herramientas gratuitas", related + [("/herramientas", "fa-toolbox", "Ver todas", f"{len(H.TOOLS)} herramientas gratis.")]),
+            support_banner(),
+        ])
+        scripts = "".join(f'    <script src="{asset(s)}"></script>\n' for s in ["/js/kit.js", f"/js/{t['js']}.js"])
+        script = scripts + f"    <script>\n        document.addEventListener('DOMContentLoaded', () => {t['init']});\n    </script>\n"
+        write(p["file"], page(p, main, script))
+
+
+def build_hub():
+    p = {
+        "file": "herramientas.html", "url": "/herramientas", "active": "herramientas",
+        "title": "Herramientas Online Gratis: PDF, Imágenes, Calculadoras Perú | QR Free",
+        "description": "Herramientas gratis que funcionan en tu navegador: unir y comprimir PDF, comprimir imágenes, HEIC a JPG, cotizaciones en PDF, calculadora de CTS, gratificación, liquidación e IGV.",
+        "h1": "Herramientas gratis",
+        "lead": "Todo funciona en su navegador: sin registro, sin marcas de agua y sin subir sus archivos a internet.",
+        "crumbs": [("Inicio", "/"), ("Herramientas", None, "/herramientas")],
+        "badges": ["Gratis", "Sin registro", "Sin marcas de agua", "Sus archivos no salen de su equipo"],
+    }
+    p["jsonld"] = [crumbs_ld(p["crumbs"]), {
+        "@context": "https://schema.org", "@type": "ItemList",
+        "itemListElement": [{"@type": "ListItem", "position": i, "url": f"{SITE}/{t['slug']}", "name": t["short"]}
+                            for i, t in enumerate(H.TOOLS, 1)]}]
+    qr = [("/", "fa-qrcode", "Generador de QR", "Con logo, colores, WiFi, WhatsApp y vCard."),
+          ("/bulk", "fa-layer-group", "QR masivo desde Excel", "Cientos de QR o códigos de barras en un ZIP."),
+          ("/barcode", "fa-barcode", "Código de barras", "EAN-13, Code 128, UPC e ITF-14."),
+          ("/plantillas/", "fa-file-excel", "Plantillas Excel", "Para docentes, negocios y eventos.")]
+    sections = []
+    for key, icon, name, desc in H.CATEGORIES:
+        cards = "\n".join(f"""        <a class="tool-card" href="/{t['slug']}">
+            <i class="fa-solid {t['icon']}" aria-hidden="true"></i>
+            <span><strong>{e(t['short'])}</strong>{e(t['card'])}</span>
+        </a>""" for t in H.TOOLS if t["cat"] == key)
+        sections.append(f"""<section class="tool-cat" id="{key}" aria-labelledby="cat-{key}">
+    <div class="tool-cat-head">
+        <span class="tool-cat-icon cat-{key}"><i class="fa-solid {icon}" aria-hidden="true"></i></span>
+        <div><h2 id="cat-{key}">{name}</h2><p>{desc}</p></div>
+    </div>
+    <div class="tool-cards">
+{cards}
+    </div>
+</section>""")
+    qr_cards = "\n".join(f"""        <a class="tool-card" href="{h}">
+            <i class="fa-solid {i}" aria-hidden="true"></i>
+            <span><strong>{e(t)}</strong>{e(d)}</span>
+        </a>""" for h, i, t, d in qr)
+    sections.append(f"""<section class="tool-cat" id="qr" aria-labelledby="cat-qr">
+    <div class="tool-cat-head">
+        <span class="tool-cat-icon cat-qr"><i class="fa-solid fa-qrcode" aria-hidden="true"></i></span>
+        <div><h2 id="cat-qr">Códigos QR y de barras</h2><p>Nuestras herramientas originales.</p></div>
+    </div>
+    <div class="tool-cards">
+{qr_cards}
+    </div>
+</section>""")
+    jump = "".join(f'<a class="chip" href="#{k}"><i class="fa-solid {i}" aria-hidden="true"></i> {n}</a>' for k, i, n, _ in H.CATEGORIES)
+    main = "\n\n".join([f'<nav class="chips chips-wrap hub-jump" aria-label="Categorías">{jump}</nav>'] + sections + [support_banner()])
+    write(p["file"], page(p, main))
+
+
+# ---------------------------------------------------------------------
+# 6. Sitemap
 # ---------------------------------------------------------------------
 def build_sitemap():
     urls = [("/", "1.0"), ("/qr-wifi", "0.9"), ("/qr-whatsapp", "0.9"), ("/qr-vcard", "0.8"),
             ("/bulk", "0.8"), ("/barcode", "0.8"), ("/plantillas/", "0.9")]
     urls += [(f"/plantillas/{t['slug']}", "0.9") for t in TEMPLATES]
+    urls += [("/herramientas", "0.9")] + [("/" + t["slug"], "0.8") for t in H.TOOLS]
     urls += [("/apoyar", "0.4"), ("/acerca", "0.3"), ("/contacto", "0.3"), ("/privacidad", "0.2")]
     body = "\n".join(f"""  <url>
     <loc>{SITE}{u}</loc>
@@ -825,4 +931,6 @@ if __name__ == "__main__":
     build_bulk_barcode()
     build_templates()
     build_static()
+    build_tool_pages()
+    build_hub()
     build_sitemap()

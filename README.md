@@ -10,6 +10,8 @@ docentes, negocios y eventos.
 |---|---|
 | `src/partials/` | HTML de cada herramienta (QR, masivo, código de barras). **Edite aquí.** |
 | `tools/build.py` | Genera todas las páginas `.html` (menú, pie, SEO, preguntas frecuentes, sitemap). |
+| `tools/herramientas.py` | Herramientas extra (PDF, imágenes, cotizaciones, calculadoras, utilidades): textos SEO, preguntas frecuentes y HTML de cada una. |
+| `js/` | Lógica de las herramientas extra: `kit.js` (compartido), `pdf-tools.js`, `image-tools.js`, `cotizacion.js`, `calc-peru.js`, `utilidades.js`. |
 | `tools/plantillas.py` | Genera las plantillas Excel de `descargas/` (sin macros). |
 | `main.js`, `styles.css` | Lógica y estilos compartidos. |
 | `iconos_db.js` | Íconos para el centro del QR. |
@@ -27,6 +29,23 @@ python3 tools/build.py        # siempre después de editar contenido o partials
 ```
 
 Luego haga commit y push: Cloudflare publica los archivos tal cual (no requiere comando de build).
+
+### Herramientas extra (`/herramientas`)
+
+| Grupo | Páginas |
+|---|---|
+| PDF | `/unir-pdf`, `/dividir-pdf`, `/comprimir-pdf`, `/imagen-a-pdf`, `/pdf-a-jpg` |
+| Imágenes | `/comprimir-imagen`, `/redimensionar-imagen`, `/convertir-imagen`, `/heic-a-jpg` |
+| Negocios y SUNAT | `/cotizacion`, `/calculadora-igv`, `/validar-ruc` |
+| Trabajo en Perú | `/calculadora-cts`, `/calculadora-gratificacion`, `/calculadora-liquidacion`, `/calculadora-renta-quinta` |
+| Utilidades | `/link-whatsapp`, `/contador-palabras`, `/sorteo`, `/generador-contrasenas`, `/calculadora-porcentajes`, `/calculadora-edad` |
+
+Todo funciona en el navegador; las librerías (pdf-lib, pdf.js, heic2any, jsPDF, JSZip) se cargan desde CDN solo en la página que las usa.
+
+**Valores que cambian cada año:** la RMV (S/ 1 130) y la UIT (S/ 5 500) están en `js/calc-peru.js` (`PE`) y como valor inicial
+de los campos en `tools/herramientas.py` (`RMV_FIELD` y `ui_renta`). El usuario también puede editarlos en «Valores de referencia».
+
+Para agregar una herramienta: cree su función `ui_...` y su entrada en `TOOLS` (`tools/herramientas.py`), su lógica en `js/`, y ejecute `build.py`.
 
 ### Agregar una plantilla nueva
 1. Cree la función en `tools/plantillas.py` y regístrela en `PLANTILLAS`.
